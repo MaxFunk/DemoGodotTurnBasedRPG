@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://c7c07mkhv8qk8"]
+
+[ext_resource type="Script" uid="uid://c51x7a654j6mu" path="res://GameObjects/Interactables/Debug/debug_block.gd" id="1_q7q54"]
+[ext_resource type="Material" uid="uid://cf1i1vypl5sky" path="res://Resources/GodotSettings/Materials/mat_wood.tres" id="2_30qts"]
+[ext_resource type="PackedScene" uid="uid://ckxw05aoy0304" path="res://GameObjects/Interactables/interaction_component.tscn" id="3_uep2w"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_30qts"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_q7q54"]
+material = ExtResource("2_30qts")
+
+[node name="DebugBlock" type="StaticBody3D"]
+script = ExtResource("1_q7q54")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_30qts")
+debug_fill = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_q7q54")
+
+[node name="InteractionComponent" parent="." instance=ExtResource("3_uep2w")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionComponent"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_30qts")
+debug_fill = false
+
+[connection signal="interaction" from="InteractionComponent" to="." method="_on_interaction_component_interaction"]

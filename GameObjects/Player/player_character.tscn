@@ -1,0 +1,41 @@
+[gd_scene load_steps=4 format=3 uid="uid://gjs551gpk86f"]
+
+[ext_resource type="Script" uid="uid://14ma10bgc81b" path="res://GameObjects/Player/player_character.gd" id="1_8w0pj"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8w0pj"]
+radius = 0.3
+height = 1.7
+
+[sub_resource type="PrismMesh" id="PrismMesh_5461q"]
+size = Vector3(0.6, 0.6, 1.7)
+
+[node name="PlayerCharacter" type="CharacterBody3D"]
+script = ExtResource("1_8w0pj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+shape = SubResource("CapsuleShape3D_8w0pj")
+
+[node name="TempDirDisplay" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("PrismMesh_5461q")
+skeleton = NodePath("../..")
+
+[node name="CameraPivot" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+top_level = true
+
+[node name="SpringArm" type="SpringArm3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0)
+collision_mask = 3
+spring_length = 5.0
+
+[node name="PlayerCam" type="Camera3D" parent="CameraPivot/SpringArm"]
+
+[node name="RayCastInteract" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+target_position = Vector3(0, 0, -1)
+collision_mask = 4096
+collide_with_areas = true
+collide_with_bodies = false
+debug_shape_custom_color = Color(0.866667, 0, 0.129412, 1)
