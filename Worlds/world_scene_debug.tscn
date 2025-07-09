@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://lxjhkb3kmld1"]
+[gd_scene load_steps=9 format=3 uid="uid://lxjhkb3kmld1"]
 
 [ext_resource type="Script" uid="uid://c7ts8ujxoerht" path="res://Worlds/world_scene.gd" id="1_7d5j5"]
 [ext_resource type="Environment" uid="uid://0jdwxffgebho" path="res://Resources/GodotSettings/Environments/environment_clear_sky.tres" id="2_0mjw5"]
 [ext_resource type="PackedScene" uid="uid://gjs551gpk86f" path="res://GameObjects/Player/player_character.tscn" id="3_patf1"]
 [ext_resource type="Material" uid="uid://8ybeovouewc1" path="res://Resources/GodotSettings/Materials/mat_grass.tres" id="4_3c4c8"]
 [ext_resource type="PackedScene" uid="uid://c7c07mkhv8qk8" path="res://GameObjects/Interactables/Debug/debug_block.tscn" id="5_3c4c8"]
+[ext_resource type="PackedScene" uid="uid://c0vqb1ed8wih7" path="res://GameObjects/NPCs/npc_generic.tscn" id="6_hx6yu"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hx6yu"]
 size = Vector3(50, 1, 50)
@@ -37,3 +38,6 @@ mesh = SubResource("PlaneMesh_s0jbs")
 
 [node name="DebugBlock" parent="." instance=ExtResource("5_3c4c8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -3)
+
+[node name="NPCGeneric" parent="." instance=ExtResource("6_hx6yu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -6)

@@ -10,7 +10,7 @@ var loading_path: StringName;
 
 func _ready() -> void:
 	GameData.main_scene = self;
-	load_world(999);
+	load_world(1);
 	return
 
 
@@ -32,6 +32,7 @@ func load_world(id: int) -> void:
 	
 	loading_path = get_scene_path(id);
 	ResourceLoader.load_threaded_request(loading_path);
+	GameData.world_scene_id = id;
 	is_world_loading = true;
 	return
 
