@@ -1,10 +1,15 @@
 class_name MainScene
 extends Node3D
 
+const ingame_menu_scene := preload("res://UserInterfaces/IngameMenu/ingame_menu_ui.tscn");
+
 @onready var loading_screen := $LoadingScreenRect as ColorRect;
 
 var world_scene: WorldScene;
+var ingame_menu_node: Control;
+
 var is_world_loading: bool = false;
+var enable_world_processing: bool = false;
 var loading_path: StringName;
 
 
@@ -20,6 +25,10 @@ func _process(_delta: float) -> void:
 		var status := ResourceLoader.load_threaded_get_status(loading_path, ar);
 		if status == ResourceLoader.THREAD_LOAD_LOADED:
 			instantiate_world();
+	
+	if enable_world_processing:
+		enable_world_processing = false;
+		world_scene.process_mode = Node.PROCESS_MODE_INHERIT;
 	return
 
 ## Prepares and starts threaded loading of World
@@ -50,3 +59,19 @@ func get_scene_path(id: int) -> StringName:
 	match id:
 		1: return "res://Worlds/world_scene_title_screen.tscn"
 		_: return "res://Worlds/world_scene_debug.tscn"
+
+
+func instantiate_ingame_menu() -> void:
+	if ingame_menu_node == null:
+		ingame_menu_node = ingame_menu_scene.instantiate();
+		add_child(ingame_menu_node);
+		world_scene.process_mode = Node.PROCESS_MODE_DISABLED;
+	return
+
+
+func close_ingame_menu() -> void:
+	if ingame_menu_node:
+		remove_child(ingame_menu_node);
+		ingame_menu_node.queue_free();
+		enable_world_processing = true;
+	return

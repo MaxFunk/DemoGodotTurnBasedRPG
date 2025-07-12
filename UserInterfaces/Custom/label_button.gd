@@ -18,6 +18,18 @@ func toggle_hovered() -> void:
 	return
 
 
+func clear_hovered() -> void:
+	btn_hovered = false;
+	self_modulate = base_color;
+	return
+
+
+func set_hovered() -> void:
+	btn_hovered = true;
+	self_modulate = hovered_color;
+	return
+
+
 func press_button() -> void:
 	btn_pressed.emit();
 	return

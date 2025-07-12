@@ -1,0 +1,144 @@
+[gd_scene load_steps=5 format=3 uid="uid://d16pkbqpersew"]
+
+[ext_resource type="Script" uid="uid://4oepjbiimh85" path="res://UserInterfaces/IngameMenu/ingame_menu_ui.gd" id="1_eedix"]
+[ext_resource type="Script" uid="uid://do4k2b0sjshwf" path="res://UserInterfaces/Custom/label_button.gd" id="2_84ga2"]
+[ext_resource type="PackedScene" uid="uid://dhec7sljuhkm7" path="res://UserInterfaces/IngameMenu/ingame_menu_party_ui.tscn" id="3_01gib"]
+[ext_resource type="PackedScene" uid="uid://dwytftw04bbcg" path="res://UserInterfaces/IngameMenu/ingame_menu_character_ui.tscn" id="3_ppmte"]
+
+[node name="IngameMenuUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_eedix")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.878431)
+
+[node name="MainView" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LabelButton1" type="Label" parent="MainView"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 100.0
+offset_right = 500.0
+offset_bottom = 200.0
+theme_override_font_sizes/font_size = 64
+text = "Party"
+autowrap_mode = 3
+clip_text = true
+script = ExtResource("2_84ga2")
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="LabelButton2" type="Label" parent="MainView"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 200.0
+offset_right = 500.0
+offset_bottom = 300.0
+theme_override_font_sizes/font_size = 64
+text = "Characters"
+autowrap_mode = 3
+clip_text = true
+script = ExtResource("2_84ga2")
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="LabelButton3" type="Label" parent="MainView"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 300.0
+offset_right = 500.0
+offset_bottom = 400.0
+theme_override_font_sizes/font_size = 64
+text = "Items"
+autowrap_mode = 3
+clip_text = true
+script = ExtResource("2_84ga2")
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="LabelButton4" type="Label" parent="MainView"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 400.0
+offset_right = 500.0
+offset_bottom = 500.0
+theme_override_font_sizes/font_size = 64
+text = "Map"
+autowrap_mode = 3
+clip_text = true
+script = ExtResource("2_84ga2")
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="LabelButton5" type="Label" parent="MainView"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 500.0
+offset_right = 500.0
+offset_bottom = 600.0
+theme_override_font_sizes/font_size = 64
+text = "Quests"
+autowrap_mode = 3
+clip_text = true
+script = ExtResource("2_84ga2")
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="LabelButton6" type="Label" parent="MainView"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 600.0
+offset_right = 500.0
+offset_bottom = 700.0
+theme_override_font_sizes/font_size = 64
+text = "Saves"
+autowrap_mode = 3
+clip_text = true
+script = ExtResource("2_84ga2")
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="LabelButton7" type="Label" parent="MainView"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 700.0
+offset_right = 500.0
+offset_bottom = 800.0
+theme_override_font_sizes/font_size = 64
+text = "Settings"
+autowrap_mode = 3
+clip_text = true
+script = ExtResource("2_84ga2")
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="LabelButton8" type="Label" parent="MainView"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 800.0
+offset_right = 500.0
+offset_bottom = 900.0
+theme_override_font_sizes/font_size = 64
+text = "Titlescreen"
+autowrap_mode = 3
+clip_text = true
+script = ExtResource("2_84ga2")
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="IngameMenuPartyUI" parent="." instance=ExtResource("3_01gib")]
+visible = false
+layout_mode = 1
+
+[node name="IngameMenuCharacterUI" parent="." instance=ExtResource("3_ppmte")]
+visible = false
+layout_mode = 1

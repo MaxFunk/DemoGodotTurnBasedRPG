@@ -1,5 +1,7 @@
 extends Control
 
+const SaveFileDisplay := preload("res://UserInterfaces/Custom/save_file_display.gd");
+
 @onready var screen_main := $ScreenMain as Control;
 @onready var lblbtn_load := $ScreenMain/LabelButtonLoad as LabelButton;
 @onready var lblbtn_settings := $ScreenMain/LabelButtonSettings as LabelButton;
@@ -8,11 +10,22 @@ extends Control
 @onready var main_btns: Array[LabelButton] = [lblbtn_load, lblbtn_settings, lblbtn_credits, lblbtn_quit];
 
 @onready var screen_load := $ScreenLoad as Control;
+@onready var save_file_displays: Array[SaveFileDisplay] = [
+	$ScreenLoad/SaveFileDisplay1 as SaveFileDisplay,
+	$ScreenLoad/SaveFileDisplay2 as SaveFileDisplay,
+	$ScreenLoad/SaveFileDisplay3 as SaveFileDisplay,
+	$ScreenLoad/SaveFileDisplay4 as SaveFileDisplay,
+	$ScreenLoad/SaveFileDisplay5 as SaveFileDisplay,
+	$ScreenLoad/SaveFileDisplay6 as SaveFileDisplay,
+	$ScreenLoad/SaveFileDisplay7 as SaveFileDisplay,
+	$ScreenLoad/SaveFileDisplay8 as SaveFileDisplay,
+];
 
 enum SCREENSTATE {MAIN, LOAD, SETTINGS, CREDITS}
 
 var screen_state := SCREENSTATE.MAIN;
 var main_index: int = 0;
+var load_index: int = 0;
 
 
 func _ready() -> void:
@@ -44,6 +57,10 @@ func direction_down_event() -> void:
 			main_btns[main_index].toggle_hovered();
 			main_index = mini(main_index + 1, 3);
 			main_btns[main_index].toggle_hovered();
+		SCREENSTATE.LOAD:
+			save_file_displays[load_index].toggle_hovered();
+			load_index = mini(load_index + 1, 7);
+			save_file_displays[load_index].toggle_hovered();
 	return
 
 
@@ -53,6 +70,10 @@ func direction_up_event() -> void:
 			main_btns[main_index].toggle_hovered();
 			main_index = maxi(main_index - 1, 0);
 			main_btns[main_index].toggle_hovered();
+		SCREENSTATE.LOAD:
+			save_file_displays[load_index].toggle_hovered();
+			load_index = maxi(load_index - 1, 0);
+			save_file_displays[load_index].toggle_hovered();
 	return
 
 
@@ -65,7 +86,7 @@ func confirm_event() -> void:
 				2: update_screen(SCREENSTATE.CREDITS);
 				3: get_tree().quit();
 		SCREENSTATE.LOAD:
-			SaveFileManager.load_from_file(0);
+			SaveFileManager.load_from_file(load_index);
 		_:
 			print("TODO")
 	return
@@ -86,6 +107,9 @@ func update_screen(new_state: SCREENSTATE) -> void:
 		SCREENSTATE.LOAD:
 			screen_main.visible = false;
 			screen_load.visible = true;
+			update_save_file_displays();
+			load_index = 0;
+			save_file_displays[load_index].toggle_hovered();
 		SCREENSTATE.SETTINGS:
 			screen_main.visible = false;
 			screen_load.visible = false;
@@ -93,4 +117,12 @@ func update_screen(new_state: SCREENSTATE) -> void:
 			screen_main.visible = false;
 			screen_load.visible = false;
 	screen_state = new_state;
+	return
+
+
+func update_save_file_displays() -> void:
+	for i in range(8):
+		var data := SaveFileManager.manager_dict.get(str("slot_", i), "") as String;
+		save_file_displays[i].update_data_display(data, i);
+		save_file_displays[i].unhover();
 	return

@@ -22,7 +22,7 @@ func _ready() -> void:
 func create_manager_file() -> void:
 	# "{LocationID},{DateID},{PlaytimeInSeconds}"
 	var save_dict: Dictionary[String, Variant] = {
-		"slot_0": "999,0,10",
+		"slot_0": "",
 		"slot_1": "",
 		"slot_2": "",
 		"slot_3": "",
@@ -88,6 +88,10 @@ func save_to_file(slot: int) -> void:
 func load_from_file(slot: int) -> void:
 	assert(slot >= 0 and slot < 8, "error: invalid save slot index when loading");
 	
+	if manager_dict.get(str("slot_", slot), "") as String == "":
+		GameData.load_new_game_data(slot);
+		return
+	
 	var file_path: String = filepath + str(slot + 1) + filetype;
 	var file := FileAccess.open(file_path, FileAccess.READ);
 	var content = file.get_as_text();
@@ -97,15 +101,8 @@ func load_from_file(slot: int) -> void:
 	var error = json.parse(content);
 	assert(error == OK, str("JSON Parse Error: ", json.get_error_message(), " in Line ", json.get_error_line()));
 	
-	var data: Variant = json.data;
-	GameData.playtime = float(data["playtime"]);
-	GameData.date_id = data["date"];
-	GameData.money = data["money"];
-	
-	GameData.cur_savefile_slot = slot;
-	GameData.game_running = true;
-	
-	GameData.main_scene.load_world(data["worldscene_id"]);
+	var data := json.data as Dictionary;
+	GameData.load_existing_game_data(data, slot);
 	return
 
 
@@ -121,9 +118,4 @@ func delete_file(slot: int) -> void:
 		if dir.file_exists(filename):
 			dir.remove(filename);
 			print("Savefile ", str(slot + 1), " deleted!");
-	return
-
-
-func create_new_game(_slot: int) -> void:
-	print("TODO: create new game");
 	return

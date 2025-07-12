@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c7ts8ujxoerht" path="res://Worlds/world_scene.gd" id="1_24pvv"]
 [ext_resource type="Environment" uid="uid://0jdwxffgebho" path="res://Resources/GodotSettings/Environments/environment_clear_sky.tres" id="2_kxaeo"]
-[ext_resource type="PackedScene" uid="uid://bsaf7616pehjy" path="res://UserInterfaces/General/titel_screen_ui.tscn" id="3_yaobu"]
+[ext_resource type="PackedScene" uid="uid://bsaf7616pehjy" path="res://UserInterfaces/General/title_screen_ui.tscn" id="3_yaobu"]
 
 [node name="WorldSceneTitleScreen" type="Node3D"]
 script = ExtResource("1_24pvv")
@@ -18,4 +18,4 @@ environment = ExtResource("2_kxaeo")
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0)
 
-[node name="TitelScreenUI" parent="." instance=ExtResource("3_yaobu")]
+[node name="TitleScreenUI" parent="." instance=ExtResource("3_yaobu")]

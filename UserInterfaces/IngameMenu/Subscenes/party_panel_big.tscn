@@ -1,0 +1,89 @@
+[gd_scene load_steps=6 format=3 uid="uid://b3hp0vybtfbw0"]
+
+[ext_resource type="Script" uid="uid://bufc0fl4sknlm" path="res://UserInterfaces/IngameMenu/Subscenes/party_panel_big.gd" id="1_1vtsm"]
+[ext_resource type="Texture2D" uid="uid://cs31b1dphb5qg" path="res://Resources/Images/CharacterPortraits/character_portrait_hero_0.png" id="1_ffw0f"]
+[ext_resource type="PackedScene" uid="uid://cilx6a8ktc402" path="res://UserInterfaces/IngameMenu/Subscenes/hp_sp_display.tscn" id="2_pch1q"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pch1q"]
+bg_color = Color(0.12549, 0.12549, 0.12549, 0.498039)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1vtsm"]
+draw_center = false
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[node name="PartyPanelBig" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 350.0
+offset_bottom = 500.0
+script = ExtResource("1_1vtsm")
+
+[node name="BackPanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pch1q")
+
+[node name="SelectionPanel" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1vtsm")
+
+[node name="CharacterIcon" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 30.0
+offset_right = 300.0
+offset_bottom = 280.0
+texture = ExtResource("1_ffw0f")
+expand_mode = 2
+
+[node name="LabelName" type="Label" parent="."]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 295.0
+offset_right = 325.0
+offset_bottom = 345.0
+theme_override_font_sizes/font_size = 36
+text = "Character"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="HpDisplay" parent="." instance=ExtResource("2_pch1q")]
+offset_left = 25.0
+offset_top = 360.0
+offset_right = 475.0
+offset_bottom = 435.0
+scale = Vector2(0.666, 0.666)
+
+[node name="SpDisplay" parent="." instance=ExtResource("2_pch1q")]
+offset_left = 25.0
+offset_top = 425.0
+offset_right = 475.0
+offset_bottom = 500.0
+scale = Vector2(0.666, 0.666)
+display_type = 1

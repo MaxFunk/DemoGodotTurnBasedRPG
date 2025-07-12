@@ -1,0 +1,101 @@
+[gd_scene load_steps=9 format=3 uid="uid://duxdjwn5632g6"]
+
+[ext_resource type="Texture2D" uid="uid://cs31b1dphb5qg" path="res://Resources/Images/CharacterPortraits/character_portrait_hero_0.png" id="1_de0ra"]
+[ext_resource type="Script" uid="uid://co5bbvp70kvwh" path="res://UserInterfaces/IngameMenu/Subscenes/party_panel_small.gd" id="1_l4h52"]
+[ext_resource type="Texture2D" uid="uid://0des5vba8cw7" path="res://Resources/Images/ProgressBars/progbar_default_under.png" id="2_sr2v4"]
+[ext_resource type="Texture2D" uid="uid://cvbsto2hris6k" path="res://Resources/Images/ProgressBars/progbar_default_over.png" id="3_wpisv"]
+[ext_resource type="Texture2D" uid="uid://rxposxwpyucd" path="res://Resources/Images/ProgressBars/progbar_fill_health.png" id="4_l4h52"]
+[ext_resource type="Texture2D" uid="uid://debvh8gvsi8ql" path="res://Resources/Images/ProgressBars/progbar_fill_stamina.png" id="5_wpisv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sr2v4"]
+bg_color = Color(0.12549, 0.12549, 0.12549, 0.498039)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l4h52"]
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
+
+[node name="PartyPanelSmall" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 200.0
+offset_bottom = 250.0
+script = ExtResource("1_l4h52")
+
+[node name="BackPanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_sr2v4")
+
+[node name="SelectionPanel" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_l4h52")
+
+[node name="CharacterIcon" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 15.0
+offset_right = 175.0
+offset_bottom = 165.0
+texture = ExtResource("1_de0ra")
+expand_mode = 2
+
+[node name="LabelName" type="Label" parent="."]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 170.0
+offset_right = 175.0
+offset_bottom = 200.0
+theme_override_font_sizes/font_size = 20
+text = "Character"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="HealthBar" type="TextureProgressBar" parent="."]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 205.0
+offset_right = 175.0
+offset_bottom = 215.0
+value = 50.0
+nine_patch_stretch = true
+texture_under = ExtResource("2_sr2v4")
+texture_over = ExtResource("3_wpisv")
+texture_progress = ExtResource("4_l4h52")
+
+[node name="StaminaBar" type="TextureProgressBar" parent="."]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 225.0
+offset_right = 175.0
+offset_bottom = 235.0
+value = 50.0
+nine_patch_stretch = true
+texture_under = ExtResource("2_sr2v4")
+texture_over = ExtResource("3_wpisv")
+texture_progress = ExtResource("5_wpisv")

@@ -39,11 +39,15 @@ vertical_alignment = 1
 clip_text = true
 
 [node name="FileExists" type="Control" parent="."]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="LabelLocation" type="Label" parent="FileExists"]
+layout_mode = 0
 offset_left = 200.0
 offset_right = 700.0
 offset_bottom = 100.0
@@ -53,6 +57,7 @@ vertical_alignment = 1
 clip_text = true
 
 [node name="LabelDate" type="Label" parent="FileExists"]
+layout_mode = 0
 offset_left = 720.0
 offset_right = 880.0
 offset_bottom = 100.0
@@ -63,6 +68,7 @@ vertical_alignment = 1
 clip_text = true
 
 [node name="LabelPlaytime" type="Label" parent="FileExists"]
+layout_mode = 0
 offset_left = 900.0
 offset_right = 1180.0
 offset_bottom = 100.0

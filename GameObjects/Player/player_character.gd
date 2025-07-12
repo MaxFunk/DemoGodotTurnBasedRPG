@@ -26,8 +26,7 @@ func _input(event: InputEvent) -> void:
 		check_interaction();
 	
 	if event.is_action_pressed("Btn_X"):
-		print("TODO: MENU");
-		SaveFileManager.save_to_file(0);
+		GameData.main_scene.instantiate_ingame_menu();
 	return
 
 

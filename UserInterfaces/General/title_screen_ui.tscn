@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://bsaf7616pehjy"]
 
-[ext_resource type="Script" uid="uid://c625iiss7d8sd" path="res://UserInterfaces/General/titel_screen_ui.gd" id="1_hjgmo"]
+[ext_resource type="Script" uid="uid://c625iiss7d8sd" path="res://UserInterfaces/General/title_screen_ui.gd" id="1_hjgmo"]
 [ext_resource type="Script" uid="uid://do4k2b0sjshwf" path="res://UserInterfaces/Custom/label_button.gd" id="2_c4qnt"]
 [ext_resource type="PackedScene" uid="uid://b3abpp7a2ulcj" path="res://UserInterfaces/Custom/save_file_display.tscn" id="3_cg10t"]
 
-[node name="TitelScreenUI" type="Control"]
+[node name="TitleScreenUI" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
