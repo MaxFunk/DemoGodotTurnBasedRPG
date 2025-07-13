@@ -20,3 +20,15 @@ func get_hero_portrait(id: int) -> CompressedTexture2D:
 		5: return preload("res://Resources/Images/CharacterPortraits/character_portrait_hero_5.png");
 		6: return preload("res://Resources/Images/CharacterPortraits/character_portrait_hero_6.png");
 		_: return preload("res://Resources/Images/CharacterPortraits/character_portrait_hero_7.png");
+
+
+func get_art_category_icon(id: int) -> CompressedTexture2D:
+	match id:
+		0: return preload("res://Resources/Images/ArtIcons/icon_spell_physical.png");
+		1: return preload("res://Resources/Images/ArtIcons/icon_spell_ether.png");
+		2: return preload("res://Resources/Images/ArtIcons/icon_spell_heal.png");
+		3: return preload("res://Resources/Images/ArtIcons/icon_spell_strategy.png");
+		4: return preload("res://Resources/Images/ArtIcons/icon_spell_ailment.png");
+		5: return preload("res://Resources/Images/ArtIcons/icon_spell_soulpower.png");
+		6: return preload("res://Resources/Images/ArtIcons/icon_spell_passive.png");
+		_: return preload("res://Resources/Images/ArtIcons/icon_spell_none.png");

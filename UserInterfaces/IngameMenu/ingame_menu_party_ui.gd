@@ -135,16 +135,14 @@ func remove_from_active() -> void:
 			prepare_view();
 		else:
 			print("ACTION NOT POSSIBLE, EMPTY SLOT!");
-	
-	#	var index: int = GameData.get_first_free_party_slot();
-	#	if index >= 0 and index < 3:
-	#		GameData.active_party[index] = GameData.backup_party[lower_row_index];
-	#		GameData.backup_party.remove_at(lower_row_index);
-	#		prepare_view();
 	return
 
 
 func swap_party() -> void:
+	if GameData.backup_party.size() <= 0:
+		print("ACTION NOT POSSIBLE, EMPTY BACKUP!")
+		return
+	
 	var active_index: int = GameData.active_party[upper_row_index];
 	var backup_index: int = GameData.backup_party[lower_row_index];
 	

@@ -66,13 +66,7 @@ func store_manager_file() -> void:
 func save_to_file(slot: int) -> void:
 	assert(slot >= 0 and slot < 8, "error: invalid save slot index when saving");
 	
-	var save_dict: Dictionary[String, Variant] = {
-		"worldscene_id": GameData.world_scene_id,
-		"playtime": int(min(GameData.playtime, 3599999.0)),
-		"date": GameData.date_id,
-		"money": GameData.money,
-	};
-	
+	var save_dict := GameData.save_game_data();
 	var save_data = JSON.stringify(save_dict, "\t", false);
 	var file_path: String = filepath + str(slot + 1) + filetype;
 	var file := FileAccess.open(file_path, FileAccess.WRITE);

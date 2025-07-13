@@ -2,6 +2,7 @@ extends Control
 
 const HpSpDisplay := preload("res://UserInterfaces/IngameMenu/Subscenes/hp_sp_display.gd");
 const StatDisplay := preload("res://UserInterfaces/IngameMenu/Subscenes/stat_display.gd");
+const ArtDisplay := preload("res://UserInterfaces/IngameMenu/Subscenes/battle_art_display.gd");
 
 @onready var tab_btns: Array[LabelButton] = [
 	$TabBar/LabelButtonTab0 as LabelButton,
@@ -26,10 +27,21 @@ const StatDisplay := preload("res://UserInterfaces/IngameMenu/Subscenes/stat_dis
 	$ContentControl/MiddleColumn/StatDisplay4 as StatDisplay,
 	$ContentControl/MiddleColumn/StatDisplay5 as StatDisplay,
 	$ContentControl/MiddleColumn/StatDisplay6 as StatDisplay];
+@onready var ult_disp := $ContentControl/RightColumn/BattleArtDisplayUlt as ArtDisplay;
+@onready var art_disps: Array[ArtDisplay] = [
+	$ContentControl/RightColumn/BattleArtDisplay1 as ArtDisplay,
+	$ContentControl/RightColumn/BattleArtDisplay2 as ArtDisplay,
+	$ContentControl/RightColumn/BattleArtDisplay3 as ArtDisplay,
+	$ContentControl/RightColumn/BattleArtDisplay4 as ArtDisplay,
+	$ContentControl/RightColumn/BattleArtDisplay5 as ArtDisplay,
+	$ContentControl/RightColumn/BattleArtDisplay6 as ArtDisplay,
+	$ContentControl/RightColumn/BattleArtDisplay7 as ArtDisplay];
 
 var tab_index: int = 0;
 var max_tab_index: int = 7;
 var characters: Array[CharacterData] = [];
+var cur_displayed_ult: BattleArt;
+var cur_displayed_arts: Array[BattleArt] = [];
 
 # Handles inputs, returns true if this UI should be closed by parents
 func input_event(event: InputEvent) -> bool:
@@ -86,4 +98,16 @@ func load_character_data(index: int) -> void:
 	sp_disp.update_bar(chd);
 	for st_disp in stat_disps:
 		st_disp.update_bar(chd);
+	
+	cur_displayed_arts.clear();
+	for id in chd.art_ids:
+		if id >= 0:
+			cur_displayed_arts.append(BattleArt.new(id));
+		else:
+			cur_displayed_arts.append(null);
+	for i in cur_displayed_arts.size():
+		art_disps[i].fill_data(cur_displayed_arts[i]);
+	
+	cur_displayed_ult = BattleArt.new(chd.ult_id) if chd.ult_id >= 0 else null;
+	ult_disp.fill_data(cur_displayed_ult);
 	return

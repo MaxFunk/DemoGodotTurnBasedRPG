@@ -13,5 +13,5 @@ var sp_cur: int = 999;
 
 # PhyAtt, PhyDef, EthAtt, EthDef, Luck, Agility
 var stats: Array[int] = [99, 99, 99, 99, 99, 99];
-var arts: Array[BattleArt] = [null, null, null, null, null, null, null, null];
+var arts: Array[BattleArt] = [null, null, null, null, null, null, null];
 var ult_art: BattleArt = null;

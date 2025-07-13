@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=3 uid="uid://bywy76777k33t"]
+
+[ext_resource type="Script" uid="uid://dfs2yk165bs6o" path="res://UserInterfaces/IngameMenu/Subscenes/battle_art_display.gd" id="1_ejuhk"]
+[ext_resource type="Texture2D" uid="uid://c72d0lo1ce5up" path="res://Resources/Images/ArtIcons/icon_spell_none.png" id="1_o8yxq"]
+
+[node name="BattleArtDisplay" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 700.0
+offset_bottom = 70.0
+script = ExtResource("1_ejuhk")
+
+[node name="IconArt" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 60.0
+offset_bottom = 60.0
+texture = ExtResource("1_o8yxq")
+expand_mode = 2
+
+[node name="LabelName" type="Label" parent="."]
+layout_mode = 0
+offset_left = 70.0
+offset_top = 5.0
+offset_right = 550.0
+offset_bottom = 63.0
+theme_override_font_sizes/font_size = 36
+text = "Art Name"
+vertical_alignment = 1
+clip_text = true
+
+[node name="LabelCost" type="Label" parent="."]
+layout_mode = 0
+offset_left = 550.0
+offset_top = 5.0
+offset_right = 690.0
+offset_bottom = 63.0
+theme_override_font_sizes/font_size = 36
+text = "99 SP"
+horizontal_alignment = 2
+vertical_alignment = 1
+clip_text = true

@@ -57,14 +57,13 @@ func input_event_main(event: InputEvent) -> void:
 		return
 	
 	if event.is_action_pressed("Btn_X"):
-		print("Saving File");
-		SaveFileManager.save_to_file(GameData.cur_savefile_slot);
 		return
 	
 	if event.is_action_pressed("Btn_Y") or event.is_action_pressed("Btn_A"):
 		match main_view_index:
 			0: update_view_state(MENUSTATE.PARTY);
 			1: update_view_state(MENUSTATE.CHARACTERS);
+			5: print("Saving File"); SaveFileManager.save_to_file(GameData.cur_savefile_slot);
 			7: GameData.return_to_titlescreen();
 		return
 	

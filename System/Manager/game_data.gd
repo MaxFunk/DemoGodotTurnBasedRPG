@@ -16,8 +16,8 @@ var inaccessable: Array[int] = [];
 
 
 func _ready() -> void:
-	for i in range(8):
-		add_new_chardata(i);
+	#for i in range(3):
+	#	add_new_chardata(i);
 	
 	#var total: int = 0;
 	#for i in range(99):
@@ -40,17 +40,60 @@ func game_instance_reset() -> void:
 	money = 0;
 	date_id = 0;
 	playtime = 0.0;
+	
+	characters.clear();
+	active_party.clear();
+	backup_party.clear();
+	inaccessable.clear();
 	return
 
 
+func save_game_data() -> Dictionary[String, Variant]:
+	var char_dict: Array[Dictionary] = [];
+	for i in range(8):
+		if characters[i] != null:
+			char_dict.append(characters[i].create_save_data());
+	
+	var save_dict: Dictionary[String, Variant] = {
+		"worldscene_id": world_scene_id,
+		"playtime": int(min(playtime, 3599999.0)),
+		"date": date_id,
+		"money": money,
+		"party": {
+			"active_party": active_party,
+			"backup_party": backup_party,
+			"inaccessable": inaccessable
+			},
+		"characters": char_dict,
+	};
+	return save_dict
+
+
 func load_existing_game_data(data: Dictionary, save_slot: int) -> void:
+	# General stuff
 	playtime = float(data["playtime"]);
 	date_id = data["date"];
 	money = data["money"];
 	
+	# Party
+	var party_data := data["party"] as Dictionary;
+	active_party.clear();
+	for i in party_data["active_party"]:
+		active_party.append(int(i));
+	backup_party.clear();
+	for i in party_data["backup_party"]:
+		backup_party.append(int(i));
+	inaccessable.clear();
+	for i in party_data["inaccessable"]:
+		inaccessable.append(int(i));
+	
+	for char_dict in data["characters"] as Array:
+		var chd := CharacterData.new();
+		chd.load_save_data(char_dict as Dictionary);
+		characters[chd.id] = chd;
+	
 	cur_savefile_slot = save_slot;
 	game_running = true;
-	
 	main_scene.load_world(data["worldscene_id"]);
 	return
 

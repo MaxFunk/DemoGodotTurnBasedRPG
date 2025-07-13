@@ -26,7 +26,7 @@ func _process(_delta: float) -> void:
 		if status == ResourceLoader.THREAD_LOAD_LOADED:
 			instantiate_world();
 	
-	if enable_world_processing:
+	if enable_world_processing and world_scene:
 		enable_world_processing = false;
 		world_scene.process_mode = Node.PROCESS_MODE_INHERIT;
 	return
