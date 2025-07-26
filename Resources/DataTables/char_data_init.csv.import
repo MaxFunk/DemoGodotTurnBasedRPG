@@ -14,5 +14,5 @@ dest_files=["res://.godot/imported/char_data_init.csv-5541a5ac436dd21cc1d48fc0a9
 
 delimiter=0
 headers=true
-detect_numbers=true
+detect_numbers=false
 force_float=false

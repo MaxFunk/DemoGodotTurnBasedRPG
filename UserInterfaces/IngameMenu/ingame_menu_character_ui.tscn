@@ -391,3 +391,54 @@ anchors_preset = 0
 offset_top = 700.0
 offset_right = 1800.0
 offset_bottom = 900.0
+
+[node name="LabelWeak" type="Label" parent="ContentControl/BottomRow"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 135.0
+offset_bottom = 65.0
+theme_override_font_sizes/font_size = 32
+text = "Weak: "
+clip_text = true
+
+[node name="LabelResist" type="Label" parent="ContentControl/BottomRow"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 75.0
+offset_right = 135.0
+offset_bottom = 125.0
+theme_override_font_sizes/font_size = 32
+text = "Resist: "
+clip_text = true
+
+[node name="LabelBlock" type="Label" parent="ContentControl/BottomRow"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 135.0
+offset_right = 135.0
+offset_bottom = 185.0
+theme_override_font_sizes/font_size = 32
+text = "Block: "
+clip_text = true
+
+[node name="MarkerIconsWeak" type="Control" parent="ContentControl/BottomRow"]
+anchors_preset = 0
+offset_left = 140.0
+offset_top = 15.0
+offset_right = 190.0
+offset_bottom = 65.0
+
+[node name="MarkerIconsResist" type="Control" parent="ContentControl/BottomRow"]
+anchors_preset = 0
+offset_left = 140.0
+offset_top = 75.0
+offset_right = 190.0
+offset_bottom = 125.0
+
+[node name="MarkerIconsBlock" type="Control" parent="ContentControl/BottomRow"]
+anchors_preset = 0
+offset_left = 140.0
+offset_top = 135.0
+offset_right = 190.0
+offset_bottom = 185.0

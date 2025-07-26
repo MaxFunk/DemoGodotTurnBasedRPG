@@ -1,0 +1,52 @@
+class_name EffectIDs
+
+enum {
+	NO_EFFECT = 0,
+	OFFENSE_UP = 1,
+	DEFENSE_UP = 2,
+	ACCURACY_UP = 3,
+	OFFENSE_DOWN = 4,
+	DEFENSE_DOWN = 5,
+	ACCURACY_DOWN = 6,
+	
+	APPLY_AILMENT_ART = 10,
+	APPLY_BURNED = 11,
+	APPLY_STUNNED = 12,
+	APPLY_FROZEN = 13,
+	APPLY_POISONED = 14,
+	APPLY_CONFUSED = 15,
+	APPLY_EXHAUSTED = 16,
+	APPLY_BLINDED = 17,
+	APPLY_SHACKLED = 18,
+	APPLY_CORRUPTED = 19,
+	APPLY_BLESSED = 20,
+	
+	HIGH_CRIT_CHANCE = 50,
+	LOW_CRIT_CHANCE = 51
+}
+	#INC_BURN_CHANCE = 31,
+	#INC_FREEZE_CHANCE = 32,
+	#INC_STUN_CHANCE = 33,
+	#INC_POISON_CHANCE = 34,
+	#INC_BLIND_CHANCE = 35,
+	#INC_BLEED_CHANCE = 36,
+	#INC_EXHAUST_CHANCE = 37,
+	#INC_CONFUSED_CHANCE = 38,
+	#INC_KNOCKDOWN_CHANCE = 39
+#}
+#	PHYS_ATT_BUFF_AUGM = 101,
+#	ETHER_ATT_BUFF_AUGM = 102,
+#	PHYS_DEF_BUFF_AUGM = 103,
+#	ETHER_DEF_BUFF_AUGM = 104,
+#	LUCK_BUFF_AUGM = 105,
+#	AGILITY_BUFF_AUGM = 106,
+#	
+#	HP_REGEN = 110,
+#	SP_REGEN = 111,
+#	}
+
+#static func get_skill_with_effectid(eff_id: int, skills: Array[Skill]) -> Skill:
+#	for skill in skills:
+#		if skill and skill.effects.has(eff_id):
+#			return skill
+#	return null

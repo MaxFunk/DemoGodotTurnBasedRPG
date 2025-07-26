@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://dcjjy110mmku"]
+
+[ext_resource type="Script" uid="uid://dmvwcakhmen5h" path="res://GameObjects/Battle/battle_character.gd" id="1_ir66h"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ir66h"]
+
+[node name="BattleCharacter" type="CharacterBody3D"]
+collision_layer = 2048
+collision_mask = 2055
+script = ExtResource("1_ir66h")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_ir66h")

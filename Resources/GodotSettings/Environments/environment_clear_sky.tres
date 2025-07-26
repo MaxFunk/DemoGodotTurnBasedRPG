@@ -13,3 +13,4 @@ sky_material = SubResource("ProceduralSkyMaterial_hufrs")
 background_mode = 2
 sky = SubResource("Sky_t45rc")
 ambient_light_sky_contribution = 0.1
+adjustment_saturation = 0.01

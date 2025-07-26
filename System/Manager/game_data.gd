@@ -42,7 +42,9 @@ func game_instance_reset() -> void:
 	playtime = 0.0;
 	
 	characters.clear();
+	characters = [null, null, null, null, null, null, null, null];
 	active_party.clear();
+	active_party = [-1, -1, -1];
 	backup_party.clear();
 	inaccessable.clear();
 	return

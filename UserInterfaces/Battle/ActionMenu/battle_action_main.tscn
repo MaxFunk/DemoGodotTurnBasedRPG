@@ -1,0 +1,166 @@
+[gd_scene format=3 uid="uid://bomsgltaj46u5"]
+
+[node name="BattleActionMain" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 500.0
+offset_bottom = 500.0
+
+[node name="BackPanel1" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 262.0
+offset_top = 225.0
+offset_right = 312.0
+offset_bottom = 275.0
+rotation = 0.785398
+pivot_offset = Vector2(25, 25)
+color = Color(0.12549, 0.12549, 0.12549, 0.498039)
+
+[node name="LabelA" type="Label" parent="BackPanel1"]
+layout_mode = 0
+offset_right = 50.0
+offset_bottom = 45.0
+rotation = -0.785398
+pivot_offset = Vector2(25, 25)
+theme_override_font_sizes/font_size = 32
+text = "A"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="BackPanel2" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 225.0
+offset_top = 188.0
+offset_right = 275.0
+offset_bottom = 238.0
+rotation = 0.785398
+pivot_offset = Vector2(25, 25)
+color = Color(0.12549, 0.12549, 0.12549, 0.498039)
+
+[node name="LabelX" type="Label" parent="BackPanel2"]
+layout_mode = 0
+offset_right = 50.0
+offset_bottom = 45.0
+rotation = -0.785398
+pivot_offset = Vector2(25, 25)
+theme_override_font_sizes/font_size = 32
+text = "X"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="BackPanel3" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 188.0
+offset_top = 225.0
+offset_right = 238.0
+offset_bottom = 275.0
+rotation = 0.785398
+pivot_offset = Vector2(25, 25)
+color = Color(0.12549, 0.12549, 0.12549, 0.498039)
+
+[node name="LabelY" type="Label" parent="BackPanel3"]
+layout_mode = 0
+offset_right = 50.0
+offset_bottom = 45.0
+rotation = -0.785398
+pivot_offset = Vector2(25, 25)
+theme_override_font_sizes/font_size = 32
+text = "Y"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="BackPanel4" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 225.0
+offset_top = 262.0
+offset_right = 275.0
+offset_bottom = 312.0
+rotation = 0.785398
+pivot_offset = Vector2(25, 25)
+color = Color(0.12549, 0.12549, 0.12549, 0.498039)
+
+[node name="LabelB" type="Label" parent="BackPanel4"]
+layout_mode = 0
+offset_right = 50.0
+offset_bottom = 45.0
+rotation = -0.785398
+pivot_offset = Vector2(25, 25)
+theme_override_font_sizes/font_size = 32
+text = "B"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="LabelAttack" type="Label" parent="."]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 225.0
+offset_right = 175.0
+offset_bottom = 270.0
+theme_override_font_sizes/font_size = 32
+text = "Attack"
+horizontal_alignment = 2
+clip_text = true
+
+[node name="LabelUlt" type="Label" parent="."]
+layout_mode = 0
+offset_left = 325.0
+offset_top = 225.0
+offset_right = 475.0
+offset_bottom = 270.0
+theme_override_font_sizes/font_size = 32
+text = "Ult"
+clip_text = true
+
+[node name="LabelArt" type="Label" parent="."]
+layout_mode = 0
+offset_left = 175.0
+offset_top = 135.0
+offset_right = 325.0
+offset_bottom = 180.0
+theme_override_font_sizes/font_size = 32
+text = "Arts"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="LabelBlock" type="Label" parent="."]
+layout_mode = 0
+offset_left = 175.0
+offset_top = 315.0
+offset_right = 325.0
+offset_bottom = 360.0
+theme_override_font_sizes/font_size = 32
+text = "Block"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="LabelTactics" type="Label" parent="."]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 85.0
+offset_right = 170.0
+offset_bottom = 130.0
+theme_override_font_sizes/font_size = 24
+text = "Tactics"
+horizontal_alignment = 2
+clip_text = true
+
+[node name="LabelStartSelect" type="Label" parent="."]
+layout_mode = 0
+offset_left = 175.0
+offset_top = 88.0
+offset_right = 325.0
+offset_bottom = 133.0
+theme_override_font_sizes/font_size = 20
+text = "<Select Start>"
+horizontal_alignment = 3
+clip_text = true
+
+[node name="LabelItems" type="Label" parent="."]
+layout_mode = 0
+offset_left = 330.0
+offset_top = 85.0
+offset_right = 480.0
+offset_bottom = 130.0
+theme_override_font_sizes/font_size = 24
+text = "Items"
+clip_text = true

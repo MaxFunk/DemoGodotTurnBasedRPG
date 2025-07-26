@@ -19,9 +19,17 @@ var sp_cost: int = 0;
 var hit_amount: int = 0;
 
 var is_ult: bool = false;
-# var effects .. 
+var attribute_1: int = -1;
+var attribute_2: int = -1;
+var effects: PackedInt64Array = [];
+var effect_values: PackedInt64Array = [];
+
 
 func _init(call_id: int) -> void:
+	if call_id < 0:
+		init_default_art();
+		return
+	
 	var data_row := preload("res://Resources/DataTables/arts.csv").records[call_id] as Dictionary;
 	id = call_id;
 	name = data_row["name"];
@@ -37,4 +45,27 @@ func _init(call_id: int) -> void:
 	hit_amount = int(data_row["hit_amount"]);
 	
 	is_ult = bool(int(data_row["is_ult"]));
+	attribute_1 = int(data_row["attr_1"]);
+	attribute_2 = int(data_row["attr_2"]);
+	
+	var effect_ids := (data_row["effects"] as String).split(",");
+	var effect_values_str := (data_row["effect_values"] as String).split(",");
+	for i in range(effect_ids.size()):
+		effects.append(int(effect_ids[i]));
+		effect_values.append(int(effect_values_str[i]));
 	return
+
+
+func init_default_art() -> void:
+	name = "Attack";
+	#
+	description = "Default Attack";
+	category = CATEGORY.PHYSICAL;
+	targeting = TARGETING.SINGLE_OPPONENT;
+	base_power = 10;
+	hit_amount = 1;
+	return
+
+
+func is_passive_art() -> bool:
+	return category == CATEGORY.PASSIVE

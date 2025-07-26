@@ -1,0 +1,86 @@
+[gd_scene load_steps=3 format=3 uid="uid://orn75ppa0n7m"]
+
+[ext_resource type="Script" uid="uid://bjhariacnwwnx" path="res://UserInterfaces/Battle/ActionMenu/battle_action_arts.gd" id="1_msver"]
+[ext_resource type="PackedScene" uid="uid://bchr1jkg5ujgt" path="res://UserInterfaces/Battle/ActionMenu/art_display.tscn" id="2_xqk5i"]
+
+[node name="BattleActionArts" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 550.0
+offset_bottom = 400.0
+script = ExtResource("1_msver")
+
+[node name="BackPanel" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.12549, 0.12549, 0.12549, 0.752941)
+
+[node name="ArtDisplay1" parent="BackPanel" instance=ExtResource("2_xqk5i")]
+offset_left = 40.0
+offset_top = 10.0
+offset_right = 540.0
+offset_bottom = 60.0
+
+[node name="ArtDisplay2" parent="BackPanel" instance=ExtResource("2_xqk5i")]
+offset_left = 40.0
+offset_top = 65.0
+offset_right = 540.0
+offset_bottom = 115.0
+
+[node name="ArtDisplay3" parent="BackPanel" instance=ExtResource("2_xqk5i")]
+offset_left = 40.0
+offset_top = 120.0
+offset_right = 540.0
+offset_bottom = 170.0
+
+[node name="ArtDisplay4" parent="BackPanel" instance=ExtResource("2_xqk5i")]
+offset_left = 40.0
+offset_top = 175.0
+offset_right = 540.0
+offset_bottom = 225.0
+
+[node name="ArtDisplay5" parent="BackPanel" instance=ExtResource("2_xqk5i")]
+offset_left = 40.0
+offset_top = 230.0
+offset_right = 540.0
+offset_bottom = 280.0
+
+[node name="ArtDisplay6" parent="BackPanel" instance=ExtResource("2_xqk5i")]
+offset_left = 40.0
+offset_top = 285.0
+offset_right = 540.0
+offset_bottom = 335.0
+
+[node name="ArtDisplay7" parent="BackPanel" instance=ExtResource("2_xqk5i")]
+offset_left = 40.0
+offset_top = 340.0
+offset_right = 540.0
+offset_bottom = 390.0
+
+[node name="SidePanel" type="ColorRect" parent="."]
+layout_mode = 1
+offset_top = 350.0
+offset_right = 150.0
+offset_bottom = 400.0
+rotation = -1.5708
+pivot_offset = Vector2(0, 50)
+color = Color(0.12549, 0.12549, 0.12549, 0.498039)
+
+[node name="LabelArts" type="Label" parent="SidePanel"]
+layout_mode = 0
+offset_right = 150.0
+offset_bottom = 45.0
+theme_override_font_sizes/font_size = 32
+text = "Arts"
+horizontal_alignment = 1
+
+[node name="Selector" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 10.0
+offset_right = 30.0
+offset_bottom = 60.0

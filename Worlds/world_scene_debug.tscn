@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://lxjhkb3kmld1"]
+[gd_scene load_steps=22 format=3 uid="uid://lxjhkb3kmld1"]
 
 [ext_resource type="Script" uid="uid://c7ts8ujxoerht" path="res://Worlds/world_scene.gd" id="1_7d5j5"]
 [ext_resource type="Environment" uid="uid://0jdwxffgebho" path="res://Resources/GodotSettings/Environments/environment_clear_sky.tres" id="2_0mjw5"]
@@ -6,6 +6,10 @@
 [ext_resource type="Material" uid="uid://8ybeovouewc1" path="res://Resources/GodotSettings/Materials/mat_grass.tres" id="4_3c4c8"]
 [ext_resource type="PackedScene" uid="uid://c7c07mkhv8qk8" path="res://GameObjects/Interactables/Debug/debug_block.tscn" id="5_3c4c8"]
 [ext_resource type="PackedScene" uid="uid://c0vqb1ed8wih7" path="res://GameObjects/NPCs/npc_generic.tscn" id="6_hx6yu"]
+[ext_resource type="PackedScene" uid="uid://b026yk6sjro21" path="res://GameObjects/NPCs/enemy_character.tscn" id="7_s0jbs"]
+[ext_resource type="Script" uid="uid://bcxrao8p216gm" path="res://GameObjects/General/water_3d.gd" id="8_6mlrr"]
+[ext_resource type="Material" uid="uid://b6y16g8vkbsoh" path="res://Resources/GodotSettings/Materials/mat_ground.tres" id="9_b7qix"]
+[ext_resource type="PackedScene" uid="uid://dox854i12fr0j" path="res://GameObjects/Interactables/Movement/ladder.tscn" id="10_tfas3"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hx6yu"]
 size = Vector3(50, 1, 50)
@@ -13,6 +17,39 @@ size = Vector3(50, 1, 50)
 [sub_resource type="PlaneMesh" id="PlaneMesh_s0jbs"]
 material = ExtResource("4_3c4c8")
 size = Vector2(50, 50)
+
+[sub_resource type="PrismMesh" id="PrismMesh_s0jbs"]
+material = ExtResource("4_3c4c8")
+left_to_right = 1.0
+size = Vector3(4, 2, 10)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_s0jbs"]
+points = PackedVector3Array(2, 1, 5, 2, -1, 5, 2, 1, -5, -2, -1, 5, 2, -1, -5, -2, -1, -5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6mlrr"]
+size = Vector3(10, 2, 10)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6mlrr"]
+transparency = 1
+albedo_color = Color(0, 0.698039, 1, 0.501961)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_b7qix"]
+material = SubResource("StandardMaterial3D_6mlrr")
+size = Vector2(10, 10)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tfas3"]
+material = ExtResource("9_b7qix")
+size = Vector3(4, 4, 4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gp2ay"]
+size = Vector3(4, 4, 4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gp2ay"]
+material = ExtResource("9_b7qix")
+size = Vector3(2, 4, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tfas3"]
+size = Vector3(2, 4, 2)
 
 [node name="WorldSceneDebug" type="Node3D"]
 script = ExtResource("1_7d5j5")
@@ -28,6 +65,7 @@ environment = ExtResource("2_0mjw5")
 [node name="PlayerCharacter" parent="." instance=ExtResource("3_patf1")]
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
@@ -41,3 +79,54 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -3)
 
 [node name="NPCGeneric" parent="." instance=ExtResource("6_hx6yu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -6)
+
+[node name="EnemyCharacter" parent="." instance=ExtResource("7_s0jbs")]
+transform = Transform3D(-5.96046e-08, 0, 1, 0, 1, 0, -1, 0, -5.96046e-08, 6, 0, -1)
+
+[node name="SlopeIntoWater" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, -1, -5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SlopeIntoWater"]
+mesh = SubResource("PrismMesh_s0jbs")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SlopeIntoWater"]
+shape = SubResource("ConvexPolygonShape3D_s0jbs")
+
+[node name="Water3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -0.5, -5)
+collision_layer = 8
+collision_mask = 3
+script = ExtResource("8_6mlrr")
+metadata/_custom_type_script = "uid://bcxrao8p216gm"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Water3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+shape = SubResource("BoxShape3D_6mlrr")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Water3D"]
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_b7qix")
+
+[node name="Tower" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1.99, -13)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Tower"]
+mesh = SubResource("BoxMesh_tfas3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Tower"]
+shape = SubResource("BoxShape3D_gp2ay")
+
+[node name="TowerOnTower" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 5.99, -14)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TowerOnTower"]
+mesh = SubResource("BoxMesh_gp2ay")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TowerOnTower"]
+shape = SubResource("BoxShape3D_tfas3")
+
+[node name="Ladder" parent="." instance=ExtResource("10_tfas3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -11)
+
+[node name="Ladder2" parent="." instance=ExtResource("10_tfas3")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4, 4, -14)

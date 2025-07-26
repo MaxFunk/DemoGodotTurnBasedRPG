@@ -36,12 +36,18 @@ const ArtDisplay := preload("res://UserInterfaces/IngameMenu/Subscenes/battle_ar
 	$ContentControl/RightColumn/BattleArtDisplay5 as ArtDisplay,
 	$ContentControl/RightColumn/BattleArtDisplay6 as ArtDisplay,
 	$ContentControl/RightColumn/BattleArtDisplay7 as ArtDisplay];
+@onready var marker_attr_icons: Array[Control] = [
+	$ContentControl/BottomRow/MarkerIconsWeak as Control,
+	$ContentControl/BottomRow/MarkerIconsResist as Control,
+	$ContentControl/BottomRow/MarkerIconsBlock as Control];
 
 var tab_index: int = 0;
 var max_tab_index: int = 7;
 var characters: Array[CharacterData] = [];
 var cur_displayed_ult: BattleArt;
 var cur_displayed_arts: Array[BattleArt] = [];
+
+var texture_rects: Array[TextureRect] = [];
 
 # Handles inputs, returns true if this UI should be closed by parents
 func input_event(event: InputEvent) -> bool:
@@ -110,4 +116,40 @@ func load_character_data(index: int) -> void:
 	
 	cur_displayed_ult = BattleArt.new(chd.ult_id) if chd.ult_id >= 0 else null;
 	ult_disp.fill_data(cur_displayed_ult);
+	
+	load_attribute_icons(chd);
+	return
+
+
+func load_attribute_icons(chd: CharacterData) -> void:
+	for textrect in texture_rects:
+		textrect.queue_free();
+	texture_rects.clear();
+	
+	for i in chd.attribute_weak.size():
+		var text_rect := TextureRect.new();
+		marker_attr_icons[0].add_child(text_rect);
+		text_rect.position.x = marker_attr_icons[0].size.x * i;
+		text_rect.size = marker_attr_icons[0].size;
+		text_rect.expand_mode = TextureRect.EXPAND_FIT_WIDTH;
+		text_rect.texture = Attributes.get_attribute_icon(chd.attribute_weak[i]);
+		texture_rects.append(text_rect);
+	
+	for i in chd.attribute_resist.size():
+		var text_rect := TextureRect.new();
+		marker_attr_icons[1].add_child(text_rect);
+		text_rect.position.x = marker_attr_icons[1].size.x * i;
+		text_rect.size = marker_attr_icons[1].size;
+		text_rect.expand_mode = TextureRect.EXPAND_FIT_WIDTH;
+		text_rect.texture = Attributes.get_attribute_icon(chd.attribute_resist[i]);
+		texture_rects.append(text_rect);
+	
+	for i in chd.attribute_block.size():
+		var text_rect := TextureRect.new();
+		marker_attr_icons[2].add_child(text_rect);
+		text_rect.position.x = marker_attr_icons[2].size.x * i;
+		text_rect.size = marker_attr_icons[2].size;
+		text_rect.expand_mode = TextureRect.EXPAND_FIT_WIDTH;
+		text_rect.texture = Attributes.get_attribute_icon(chd.attribute_block[i]);
+		texture_rects.append(text_rect);
 	return

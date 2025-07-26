@@ -2,11 +2,14 @@ class_name MainScene
 extends Node3D
 
 const ingame_menu_scene := preload("res://UserInterfaces/IngameMenu/ingame_menu_ui.tscn");
+const battle_scene_packed := preload("res://System/Scenes/battle_scene.tscn");
 
 @onready var loading_screen := $LoadingScreenRect as ColorRect;
 
 var world_scene: WorldScene;
+var battle_scene: BattleScene;
 var ingame_menu_node: Control;
+var player_char: PlayerCharacter;
 
 var is_world_loading: bool = false;
 var enable_world_processing: bool = false;
@@ -73,5 +76,24 @@ func close_ingame_menu() -> void:
 	if ingame_menu_node:
 		remove_child(ingame_menu_node);
 		ingame_menu_node.queue_free();
+		enable_world_processing = true;
+	return
+
+
+func instantiate_battle_scene() -> void:
+	if battle_scene == null:
+		battle_scene = battle_scene_packed.instantiate();
+		add_child(battle_scene);
+		battle_scene.global_position = player_char.global_position;
+		world_scene.process_mode = Node.PROCESS_MODE_DISABLED;
+		world_scene.visible = false;
+	return
+
+
+func end_battle_scene() -> void:
+	if battle_scene:
+		remove_child(battle_scene);
+		battle_scene.queue_free();
+		world_scene.visible = true;
 		enable_world_processing = true;
 	return

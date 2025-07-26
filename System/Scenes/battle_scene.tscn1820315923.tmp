@@ -1,0 +1,83 @@
+[gd_scene load_steps=6 format=3 uid="uid://sx5lrxinmywt"]
+
+[ext_resource type="Script" uid="uid://csxs0nmcregji" path="res://System/Scenes/battle_scene.gd" id="1_4d4sr"]
+[ext_resource type="Material" uid="uid://8ybeovouewc1" path="res://Resources/GodotSettings/Materials/mat_grass.tres" id="2_j6oj2"]
+[ext_resource type="PackedScene" uid="uid://bi2equxpsbw3p" path="res://UserInterfaces/Battle/battle_ui.tscn" id="3_w87cf"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_j6oj2"]
+height = 0.2
+radius = 10.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_w87cf"]
+material = ExtResource("2_j6oj2")
+top_radius = 10.0
+bottom_radius = 10.0
+height = 0.2
+
+[node name="BattleScene" type="Node3D"]
+script = ExtResource("1_4d4sr")
+
+[node name="BattleUI" parent="." instance=ExtResource("3_w87cf")]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866024, -0.433016, 0.250001, 0, 0.499998, 0.866026, -0.500003, 0.749999, -0.43301, 0, 10, 0)
+shadow_enabled = true
+
+[node name="CameraPivot" type="Marker3D" parent="."]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 1, 0)
+spring_length = 3.5
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]
+
+[node name="Camera2Pivot" type="Marker3D" parent="."]
+
+[node name="Camera2" type="Camera3D" parent="Camera2Pivot"]
+transform = Transform3D(1, -9.1951e-16, 3.43166e-15, 0, 0.965926, 0.258819, -3.55271e-15, -0.258819, 0.965926, 0.4, 1.6, 0.8)
+
+[node name="SpawnMarker" type="Node3D" parent="."]
+
+[node name="HeroSpawnLeft" type="Marker3D" parent="SpawnMarker"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 3)
+gizmo_extents = 0.5
+
+[node name="HeroSpawnMiddle" type="Marker3D" parent="SpawnMarker"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+gizmo_extents = 0.5
+
+[node name="HeroSpawnRight" type="Marker3D" parent="SpawnMarker"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 3)
+gizmo_extents = 0.5
+
+[node name="EnemySpawn1" type="Marker3D" parent="SpawnMarker"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1, 0, -3)
+gizmo_extents = 0.5
+
+[node name="EnemySpawn2" type="Marker3D" parent="SpawnMarker"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1, 0, -3)
+gizmo_extents = 0.5
+
+[node name="CameraMarker" type="Node3D" parent="."]
+
+[node name="CamMarkerAll" type="Marker3D" parent="CameraMarker"]
+transform = Transform3D(0.965926, -0.0669873, 0.25, 7.45058e-09, 0.965926, 0.258819, -0.258819, -0.25, 0.933013, 0, 1, 2)
+
+[node name="CamMarkerAllHeros" type="Marker3D" parent="CameraMarker"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 2)
+
+[node name="CamMarkerAllOppos" type="Marker3D" parent="CameraMarker"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, -3)
+
+[node name="Floor" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+collision_mask = 2049
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("CylinderShape3D_j6oj2")
+debug_color = Color(0.940846, 1.2514e-05, 0.613211, 0.42)
+debug_fill = false
+
+[node name="FloorMesh" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("CylinderMesh_w87cf")
+skeleton = NodePath("../..")

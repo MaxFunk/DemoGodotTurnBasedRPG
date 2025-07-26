@@ -17,7 +17,7 @@ func _ready() -> void:
 		DISPLAYTYPE.PHYATT: lbl_stat_name.text = "PhyAtt";
 		DISPLAYTYPE.PHYDEF: lbl_stat_name.text = "PhyDef";
 		DISPLAYTYPE.ETHATT: lbl_stat_name.text = "EthAtt";
-		DISPLAYTYPE.ETHDEF: lbl_stat_name.text = "EthAtt";
+		DISPLAYTYPE.ETHDEF: lbl_stat_name.text = "EthDef";
 		DISPLAYTYPE.LUCK: lbl_stat_name.text = "Luck";
 		DISPLAYTYPE.AGIL: lbl_stat_name.text = "Agility";
 	return

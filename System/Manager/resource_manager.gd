@@ -32,3 +32,10 @@ func get_art_category_icon(id: int) -> CompressedTexture2D:
 		5: return preload("res://Resources/Images/ArtIcons/icon_spell_soulpower.png");
 		6: return preload("res://Resources/Images/ArtIcons/icon_spell_passive.png");
 		_: return preload("res://Resources/Images/ArtIcons/icon_spell_none.png");
+
+
+func get_opponent_data(id: int) -> Dictionary:
+	const opponent_dt := preload("res://Resources/DataTables/opponents_battle_data.csv");
+	if id >= 0 and id < opponent_dt.records.size():
+		return opponent_dt.records[id];
+	return {}

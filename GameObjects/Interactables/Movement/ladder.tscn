@@ -1,0 +1,58 @@
+[gd_scene load_steps=8 format=3 uid="uid://dox854i12fr0j"]
+
+[ext_resource type="Script" uid="uid://ct6r54osa48n5" path="res://GameObjects/Interactables/Movement/ladder.gd" id="1_caelf"]
+[ext_resource type="PackedScene" uid="uid://ckxw05aoy0304" path="res://GameObjects/Interactables/interaction_component.tscn" id="1_rudh6"]
+[ext_resource type="Material" uid="uid://cf1i1vypl5sky" path="res://Resources/GodotSettings/Materials/mat_wood.tres" id="2_t1eas"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_caelf"]
+size = Vector3(0.5, 1, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_caelf"]
+material = ExtResource("2_t1eas")
+size = Vector3(1, 4, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_t1eas"]
+size = Vector3(1, 4, 0.2)
+
+[sub_resource type="Curve3D" id="Curve3D_t1eas"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.66, 0, 0, 3.5, 0, 0, 0, 0, 0, 0, 0, 0, 4, -0.5),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
+[node name="Ladder" type="StaticBody3D"]
+script = ExtResource("1_caelf")
+
+[node name="InteractionComponentTop" parent="." instance=ExtResource("1_rudh6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 0.25)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionComponentTop"]
+shape = SubResource("BoxShape3D_caelf")
+debug_color = Color(2.86378e-06, 0.651363, 0.00385835, 0.42)
+
+[node name="InteractionComponentBottom" parent="." instance=ExtResource("1_rudh6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0.25)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionComponentBottom"]
+shape = SubResource("BoxShape3D_caelf")
+debug_color = Color(2.86378e-06, 0.651363, 0.00385835, 0.42)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+mesh = SubResource("BoxMesh_caelf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("BoxShape3D_t1eas")
+
+[node name="ClimbPath" type="Path3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+curve = SubResource("Curve3D_t1eas")
+
+[node name="PathFollow3D" type="PathFollow3D" parent="ClimbPath"]
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 0, 0, 0)
+loop = false
+
+[connection signal="interaction" from="InteractionComponentTop" to="." method="_on_interaction_component_top_interaction"]
+[connection signal="interaction" from="InteractionComponentBottom" to="." method="_on_interaction_component_bottom_interaction"]

@@ -1,0 +1,180 @@
+[gd_scene load_steps=8 format=3 uid="uid://bu6dyirwqosnp"]
+
+[ext_resource type="Script" uid="uid://ct6kecbhsluiu" path="res://UserInterfaces/Battle/Displays/battle_opponent_display.gd" id="1_58s2t"]
+[ext_resource type="Texture2D" uid="uid://0des5vba8cw7" path="res://Resources/Images/ProgressBars/progbar_default_under.png" id="2_lillj"]
+[ext_resource type="Texture2D" uid="uid://cvbsto2hris6k" path="res://Resources/Images/ProgressBars/progbar_default_over.png" id="3_hyr6u"]
+[ext_resource type="Texture2D" uid="uid://csc513l42pcfs" path="res://Resources/Images/ProgressBars/progbar_fill_opponent_health.png" id="4_58s2t"]
+[ext_resource type="Texture2D" uid="uid://btasyb3a8o1yn" path="res://Resources/Images/ProgressBars/progbar_fill_stats.png" id="5_hyr6u"]
+[ext_resource type="Texture2D" uid="uid://b5hk7pnb7j3wq" path="res://Resources/Images/AilmentIcons/ailment_icon_0_none.png" id="6_58s2t"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_58s2t"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
+
+[node name="BattleOpponentDisplay" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 460.0
+offset_bottom = 100.0
+script = ExtResource("1_58s2t")
+
+[node name="StatusRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 100.0
+offset_bottom = 100.0
+color = Color(0.12549, 0.12549, 0.12549, 0.498039)
+
+[node name="LabelAtt" type="Label" parent="StatusRect"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 55.0
+offset_bottom = 35.0
+theme_override_font_sizes/font_size = 21
+text = "Att"
+horizontal_alignment = 1
+
+[node name="LabelDef" type="Label" parent="StatusRect"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 35.0
+offset_right = 55.0
+offset_bottom = 65.0
+theme_override_font_sizes/font_size = 21
+text = "Def"
+horizontal_alignment = 1
+
+[node name="LabelAcc" type="Label" parent="StatusRect"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 65.0
+offset_right = 55.0
+offset_bottom = 95.0
+theme_override_font_sizes/font_size = 21
+text = "Acc"
+horizontal_alignment = 1
+
+[node name="LabelAttValue" type="Label" parent="StatusRect"]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 5.0
+offset_right = 90.0
+offset_bottom = 35.0
+rotation = -1.5708
+pivot_offset = Vector2(15, 15)
+theme_override_font_sizes/font_size = 21
+text = "<<"
+horizontal_alignment = 1
+
+[node name="LabelDefValue" type="Label" parent="StatusRect"]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 35.0
+offset_right = 90.0
+offset_bottom = 65.0
+rotation = -1.5708
+pivot_offset = Vector2(15, 15)
+theme_override_font_sizes/font_size = 21
+text = "<<"
+horizontal_alignment = 1
+
+[node name="LabelAccValue" type="Label" parent="StatusRect"]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 65.0
+offset_right = 90.0
+offset_bottom = 95.0
+rotation = -1.5708
+pivot_offset = Vector2(15, 15)
+theme_override_font_sizes/font_size = 21
+text = "<<"
+horizontal_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 100.0
+offset_right = 460.0
+offset_bottom = 100.0
+color = Color(0.12549, 0.12549, 0.12549, 0.752941)
+
+[node name="LabelName" type="Label" parent="ColorRect"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 5.0
+offset_right = 285.0
+offset_bottom = 40.0
+theme_override_font_sizes/font_size = 24
+text = "Opponent Name"
+
+[node name="LabelLevel" type="Label" parent="ColorRect"]
+layout_mode = 0
+offset_left = 285.0
+offset_top = 5.0
+offset_right = 315.0
+offset_bottom = 40.0
+theme_override_font_sizes/font_size = 24
+text = "Lv"
+horizontal_alignment = 2
+
+[node name="LabelLevelData" type="Label" parent="ColorRect"]
+layout_mode = 0
+offset_left = 315.0
+offset_top = 5.0
+offset_right = 350.0
+offset_bottom = 40.0
+theme_override_font_sizes/font_size = 24
+text = "99"
+horizontal_alignment = 2
+
+[node name="BarHealth" type="TextureProgressBar" parent="ColorRect"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 50.0
+offset_right = 350.0
+offset_bottom = 75.0
+value = 50.0
+nine_patch_stretch = true
+texture_under = ExtResource("2_lillj")
+texture_over = ExtResource("3_hyr6u")
+texture_progress = ExtResource("4_58s2t")
+
+[node name="BarUlt" type="TextureProgressBar" parent="ColorRect"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 80.0
+offset_right = 350.0
+offset_bottom = 90.0
+value = 50.0
+nine_patch_stretch = true
+stretch_margin_top = 1
+stretch_margin_bottom = 1
+texture_under = ExtResource("2_lillj")
+texture_over = ExtResource("3_hyr6u")
+texture_progress = ExtResource("5_hyr6u")
+
+[node name="IconAilment" type="TextureRect" parent="ColorRect"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 41.0
+offset_bottom = 41.0
+texture = ExtResource("6_58s2t")
+expand_mode = 2
+
+[node name="SelectionPanel" type="Panel" parent="ColorRect"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_58s2t")
