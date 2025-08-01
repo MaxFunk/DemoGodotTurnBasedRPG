@@ -18,16 +18,16 @@ var sp_max: int = 999;
 var sp_cur: int = 999;
 
 # PhyAtt, PhyDef, EthAtt, EthDef, Luck, Agility
-var stats: Array[int] = [99, 99, 99, 99, 99, 99];
+var stats: PackedInt32Array = [99, 99, 99, 99, 99, 99];
 # Offense, Defense, Accuracy (+ Crit)
-var modifier: Array[int] = [0, 0, 0];
-var modifier_timer: Array[int] = [0, 0, 0];
+var modifier: PackedInt32Array = [0, 0, 0];
+var modifier_timer: PackedInt32Array = [0, 0, 0];
 var ailment: int = Ailments.NONE;
 var ailment_turns: int = 0;
 
-var attribute_weak: Array[int] = [];
-var attribute_resist: Array[int] = [];
-var attribute_block: Array[int] = [];
+var attribute_weak: PackedInt32Array = [];
+var attribute_resist: PackedInt32Array = [];
+var attribute_block: PackedInt32Array = [];
 
 var arts: Array[BattleArt] = [null, null, null, null, null, null, null];
 var default_attack: BattleArt;
@@ -39,6 +39,7 @@ var exp_on_defeat: int = 0;
 var is_blocking: bool = false;
 var is_charged: bool = false;
 var is_defeated: bool = false;
+var is_analyzed: bool = false;
 
 
 func _init() -> void:
@@ -86,12 +87,14 @@ func load_opponent_data(load_id: int) -> void:
 		ult_art = BattleArt.new(ult_id);
 	
 	exp_on_defeat = int(data.get("exp_on_defeat"));
+	is_analyzed = GameData.analyzed_opponents.has(load_id);
 	return
 
 
 func load_existing_chardata(char_data: CharacterData) -> void:
 	origin_data = char_data;
 	is_hero = true;
+	is_analyzed = true;
 	id = char_data.id;
 	name = char_data.name;
 	level = char_data.level;
@@ -110,6 +113,18 @@ func load_existing_chardata(char_data: CharacterData) -> void:
 	
 	if char_data.ult_id >= 0:
 		ult_art = BattleArt.new(char_data.ult_id);
+	
+	attribute_weak = char_data.attribute_weak.duplicate();
+	attribute_resist = char_data.attribute_resist.duplicate();
+	attribute_block = char_data.attribute_block.duplicate();
+	return
+
+
+func write_back_character_data() -> void:
+	if origin_data == null: return
+	
+	origin_data.cur_health = hp_cur;
+	origin_data.cur_stamina = sp_cur;
 	return
 
 

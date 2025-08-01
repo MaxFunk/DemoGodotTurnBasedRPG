@@ -10,9 +10,11 @@ var date_id: int = 0;
 var playtime: float = 0.0;
 
 var characters: Array[CharacterData] = [null, null, null, null, null, null, null, null];
-var active_party: Array[int] = [-1, -1, -1];
-var backup_party: Array[int] = [];
-var inaccessable: Array[int] = [];
+var active_party: PackedInt32Array = [-1, -1, -1];
+var backup_party: PackedInt32Array = [];
+var inaccessable: PackedInt32Array = [];
+
+var analyzed_opponents: PackedInt32Array = [];
 
 
 func _ready() -> void:
@@ -21,9 +23,9 @@ func _ready() -> void:
 	
 	#var total: int = 0;
 	#for i in range(99):
-	#	var cur: int = Calculations.get_exp_to_next_level(i);
-	#	total += cur;
-	#	print(i + 1, ": ", total, " ", cur);
+		#var cur: int = Calculations.get_exp_to_next_level(i);
+		#total += cur;
+		#print(i + 1, ": ", total, " ", cur);
 	return
 
 
@@ -43,10 +45,12 @@ func game_instance_reset() -> void:
 	
 	characters.clear();
 	characters = [null, null, null, null, null, null, null, null];
-	active_party.clear();
+	
 	active_party = [-1, -1, -1];
 	backup_party.clear();
 	inaccessable.clear();
+	
+	analyzed_opponents.clear();
 	return
 
 
@@ -67,6 +71,7 @@ func save_game_data() -> Dictionary[String, Variant]:
 			"inaccessable": inaccessable
 			},
 		"characters": char_dict,
+		"analyzed_opponents": analyzed_opponents
 	};
 	return save_dict
 
@@ -93,6 +98,9 @@ func load_existing_game_data(data: Dictionary, save_slot: int) -> void:
 		var chd := CharacterData.new();
 		chd.load_save_data(char_dict as Dictionary);
 		characters[chd.id] = chd;
+	
+	for analyzed_id in data["analyzed_opponents"] as Array:
+		analyzed_opponents.append(int(analyzed_id));
 	
 	cur_savefile_slot = save_slot;
 	game_running = true;
@@ -139,7 +147,17 @@ func get_first_free_party_slot() -> int:
 
 
 func return_to_titlescreen() -> void:
+	main_scene.end_battle_scene();
 	main_scene.close_ingame_menu();
 	main_scene.load_world(1);
 	game_instance_reset();
+	return
+
+
+func reload_savefile() -> void:
+	main_scene.end_battle_scene();
+	main_scene.close_ingame_menu();
+	var load_slot: int = GameData.cur_savefile_slot;
+	game_instance_reset();
+	SaveFileManager.load_from_file(load_slot);
 	return

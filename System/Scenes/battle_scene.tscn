@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://sx5lrxinmywt"]
+[gd_scene load_steps=7 format=3 uid="uid://sx5lrxinmywt"]
 
 [ext_resource type="Script" uid="uid://csxs0nmcregji" path="res://System/Scenes/battle_scene.gd" id="1_4d4sr"]
 [ext_resource type="Material" uid="uid://8ybeovouewc1" path="res://Resources/GodotSettings/Materials/mat_grass.tres" id="2_j6oj2"]
+[ext_resource type="PackedScene" uid="uid://bk1xd1pl38j1y" path="res://UserInterfaces/Battle/PostBattle/post_battle_menu.tscn" id="3_qg5a5"]
 [ext_resource type="PackedScene" uid="uid://bi2equxpsbw3p" path="res://UserInterfaces/Battle/battle_ui.tscn" id="3_w87cf"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_j6oj2"]
@@ -18,6 +19,9 @@ height = 0.2
 script = ExtResource("1_4d4sr")
 
 [node name="BattleUI" parent="." instance=ExtResource("3_w87cf")]
+
+[node name="PostBattleMenu" parent="." instance=ExtResource("3_qg5a5")]
+visible = false
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866024, -0.433016, 0.250001, 0, 0.499998, 0.866026, -0.500003, 0.749999, -0.43301, 0, 10, 0)

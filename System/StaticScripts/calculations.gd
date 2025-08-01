@@ -22,10 +22,10 @@ static func calc_hp_sp(base: int, level: int, bonus: int, is_hp: bool) -> int:
 
 static func get_exp_to_next_level(cur_level: int) -> int:
 	var level: int = cur_level + 1;
-	if level <= 1:
+	if level <= 1 or level > 99:
 		return 0
 	
-	if level >= 99:
+	if level == 99:
 		return 1513; # to round to 99999
 	
 	return level * 19 + 4 * floori(level / 3.0);

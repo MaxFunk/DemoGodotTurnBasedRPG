@@ -8,19 +8,24 @@ var total_exp: int = 0;
 var exp_to_lvl: int = 0;
 
 # HP, SP, PhyAtt, PhyDef, EthAtt, EthDef, Luck, Agility
-var base_stats: Array[int] = [7, 7, 7, 7, 7, 7, 7, 7];
-var bonus_stats: Array[int] = [0, 0, 0, 0, 0, 0, 0, 0];
-var accum_stats: Array[int] = [45, 31, 4, 4, 4, 4, 4, 4];
+var base_stats: PackedInt32Array = [7, 7, 7, 7, 7, 7, 7, 7];
+var bonus_stats: PackedInt32Array = [0, 0, 0, 0, 0, 0, 0, 0];
+var accum_stats: PackedInt32Array = [45, 31, 4, 4, 4, 4, 4, 4];
 
 var cur_health: int = 1;
 var cur_stamina: int = 1;
 
-var attribute_weak: Array[int] = [];
-var attribute_resist: Array[int] = [];
-var attribute_block: Array[int] = [];
+var attribute_weak: PackedInt32Array = [];
+var attribute_resist: PackedInt32Array = [];
+var attribute_block: PackedInt32Array = [];
 
-var art_ids: Array[int] = [-1, -1, -1, -1, -1, -1, -1];
+var art_ids: PackedInt32Array = [-1, -1, -1, -1, -1, -1, -1];
+var learned_art_ids: PackedInt32Array = [];
 var ult_id: int = -1;
+
+var level_ups: int = 0;
+var level_up_art_ids: PackedInt32Array = [];
+var level_up_stats: PackedInt32Array = [0, 0, 0, 0, 0, 0, 0, 0];
 
 
 func accumulate_stats() -> void:
@@ -28,6 +33,55 @@ func accumulate_stats() -> void:
 	accum_stats[1] = Calculations.calc_hp_sp(base_stats[1], level, bonus_stats[1], false);
 	for i in range(2, 8):
 		accum_stats[i] = Calculations.calc_stat(base_stats[i], level, bonus_stats[i]);
+	return
+
+
+func reciece_exp(rec_exp: int) -> bool:
+	if level >= 99:
+		return false
+	
+	total_exp = mini(total_exp + rec_exp, 99999);
+	exp_to_lvl += rec_exp;
+	
+	var did_level_up: bool = false;
+	var next_threshold := Calculations.get_exp_to_next_level(level + level_ups);
+	while exp_to_lvl >= next_threshold:
+		level_ups += 1;
+		did_level_up = true;
+		exp_to_lvl -= next_threshold;
+		next_threshold = Calculations.get_exp_to_next_level(level + level_ups);
+	
+	return did_level_up
+
+
+func apply_level_ups() -> void:
+	if level_ups <= 0: 
+		level_up_stats = [0, 0, 0, 0, 0, 0, 0, 0];
+		return
+	
+	level_up_stats = accum_stats.duplicate();
+	while level_ups > 0:
+		level += 1;
+		accumulate_stats();
+		level_ups -= 1;
+		var new_art_id: int = LevelUp.get_levelup_art(id, level);
+		if new_art_id > 0:
+			level_up_art_ids.append(new_art_id);
+	
+	for i in level_up_stats.size():
+		level_up_stats[i] = accum_stats[i] - level_up_stats[i];
+	
+	cur_health += level_up_stats[0];
+	cur_stamina += level_up_stats[1];
+	#print(name, ": ", level_up_stats);
+	#print(name, ": ", level_up_art_ids);
+	return
+
+# TODO: Learned_ids into save data
+func learn_art(new_id: int, index: int) -> void:
+	if art_ids[index] >= 0:
+		learned_art_ids.append(art_ids[index]);
+	art_ids[index] = new_id;
 	return
 
 
@@ -103,7 +157,12 @@ func load_save_data(data: Dictionary) -> void:
 	var art_data := data["art_ids"] as Array;
 	for i in art_data.size():
 		art_ids[i] = int(art_data[i]);
+		
 	ult_id = int(data["ult_id"]);
+	
+	var learned_art_data := data["learned_art_ids"] as Array;
+	for i in learned_art_data.size():
+		learned_art_ids.append(int(learned_art_data[i]));
 	return
 
 
@@ -120,6 +179,14 @@ func create_save_data() -> Dictionary[String, Variant]:
 		"attr_resist": attribute_resist,
 		"attr_block": attribute_block,
 		"art_ids": art_ids,
-		"ult_id": ult_id
+		"ult_id": ult_id,
+		"learned_art_ids": learned_art_ids
 	};
 	return save_dict
+
+
+func get_number_of_arts() -> int:
+	var num_arts: int = 0;
+	for art_id in art_ids:
+		if art_id >= 0: num_arts += 1;
+	return num_arts

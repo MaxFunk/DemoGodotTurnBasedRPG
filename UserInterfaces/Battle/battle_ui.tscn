@@ -1,10 +1,18 @@
-[gd_scene load_steps=6 format=3 uid="uid://bi2equxpsbw3p"]
+[gd_scene load_steps=9 format=3 uid="uid://bi2equxpsbw3p"]
 
 [ext_resource type="Script" uid="uid://kkugbwbobcam" path="res://UserInterfaces/Battle/battle_ui.gd" id="1_85mwi"]
 [ext_resource type="PackedScene" uid="uid://cmhugtyy2cxdu" path="res://UserInterfaces/Battle/Displays/battle_hero_display.tscn" id="2_6i4db"]
 [ext_resource type="PackedScene" uid="uid://bu6dyirwqosnp" path="res://UserInterfaces/Battle/Displays/battle_opponent_display.tscn" id="3_71a3f"]
 [ext_resource type="PackedScene" uid="uid://bomsgltaj46u5" path="res://UserInterfaces/Battle/ActionMenu/battle_action_main.tscn" id="4_0smqk"]
 [ext_resource type="PackedScene" uid="uid://orn75ppa0n7m" path="res://UserInterfaces/Battle/ActionMenu/battle_action_arts.tscn" id="5_namm0"]
+[ext_resource type="PackedScene" uid="uid://bsv17ju0ux6a" path="res://UserInterfaces/Battle/ActionMenu/battle_action_tactics.tscn" id="6_ld7hv"]
+[ext_resource type="PackedScene" uid="uid://bcudu8px10xng" path="res://UserInterfaces/Battle/ActionMenu/battle_character_inspect.tscn" id="7_0gbsk"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0gbsk"]
+content_margin_left = 5.0
+content_margin_top = 4.0
+content_margin_right = 5.0
+bg_color = Color(0.12549, 0.12549, 0.12549, 0.752941)
 
 [node name="BattleUI" type="Control"]
 layout_mode = 3
@@ -83,3 +91,27 @@ offset_left = 700.0
 offset_top = 300.0
 offset_right = 1250.0
 offset_bottom = 700.0
+
+[node name="BattleActionTactics" parent="." instance=ExtResource("6_ld7hv")]
+visible = false
+offset_left = 700.0
+offset_top = 450.0
+offset_right = 1150.0
+offset_bottom = 700.0
+
+[node name="BattleCharacterInspect" parent="." instance=ExtResource("7_0gbsk")]
+visible = false
+layout_mode = 1
+
+[node name="LabelDescription" type="Label" parent="."]
+layout_mode = 0
+offset_left = 1095.0
+offset_top = 975.0
+offset_right = 1895.0
+offset_bottom = 1055.0
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_0gbsk")
+text = "Information Text that is displayed right here like descriptions, etc. Second Line Text ..."
+autowrap_mode = 3
+clip_text = true
+max_lines_visible = 2

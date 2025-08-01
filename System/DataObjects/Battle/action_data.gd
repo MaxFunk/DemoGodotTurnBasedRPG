@@ -1,9 +1,9 @@
 class_name ActionData
 extends RefCounted
 
-enum ACTIONTYPE {ATTACK = 0, ART = 1, ULT = 2, BLOCK = 3, ITEM = 4, TACTIC = 5}
+enum ACTIONTYPE {ATTACK = 0, ART = 1, ULT = 2, BLOCK = 3, ITEM = 4, INSPECT = 5, ANALYZE = 6}
 enum TARGETTYPE {SINGLE_OPPONENT = 0, SINGLE_ALLY = 1, SELF_ONLY = 2, ALL_OPPONENTS = 3, 
-	ALL_ALLIES = 4, ALL = 5, SPECIAL = 6, NONE = 7} # See BattleArt
+	ALL_ALLIES = 4, ALL = 5, SINGLE_EVERYONE = 6, NONE = 7} # See BattleArt
 
 var action_type := ACTIONTYPE.ATTACK;
 var target_type := TARGETTYPE.SINGLE_OPPONENT;
@@ -43,6 +43,11 @@ func commit_user_and_targets() -> void:
 					if hero != null: targets.append(hero);
 				for oppo in battle_scene.opponents:
 					if oppo != null: targets.append(oppo);
+			TARGETTYPE.SINGLE_EVERYONE:
+				if index_target < 3:
+					targets.append(battle_scene.active_heros[index_target]);
+				else:
+					targets.append(battle_scene.opponents[index_target - 3]);
 			_:
 				pass
 	else:
@@ -62,6 +67,13 @@ func commit_user_and_targets() -> void:
 					if hero != null: targets.append(hero);
 				for oppo in battle_scene.opponents:
 					if oppo != null: targets.append(oppo);
+			TARGETTYPE.SINGLE_EVERYONE:
+				if index_target < 3:
+					targets.append(battle_scene.active_heros[index_target]);
+				else:
+					targets.append(battle_scene.opponents[index_target - 3]);
+			_:
+				pass
 	return
 
 
@@ -96,8 +108,13 @@ func apply_action() -> void:
 		ACTIONTYPE.ITEM:
 			# consume item
 			print("TODO: ACTION.ITEM");
-		ACTIONTYPE.TACTIC:
-			print("TODO: ACTION.TACTIC");
+		ACTIONTYPE.ANALYZE:
+			var target := targets[0];
+			target.is_analyzed = true;
+			if !GameData.analyzed_opponents.has(target.id):
+				GameData.analyzed_opponents.append(target.id);
+			battle_scene.battle_ui.prepare_after_analyze();
+			await battle_scene.battle_ui.close_analyze;
 	return
 
 
@@ -174,6 +191,8 @@ func init_target_index() -> void:
 			index_target = -2;
 		TARGETTYPE.ALL:
 			index_target = -3;
+		TARGETTYPE.SINGLE_EVERYONE:
+			index_target = 3; # 0-2 = heros, 3-7 = opponents;
 		_:
 			index_target = 0;
 	return
@@ -195,6 +214,17 @@ func next_target() -> void:
 					index_target = 0;
 				if battle_scene.active_heros[index_target] != null:
 					break;
+		TARGETTYPE.SINGLE_EVERYONE:
+			while true:
+				index_target += 1;
+				if index_target < 3:
+					if battle_scene.active_heros[index_target] != null:
+						break;
+				else:
+					if index_target >= battle_scene.opponents.size() + 3:
+						index_target = -1;
+					elif battle_scene.opponents[index_target - 3] != null:
+						break;
 		TARGETTYPE.SELF_ONLY, TARGETTYPE.ALL_OPPONENTS, TARGETTYPE.ALL_ALLIES, TARGETTYPE.ALL:
 			pass
 		_:
@@ -218,8 +248,23 @@ func previous_target() -> void:
 					index_target = battle_scene.active_heros.size() - 1;
 				if battle_scene.active_heros[index_target] != null:
 					break;
+		TARGETTYPE.SINGLE_EVERYONE:
+			while true:
+				index_target -= 1;
+				if index_target < 3:
+					if index_target < 0:
+						index_target =  battle_scene.opponents.size() - 1 + 3;
+					elif battle_scene.active_heros[index_target] != null:
+						break;
+				else:
+					if battle_scene.opponents[index_target - 3] != null:
+						break;
 		TARGETTYPE.SELF_ONLY, TARGETTYPE.ALL_OPPONENTS, TARGETTYPE.ALL_ALLIES, TARGETTYPE.ALL:
 			pass
 		_:
 			index_target = 0;
 	return
+
+
+func is_inspect_action() -> bool:
+	return action_type == ACTIONTYPE.INSPECT

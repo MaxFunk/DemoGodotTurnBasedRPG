@@ -29,6 +29,7 @@ static func get_attribute_icon(id: int) -> CompressedTexture2D:
 		FIRE: return preload("res://Resources/Images/AttributeIcons/attribute_icon_4_fire.png");
 		ELECTRIC: return preload("res://Resources/Images/AttributeIcons/attribute_icon_5_electric.png");
 		ICE: return preload("res://Resources/Images/AttributeIcons/attribute_icon_6_ice.png");
+		POISON: return preload("res://Resources/Images/AttributeIcons/attribute_icon_7_poison.png")
 		EARTH: return preload("res://Resources/Images/AttributeIcons/attribute_icon_8_earth.png");
 		WIND: return preload("res://Resources/Images/AttributeIcons/attribute_icon_9_wind.png");
 		SOUND: return preload("res://Resources/Images/AttributeIcons/attribute_icon_10_sound.png");

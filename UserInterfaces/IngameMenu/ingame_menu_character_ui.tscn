@@ -151,16 +151,6 @@ offset_top = 125.0
 offset_right = 1860.0
 offset_bottom = 1025.0
 
-[node name="TEMP" type="ColorRect" parent="ContentControl"]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
-
 [node name="LeftColumn" type="Control" parent="ContentControl"]
 anchors_preset = 0
 offset_right = 500.0

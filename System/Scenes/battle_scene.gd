@@ -4,6 +4,8 @@ extends Node3D
 #signal begin_turn();
 #signal end_turn();
 
+const PostBattleUI := preload("res://UserInterfaces/Battle/PostBattle/post_battle_menu.gd");
+
 @onready var battle_ui := $BattleUI as BattleUI;
 @onready var cam_pivot := $CameraPivot as Marker3D;
 @onready var cam_arm := $CameraPivot/SpringArm3D as SpringArm3D;
@@ -22,6 +24,8 @@ extends Node3D
 	$CameraMarker/CamMarkerAll as Marker3D,
 	$CameraMarker/CamMarkerAllHeros as Marker3D,
 	$CameraMarker/CamMarkerAllOppos as Marker3D];
+
+@onready var post_battle_ui := $PostBattleMenu as PostBattleUI;
 
 var active_heros: Array[BattleData] = [];
 var opponents: Array[BattleData] = [];
@@ -130,17 +134,17 @@ func on_begin_turn() -> void:
 	print("Begin turn: ", cur_actor.name);
 	if cur_actor.is_hero:
 		battle_ui.on_hero_turn_start();
-		battle_ui.accept_inputs = true;
 	else:
-		enemy_turn_decision();
+		opponent_turn_decision();
 	return
 
 
 func commit_action(action: ActionData) -> void:
-	if cur_actor.is_hero:
+	if cur_actor.is_hero: # maybe not needed anymore -> MENUSTATE.OFF does the same
 		battle_ui.accept_inputs = false;
+	
 	action.commit_user_and_targets();
-	action.apply_action();
+	await action.apply_action();
 	
 	if !battle_ending:
 		on_end_turn();
@@ -158,7 +162,7 @@ func on_end_turn() -> void:
 	return
 
 
-func enemy_turn_decision() -> void:
+func opponent_turn_decision() -> void:
 	var enemy_action := ActionData.new(ActionData.ACTIONTYPE.ATTACK, self);
 	enemy_action.set_targettype_from_art(cur_actor.default_attack);
 	
@@ -198,6 +202,11 @@ func update_camera_targeting(action: ActionData) -> void:
 			cam_pivot.transform = camera_markers[1].transform;
 		action.TARGETTYPE.ALL:
 			cam_pivot.transform = camera_markers[0].transform;
+		action.TARGETTYPE.SINGLE_EVERYONE:
+			if action.index_target < 3:
+				cam_pivot.transform = active_heros[action.index_target].battle_char.transform;
+			else:
+				cam_pivot.transform = opponents[action.index_target - 3].battle_char.transform;
 		_:
 			pass
 	return
@@ -230,8 +239,8 @@ func on_character_defeated(chd: BattleData) -> void:
 			if hero.is_defeated == false: return
 		
 		battle_ending = true;
-		print("TODO: Battle lost! -> handles game over + reload last save");
-		GameData.main_scene.end_battle_scene();
+		process_mode = Node.PROCESS_MODE_DISABLED;
+		post_battle_ui.init_ui(true, exp_cashout);
 	else:
 		exp_cashout += chd.exp_on_defeat;
 		opponents[chd.position] = null;
@@ -242,6 +251,8 @@ func on_character_defeated(chd: BattleData) -> void:
 			if oppo != null: return
 		
 		battle_ending = true;
-		print("TODO: Battle won! -> handles exp and level up, etc.");
-		GameData.main_scene.end_battle_scene();
+		for hero in active_heros:
+			hero.write_back_character_data();
+		process_mode = Node.PROCESS_MODE_DISABLED;
+		post_battle_ui.init_ui(false, exp_cashout);
 	return

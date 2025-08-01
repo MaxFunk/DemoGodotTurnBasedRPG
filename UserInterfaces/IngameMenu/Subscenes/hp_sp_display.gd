@@ -7,6 +7,7 @@ enum DISPLAYTYPE {HP, SP}
 
 @onready var lbl_stat_name := $LabelStatName as Label;
 @onready var lbl_stat_value_cur := $LabelStatValueCur as Label;
+@onready var lbl_splitter := $LabelSplitter as Label;
 @onready var lbl_stat_value_max := $LabelStatValueMax as Label;
 @onready var prog_bar := $TextureProgressBar as TextureProgressBar;
 
@@ -31,4 +32,22 @@ func update_bar(chd: CharacterData) -> void:
 	lbl_stat_value_max.text = str(max_value);
 	prog_bar.max_value = max_value
 	prog_bar.value = cur_value;
+	return
+
+
+func update_inspect(bd: BattleData) -> void:
+	var max_value: int = 0;
+	var cur_value: int = 0;
+	match display_type:
+		DISPLAYTYPE.HP: max_value = bd.hp_max; cur_value = bd.hp_cur;
+		DISPLAYTYPE.SP: max_value = bd.sp_max; cur_value = bd.sp_cur;
+	
+	lbl_stat_value_cur.text = str(cur_value);
+	lbl_stat_value_max.text = str(max_value);
+	prog_bar.max_value = max_value
+	prog_bar.value = cur_value;
+	
+	lbl_stat_value_cur.visible = bd.is_hero;
+	lbl_splitter.visible = bd.is_hero;
+	lbl_stat_value_max.visible = bd.is_hero;
 	return

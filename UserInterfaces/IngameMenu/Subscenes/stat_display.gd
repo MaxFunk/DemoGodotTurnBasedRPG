@@ -41,3 +41,28 @@ func update_bar(chd: CharacterData) -> void:
 		prog_bar.texture_progress = texture_stat;
 		prog_bar.value = value;
 	return
+
+
+func update_inspect(bd: BattleData, show_data: bool) -> void:
+	var value: int = 0;
+	match display_type:
+		DISPLAYTYPE.PHYATT: value = bd.stats[0];
+		DISPLAYTYPE.PHYDEF: value = bd.stats[1];
+		DISPLAYTYPE.ETHATT: value = bd.stats[2];
+		DISPLAYTYPE.ETHDEF: value = bd.stats[3];
+		DISPLAYTYPE.LUCK: value = bd.stats[4];
+		DISPLAYTYPE.AGIL: value = bd.stats[5];
+	
+	lbl_stat_value.text = str(value) if show_data else "??";
+	
+	if !show_data:
+		prog_bar.value = 0;
+		return
+	
+	if value >= 100:
+		prog_bar.texture_progress = texture_statfull;
+		prog_bar.value = 100;
+	else:
+		prog_bar.texture_progress = texture_stat;
+		prog_bar.value = value;
+	return

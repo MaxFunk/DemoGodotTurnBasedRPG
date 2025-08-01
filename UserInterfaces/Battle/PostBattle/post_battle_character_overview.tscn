@@ -1,0 +1,99 @@
+[gd_scene load_steps=6 format=3 uid="uid://blchrynpkcuix"]
+
+[ext_resource type="Texture2D" uid="uid://cs31b1dphb5qg" path="res://Resources/Images/CharacterPortraits/character_portrait_hero_0.png" id="1_8j2m8"]
+[ext_resource type="Script" uid="uid://kuoy22se4uwo" path="res://UserInterfaces/Battle/PostBattle/post_battle_character_overview.gd" id="1_iehaj"]
+[ext_resource type="Texture2D" uid="uid://0des5vba8cw7" path="res://Resources/Images/ProgressBars/progbar_default_under.png" id="2_iehaj"]
+[ext_resource type="Texture2D" uid="uid://cvbsto2hris6k" path="res://Resources/Images/ProgressBars/progbar_default_over.png" id="3_6ccnp"]
+[ext_resource type="Texture2D" uid="uid://2ymkbkwq3t24" path="res://Resources/Images/ProgressBars/progbar_fill_statsfull.png" id="4_drkop"]
+
+[node name="PostBattleCharacterOverview" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 600.0
+offset_bottom = 120.0
+script = ExtResource("1_iehaj")
+
+[node name="IconChar" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 110.0
+offset_bottom = 110.0
+texture = ExtResource("1_8j2m8")
+expand_mode = 2
+
+[node name="LabelName" type="Label" parent="."]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 10.0
+offset_right = 420.0
+offset_bottom = 55.0
+theme_override_font_sizes/font_size = 32
+text = "Character Name"
+clip_text = true
+
+[node name="LabelLevel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 450.0
+offset_top = 10.0
+offset_right = 500.0
+offset_bottom = 55.0
+theme_override_font_sizes/font_size = 32
+text = "Lv"
+horizontal_alignment = 2
+clip_text = true
+
+[node name="LabelLevelValue" type="Label" parent="."]
+layout_mode = 0
+offset_left = 500.0
+offset_top = 10.0
+offset_right = 550.0
+offset_bottom = 55.0
+theme_override_font_sizes/font_size = 32
+text = "99"
+horizontal_alignment = 2
+clip_text = true
+
+[node name="LabelExp" type="Label" parent="."]
+layout_mode = 0
+offset_left = 375.0
+offset_top = 60.0
+offset_right = 450.0
+offset_bottom = 105.0
+theme_override_font_sizes/font_size = 32
+text = "EXP:"
+horizontal_alignment = 2
+clip_text = true
+
+[node name="LabelExpValue" type="Label" parent="."]
+layout_mode = 0
+offset_left = 450.0
+offset_top = 60.0
+offset_right = 550.0
+offset_bottom = 105.0
+theme_override_font_sizes/font_size = 32
+text = "99999"
+horizontal_alignment = 2
+clip_text = true
+
+[node name="BarExp" type="TextureProgressBar" parent="."]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 70.0
+offset_right = 370.0
+offset_bottom = 95.0
+value = 50.0
+nine_patch_stretch = true
+texture_under = ExtResource("2_iehaj")
+texture_over = ExtResource("3_6ccnp")
+texture_progress = ExtResource("4_drkop")
+
+[node name="IconLevelUp" type="ColorRect" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 565.0
+offset_top = 22.0
+offset_right = 585.0
+offset_bottom = 42.0
+rotation = 0.785398
+pivot_offset = Vector2(10, 10)

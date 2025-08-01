@@ -1,0 +1,284 @@
+[gd_scene load_steps=4 format=3 uid="uid://bk1xd1pl38j1y"]
+
+[ext_resource type="Script" uid="uid://kh60tily0hgw" path="res://UserInterfaces/Battle/PostBattle/post_battle_menu.gd" id="1_1htas"]
+[ext_resource type="PackedScene" uid="uid://blchrynpkcuix" path="res://UserInterfaces/Battle/PostBattle/post_battle_character_overview.tscn" id="2_3ttw8"]
+[ext_resource type="PackedScene" uid="uid://yygbt3d68ofu" path="res://UserInterfaces/Battle/PostBattle/post_battle_character_levelup.tscn" id="3_gdaav"]
+
+[node name="PostBattleMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1htas")
+
+[node name="GameOverUI" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="GameOverUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="LabelGameOver" type="Label" parent="GameOverUI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -270.0
+offset_right = 300.0
+offset_bottom = -130.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 100
+text = "Game Over"
+horizontal_alignment = 1
+
+[node name="LabelTryAgain" type="Label" parent="GameOverUI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = 15.0
+offset_right = 300.0
+offset_bottom = 85.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Retry Battle"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="LabelLoadSave" type="Label" parent="GameOverUI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = 95.0
+offset_right = 300.0
+offset_bottom = 165.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Load last Save"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="LabelTitlescreen" type="Label" parent="GameOverUI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = 175.0
+offset_right = 300.0
+offset_bottom = 245.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Return to Titlescreen"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="BattleWonUI" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="BattleWonUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0627451, 0.0627451, 0.0627451, 1)
+
+[node name="ExpOverview" type="Control" parent="BattleWonUI"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LabelBattleWon" type="Label" parent="BattleWonUI/ExpOverview"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -300.0
+offset_top = 100.0
+offset_right = 300.0
+offset_bottom = 240.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 100
+text = "Battle Won!"
+horizontal_alignment = 1
+
+[node name="LabelExpCashout" type="Label" parent="BattleWonUI/ExpOverview"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 300.0
+offset_bottom = 370.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 48
+text = "EXP: "
+horizontal_alignment = 2
+clip_text = true
+
+[node name="LabelExpCashoutValue" type="Label" parent="BattleWonUI/ExpOverview"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_top = 300.0
+offset_right = 200.0
+offset_bottom = 370.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 48
+text = "99999"
+clip_text = true
+
+[node name="PostBattleCharacterOverview1" parent="BattleWonUI/ExpOverview" instance=ExtResource("2_3ttw8")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -700.0
+offset_top = -60.0
+offset_right = -100.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PostBattleCharacterOverview2" parent="BattleWonUI/ExpOverview" instance=ExtResource("2_3ttw8")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -700.0
+offset_top = 60.0
+offset_right = -100.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PostBattleCharacterOverview3" parent="BattleWonUI/ExpOverview" instance=ExtResource("2_3ttw8")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -700.0
+offset_top = 180.0
+offset_right = -100.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PostBattleCharacterOverview4" parent="BattleWonUI/ExpOverview" instance=ExtResource("2_3ttw8")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -700.0
+offset_top = 300.0
+offset_right = -100.0
+offset_bottom = 420.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PostBattleCharacterOverview5" parent="BattleWonUI/ExpOverview" instance=ExtResource("2_3ttw8")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 100.0
+offset_top = -60.0
+offset_right = 700.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PostBattleCharacterOverview6" parent="BattleWonUI/ExpOverview" instance=ExtResource("2_3ttw8")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 100.0
+offset_top = 60.0
+offset_right = 700.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PostBattleCharacterOverview7" parent="BattleWonUI/ExpOverview" instance=ExtResource("2_3ttw8")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 100.0
+offset_top = 180.0
+offset_right = 700.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PostBattleCharacterOverview8" parent="BattleWonUI/ExpOverview" instance=ExtResource("2_3ttw8")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 100.0
+offset_top = 300.0
+offset_right = 700.0
+offset_bottom = 420.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PostBattleCharacterLevelup" parent="BattleWonUI" instance=ExtResource("3_gdaav")]
+layout_mode = 1
