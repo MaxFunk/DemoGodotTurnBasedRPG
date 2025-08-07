@@ -9,5 +9,5 @@ func _ready() -> void:
 
 
 func _on_interaction_component_interaction() -> void:
-	print("TODO: TEXTBOX");
+	GameData.main_scene.instantiate_talking_ui();
 	return

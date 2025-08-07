@@ -43,19 +43,20 @@ static func apply_ailment(user: BattleData, target: BattleData, ailment_idx: int
 	return
 
 
-static func apply_ailment_art(user: BattleData, target: BattleData, art: BattleArt) -> bool:
+static func apply_ailment_art(user: BattleData, target: BattleData, art: BattleArt) -> ActionResult:
 	# include user hit chance boosts?
 	# include attributes: block -> miss, resist -> half_chance?
 	# do same for apply_ailment!
+	var action_res := ActionResult.new();
+	
 	for i in art.effects.size():
 		if art.effects[i] == EffectIDs.APPLY_AILMENT_ART:
 			var ailment_idx: int = art.effect_values[i];
 			var chance: float = art.accuracy * sqrt(user.stats[4] / float(target.stats[4])) / 100.0;
-			if randf() > chance:
-				return false
-			if target.ailment != 0:
-				return false
+			if randf() > chance or target.ailment != 0:
+				action_res.is_missed = true;
+				return action_res
 			target.ailment = ailment_idx;
+			action_res.ailment = ailment_idx;
 			target.update_display.emit();
-			return true
-	return false
+	return action_res

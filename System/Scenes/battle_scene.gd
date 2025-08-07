@@ -1,15 +1,15 @@
 class_name BattleScene
 extends Node3D
 
-#signal begin_turn();
-#signal end_turn();
-
 const PostBattleUI := preload("res://UserInterfaces/Battle/PostBattle/post_battle_menu.gd");
 
 @onready var battle_ui := $BattleUI as BattleUI;
+
+# Targeting Camera
 @onready var cam_pivot := $CameraPivot as Marker3D;
 @onready var cam_arm := $CameraPivot/SpringArm3D as SpringArm3D;
 @onready var camera := $CameraPivot/SpringArm3D/Camera3D as Camera3D;
+# Behind Camera
 @onready var cam_2_pivot := $Camera2Pivot as Marker3D;
 @onready var camera_2 := $Camera2Pivot/Camera2 as Camera3D;
 
@@ -35,6 +35,8 @@ var battle_chars: Array[BattleCharacter] = [];
 var turn_order: Array[BattleData] = [];
 var next_round: Array[BattleData] = [];
 var cur_actor: BattleData = null;
+var cur_action: ActionData = null;
+
 var exp_cashout: int = 0;
 var battle_ending: bool = false;
 
@@ -43,8 +45,19 @@ func _ready() -> void:
 	#camera.make_current();
 	#begin_turn.connect(on_begin_turn);
 	#end_turn.connect(on_end_turn);
+	return
+
+
+func _process(_delta: float) -> void:
+	if cur_action:
+		cur_action.process();
+	return
+
+
+func initiate_field(enemy_ids: PackedInt32Array) -> void:
+	assert(enemy_ids.size() > 0, "No ids for opponents");
 	
-	initiate_battle_data_objects();
+	initiate_battle_data_objects(enemy_ids);
 	spawn_battle_chars();
 	determine_turn_order();
 	battle_ui.init_battle_ui(self);
@@ -52,18 +65,7 @@ func _ready() -> void:
 	return
 
 
-#func _input(event: InputEvent) -> void:
-	#if event.is_action_pressed("Btn_X"):
-		#GameData.main_scene.end_battle_scene();
-	#
-	#if event.is_action_pressed("Btn_A") and cur_actor:
-		#end_turn.emit();
-	#return
-
-
-func initiate_battle_data_objects() -> void:
-	const oppo_ids: Array[int] = [0, 1];
-	
+func initiate_battle_data_objects(oppo_ids: PackedInt32Array) -> void:
 	for i in range(5):
 		if i < oppo_ids.size():
 			var new_oppo := BattleData.new();
@@ -115,7 +117,6 @@ func determine_turn_order() -> void:
 		if oppo != null:
 			turn_order.append(oppo);
 	
-	#var lambda := func(a: BattleData, b: BattleData): return a.stats[5] > b.stats[5];
 	turn_order.sort_custom(sort_agility);
 	return
 
@@ -143,8 +144,14 @@ func commit_action(action: ActionData) -> void:
 	if cur_actor.is_hero: # maybe not needed anymore -> MENUSTATE.OFF does the same
 		battle_ui.accept_inputs = false;
 	
+	cur_action = action;
 	action.commit_user_and_targets();
-	await action.apply_action();
+	action.cast_action();
+	
+	await action.finished_casting;
+	
+	cur_action.clean_up_casts();
+	cur_action = null;
 	
 	if !battle_ending:
 		on_end_turn();
@@ -163,24 +170,8 @@ func on_end_turn() -> void:
 
 
 func opponent_turn_decision() -> void:
-	var enemy_action := ActionData.new(ActionData.ACTIONTYPE.ATTACK, self);
-	enemy_action.set_targettype_from_art(cur_actor.default_attack);
-	
-	var possible_ids: Array[int] = [];
-	for hero in active_heros:
-		if hero != null: possible_ids.append(hero.position);
-	enemy_action.index_target = possible_ids[randi_range(0, possible_ids.size() - 1)];
-	
-	# Temporary time waste for Opponents;
-	var temp_timer := Timer.new();
-	add_child(temp_timer);
-	temp_timer.one_shot = true;
-	temp_timer.start(2.5);
-	await temp_timer.timeout;
-	remove_child(temp_timer);
-	temp_timer.queue_free();
-	
-	commit_action(enemy_action);
+	var opponent_action := OpponentDecision.decide_action_standard(cur_actor, self);
+	commit_action(opponent_action);
 	return
 
 
@@ -256,3 +247,12 @@ func on_character_defeated(chd: BattleData) -> void:
 		process_mode = Node.PROCESS_MODE_DISABLED;
 		post_battle_ui.init_ui(false, exp_cashout);
 	return
+
+
+func get_random_opponent() -> BattleData:
+	var valid_indices: PackedInt32Array = [];
+	for i in opponents.size():
+		if opponents[i] != null: valid_indices.append(i);
+	
+	var random_index: int = valid_indices[randi_range(0, valid_indices.size() - 1)];
+	return opponents[random_index];

@@ -39,3 +39,19 @@ static func get_clear_chance(turns: int) -> float:
 		3: return 0.7
 		4: return 0.8
 		_: return 0.99
+
+
+static func get_ailment_text(id: int) -> StringName:
+	match id:
+		NONE: return ""
+		BURNED: return "BURNED"
+		STUNNED: return "STUNNED"
+		FROZEN: return "FROZEN"
+		POISONED: return "POISONED"
+		CONFUSED: return "CONFUSED"
+		EXHAUSTED: return "EXHAUSTED"
+		BLINDED: return "BLINDED"
+		SHACKLED: return "SHACKLED"
+		CORRUPTED: return "CORRUPTED"
+		BLESSED: return "BLESSED"
+		_: return ""

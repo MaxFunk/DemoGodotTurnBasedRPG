@@ -7,7 +7,7 @@ enum TARGETING {SINGLE_OPPONENT = 0, SINGLE_ALLY = 1, SELF_ONLY = 2, ALL_OPPONEN
 
 var id: int = -1;
 var name: String = "Art";
-var anim_path: StringName = "";
+var cast_path: String = "";
 var description: String = "";
 
 var category := CATEGORY.NONE;
@@ -24,6 +24,8 @@ var attribute_2: int = -1;
 var effects: PackedInt64Array = [];
 var effect_values: PackedInt64Array = [];
 
+var disable_multcast: bool = false;
+
 
 func _init(call_id: int) -> void:
 	if call_id < 0:
@@ -33,7 +35,7 @@ func _init(call_id: int) -> void:
 	var data_row := preload("res://Resources/DataTables/arts.csv").records[call_id] as Dictionary;
 	id = call_id;
 	name = data_row["name"];
-	anim_path = data_row["anim_path"];
+	cast_path = data_row["cast_path"];
 	description = data_row["description"];
 	
 	category = int(data_row["category"]) as CATEGORY;
@@ -53,6 +55,9 @@ func _init(call_id: int) -> void:
 	for i in range(effect_ids.size()):
 		effects.append(int(effect_ids[i]));
 		effect_values.append(int(effect_values_str[i]));
+	
+	if data_row["disable_multcast"] != "0":
+		disable_multcast = true;
 	return
 
 

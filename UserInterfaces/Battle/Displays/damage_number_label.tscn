@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://docyshrvuux35"]
+
+[ext_resource type="Script" uid="uid://deb32krn2am7x" path="res://UserInterfaces/Battle/Displays/damage_number_label.gd" id="1_ngdyk"]
+
+[node name="DamageNumberLabel" type="Label"]
+offset_right = 1.0
+offset_bottom = 23.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 40
+text = "99999"
+script = ExtResource("1_ngdyk")

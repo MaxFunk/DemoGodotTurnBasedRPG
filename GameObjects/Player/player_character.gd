@@ -52,11 +52,12 @@ func _physics_process(delta: float) -> void:
 	
 	if is_processing_input():
 		# TODO: Camera function
-		var camera_input := Input.get_vector("R_Stick_Left", "R_Stick_Right", "R_Stick_Up", "R_Stick_Down");
-		camera_pivot.rotate_y(-camera_input.x * delta * 2.0);
-		spring_arm.rotate_x(-camera_input.y * delta);
-		spring_arm.rotation.x = clampf(spring_arm.rotation.x, -1.0472, 0.523599);
-	
+		if move_mode != MOVEMODE.NONE:
+			var camera_input := Input.get_vector("R_Stick_Left", "R_Stick_Right", "R_Stick_Up", "R_Stick_Down");
+			camera_pivot.rotate_y(-camera_input.x * delta * 2.0);
+			spring_arm.rotate_x(-camera_input.y * delta);
+			spring_arm.rotation.x = clampf(spring_arm.rotation.x, -1.0472, 0.523599);
+		
 		match move_mode:
 			MOVEMODE.WALKING: process_walking(delta);
 			MOVEMODE.SWIMMING: process_swimming(delta);
@@ -74,13 +75,13 @@ func process_walking(delta: float) -> void:
 	var run_mult: float = 2.5 if is_running else 1.0;
 	
 	if Input.is_action_just_pressed("Btn_B") and is_on_floor():
-		jump_direction = Vector3(move_input.x, 0, move_input.y);
+		#jump_direction = Vector3(move_input.x, 0, move_input.y);
 		velocity.y += jump_strength * delta;
 		is_jumping = true;
 	
 	var movement_dir := camera_pivot.transform.basis * Vector3(move_input.x, 0, move_input.y);
 	if is_jumping:
-		movement_dir = movement_dir * 0.67 + jump_direction * 0.33;
+		movement_dir = movement_dir * 0.67; # + jump_direction * 0.33;
 	velocity.x = movement_dir.x * move_speed * delta * run_mult;
 	velocity.z = movement_dir.z * move_speed * delta * run_mult;
 	
@@ -140,7 +141,9 @@ func check_interaction() -> void:
 			(collider as InteractionComponent).emit_interaction();
 		
 		if collider is EnemyCharacter:
-			GameData.main_scene.instantiate_battle_scene();
+			var enemy_ids := (collider as EnemyCharacter).enemy_ids;
+			if enemy_ids.size() > 0:
+				GameData.main_scene.instantiate_battle_scene(enemy_ids);
 	return
 
 

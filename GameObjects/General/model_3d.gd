@@ -1,8 +1,11 @@
 class_name Model3D
 extends Node3D
 
+signal animation_finished();
+
+@export var start_animation: StringName;
+
 var anim_player: AnimationPlayer;
-#var is_in_battle: bool = false;
 
 var current_anim: StringName;
 var current_speed: float = 1.0;
@@ -14,6 +17,9 @@ func _ready() -> void:
 			anim_player = child as AnimationPlayer;
 			anim_player.playback_default_blend_time = 0.2; #TODO
 			anim_player.animation_finished.connect(on_anim_finished);
+			
+			if anim_player.has_animation(start_animation):
+				anim_player.play(start_animation);
 	return
 
 
@@ -42,5 +48,6 @@ func play_animation(anim_name: String, with_capture: bool = false, speed_scale: 
 
 
 func on_anim_finished(_anim_name: StringName) -> void:
-	play_animation("Idle", true);
+	play_animation("Idle", true); # TODO remove/move somewhere else?
+	animation_finished.emit();
 	return

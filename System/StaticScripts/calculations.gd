@@ -31,7 +31,7 @@ static func get_exp_to_next_level(cur_level: int) -> int:
 	return level * 19 + 4 * floori(level / 3.0);
 
 
-static func calc_damage(user: BattleData, target: BattleData, art: BattleArt) -> Vector4i:
+static func calc_damage(user: BattleData, target: BattleData, art: BattleArt) -> ActionResult:
 	var is_crit: int = 0;
 	var missed: int = 0;
 	var attr: float = 1.0;
@@ -61,19 +61,27 @@ static func calc_damage(user: BattleData, target: BattleData, art: BattleArt) ->
 	if target.is_blocking: damage *= 0.5;
 	if user.is_charged: damage *= 2.0;
 	
-	# Damage, missed, is_crit, attribute_behavior
-	# attribute: 0, 0.25, 0.5, 1.0, 2.0, 4.0 -> times 4 for integer representation
+	damage *= randf_range(0.9, 1.1);
 	var final_damage: int = clampi(roundi(damage), 1, 99999);
 	if attr == 0.0:
 		final_damage = 0;
-	var ret_val := Vector4i(final_damage, missed, is_crit, roundi(attr * 4.0));
-	return ret_val
+	
+	var action_res := ActionResult.new();
+	action_res.damage = final_damage;
+	action_res.is_missed = missed;
+	action_res.is_crit = is_crit;
+	action_res.attribute_multiplier = attr;
+	return action_res
 
 
-static func calc_healing(user: BattleData, art: BattleArt) -> int:
-	var offense_val: float = get_offense_val(user, art); # Gets Ether value
+static func calc_healing(user: BattleData, art: BattleArt) -> ActionResult:
+	var offense_val: float = maxf(user.stats[2], 1.0); # Gets Ether value
 	var healing: float = sqrt(user.level * offense_val * art.base_power * 0.5);
-	return clampi(roundi(healing), 1, 99999)
+	healing *= randf_range(0.9, 1.1);
+	
+	var action_res := ActionResult.new();
+	action_res.healing = clampi(roundi(healing), 1, 99999);
+	return action_res
 
 
 static func get_offense_val(chd: BattleData, art: BattleArt) -> float:

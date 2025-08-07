@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://lxjhkb3kmld1"]
+[gd_scene load_steps=36 format=3 uid="uid://lxjhkb3kmld1"]
 
 [ext_resource type="Script" uid="uid://c7ts8ujxoerht" path="res://Worlds/world_scene.gd" id="1_7d5j5"]
 [ext_resource type="Environment" uid="uid://0jdwxffgebho" path="res://Resources/GodotSettings/Environments/environment_clear_sky.tres" id="2_0mjw5"]
@@ -10,6 +10,11 @@
 [ext_resource type="Script" uid="uid://bcxrao8p216gm" path="res://GameObjects/General/water_3d.gd" id="8_6mlrr"]
 [ext_resource type="Material" uid="uid://b6y16g8vkbsoh" path="res://Resources/GodotSettings/Materials/mat_ground.tres" id="9_b7qix"]
 [ext_resource type="PackedScene" uid="uid://dox854i12fr0j" path="res://GameObjects/Interactables/Movement/ladder.tscn" id="10_tfas3"]
+[ext_resource type="PackedScene" uid="uid://ka13y3kosm2v" path="res://GameObjects/Interactables/Movement/climbable_area.tscn" id="11_v57g2"]
+[ext_resource type="PackedScene" uid="uid://ckxw05aoy0304" path="res://GameObjects/Interactables/interaction_component.tscn" id="12_bcqkc"]
+[ext_resource type="Material" uid="uid://cf1i1vypl5sky" path="res://Resources/GodotSettings/Materials/mat_wood.tres" id="13_bcqkc"]
+[ext_resource type="Script" uid="uid://dajvjvfw1fjs8" path="res://GameObjects/General/special_battle_initiator.gd" id="14_fg3dg"]
+[ext_resource type="PackedScene" uid="uid://dd8q5fg3b203r" path="res://Resources/Models/NPCs/char_base.glb" id="15_j2twu"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hx6yu"]
 size = Vector3(50, 1, 50)
@@ -51,6 +56,112 @@ size = Vector3(2, 4, 2)
 [sub_resource type="BoxShape3D" id="BoxShape3D_tfas3"]
 size = Vector3(2, 4, 2)
 
+[sub_resource type="CylinderMesh" id="CylinderMesh_v57g2"]
+material = ExtResource("13_bcqkc")
+top_radius = 1.0
+bottom_radius = 1.0
+height = 5.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_v57g2"]
+height = 5.0
+radius = 1.0
+
+[sub_resource type="Curve3D" id="Curve3D_bcqkc"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="Curve3D" id="Curve3D_j2twu"]
+closed = true
+_data = {
+"points": PackedVector3Array(0, 0, 0.205, 0, 0, 0.49, 1.2, 0, 0, 1.35, 0, 0, -0.65, 0, 0, 0, 0, -1.2, 0, 0, -0.65, 0, 0, 1.105, -1.2, 0, 0, -0.085, 0, 0, 1.055, 0, 0, 0, 0, 1.2),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_bcqkc"]
+height = 1.0
+radius = 1.2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j2twu"]
+size = Vector3(2, 1, 1)
+
+[sub_resource type="Animation" id="Animation_8oqjx"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camera3D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0.261799, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_j2twu"]
+resource_name = "SpecialStart"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(0, 1.653, -4.4)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camera3D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0.261799, 0), Vector3(0, 0, 0)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ModelNPC")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["IdleBattle", false, 1.0],
+"method": &"play_animation"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8oqjx"]
+_data = {
+&"RESET": SubResource("Animation_8oqjx"),
+&"SpecialStart": SubResource("Animation_j2twu")
+}
+
 [node name="WorldSceneDebug" type="Node3D"]
 script = ExtResource("1_7d5j5")
 metadata/_custom_type_script = "uid://c7ts8ujxoerht"
@@ -64,69 +175,131 @@ environment = ExtResource("2_0mjw5")
 
 [node name="PlayerCharacter" parent="." instance=ExtResource("3_patf1")]
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="StaticBodies" type="Node3D" parent="."]
+
+[node name="FloorPlane" type="StaticBody3D" parent="StaticBodies"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBodies/FloorPlane"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 shape = SubResource("BoxShape3D_hx6yu")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBodies/FloorPlane"]
 mesh = SubResource("PlaneMesh_s0jbs")
 
-[node name="DebugBlock" parent="." instance=ExtResource("5_3c4c8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -3)
-
-[node name="NPCGeneric" parent="." instance=ExtResource("6_hx6yu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -6)
-
-[node name="EnemyCharacter" parent="." instance=ExtResource("7_s0jbs")]
-transform = Transform3D(-5.96046e-08, 0, 1, 0, 1, 0, -1, 0, -5.96046e-08, 6, 0, -1)
-
-[node name="SlopeIntoWater" type="StaticBody3D" parent="."]
+[node name="SlopeIntoWater" type="StaticBody3D" parent="StaticBodies"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, -1, -5)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SlopeIntoWater"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBodies/SlopeIntoWater"]
 mesh = SubResource("PrismMesh_s0jbs")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SlopeIntoWater"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBodies/SlopeIntoWater"]
 shape = SubResource("ConvexPolygonShape3D_s0jbs")
 
-[node name="Water3D" type="StaticBody3D" parent="."]
+[node name="Water3D" type="StaticBody3D" parent="StaticBodies"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -0.5, -5)
 collision_layer = 8
 collision_mask = 3
 script = ExtResource("8_6mlrr")
 metadata/_custom_type_script = "uid://bcxrao8p216gm"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Water3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBodies/Water3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 shape = SubResource("BoxShape3D_6mlrr")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Water3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBodies/Water3D"]
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_b7qix")
 
-[node name="Tower" type="StaticBody3D" parent="."]
+[node name="DebugBlock" parent="StaticBodies" instance=ExtResource("5_3c4c8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -3)
+
+[node name="Tower" type="StaticBody3D" parent="StaticBodies"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1.99, -13)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Tower"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBodies/Tower"]
 mesh = SubResource("BoxMesh_tfas3")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Tower"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBodies/Tower"]
 shape = SubResource("BoxShape3D_gp2ay")
 
-[node name="TowerOnTower" type="StaticBody3D" parent="."]
+[node name="TowerOnTower" type="StaticBody3D" parent="StaticBodies"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 5.99, -14)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TowerOnTower"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBodies/TowerOnTower"]
 mesh = SubResource("BoxMesh_gp2ay")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TowerOnTower"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBodies/TowerOnTower"]
 shape = SubResource("BoxShape3D_tfas3")
+
+[node name="NPCGeneric" parent="." instance=ExtResource("6_hx6yu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -6)
+
+[node name="EnemyCharacter" parent="." instance=ExtResource("7_s0jbs")]
+transform = Transform3D(-5.96046e-08, 0, 1, 0, 1, 0, -1, 0, -5.96046e-08, 6, 0, -1)
+enemy_ids = [null, 1]
+
+[node name="EnemyCharacter2" parent="." instance=ExtResource("7_s0jbs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+enemy_ids = [2]
 
 [node name="Ladder" parent="." instance=ExtResource("10_tfas3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -11)
 
 [node name="Ladder2" parent="." instance=ExtResource("10_tfas3")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4, 4, -14)
+
+[node name="CylindricTower" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -17)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CylindricTower"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+mesh = SubResource("CylinderMesh_v57g2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CylindricTower"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+shape = SubResource("CylinderShape3D_v57g2")
+
+[node name="ClimbableArea" parent="CylindricTower" node_paths=PackedStringArray("interact_comp", "path_vertical", "path_horizontal") instance=ExtResource("11_v57g2")]
+interact_comp = NodePath("InteractionComponent")
+path_vertical = NodePath("PathVertical")
+path_horizontal = NodePath("PathHorizontal")
+
+[node name="PathVertical" type="Path3D" parent="CylindricTower/ClimbableArea"]
+curve = SubResource("Curve3D_bcqkc")
+
+[node name="PathHorizontal" type="Path3D" parent="CylindricTower/ClimbableArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0010376)
+curve = SubResource("Curve3D_j2twu")
+
+[node name="InteractionComponent" parent="CylindricTower/ClimbableArea" instance=ExtResource("12_bcqkc")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CylindricTower/ClimbableArea/InteractionComponent"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("CylinderShape3D_bcqkc")
+
+[node name="SpecialBattleInitiator" type="Area3D" parent="." node_paths=PackedStringArray("anim_player", "camera_3d")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 17, 0, 0)
+collision_layer = 0
+collision_mask = 256
+script = ExtResource("14_fg3dg")
+anim_player = NodePath("AnimationPlayer")
+camera_3d = NodePath("Camera3D")
+animation_name = &"SpecialStart"
+metadata/_custom_type_script = "uid://dajvjvfw1fjs8"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SpecialBattleInitiator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_j2twu")
+
+[node name="ModelNPC" parent="SpecialBattleInitiator" instance=ExtResource("15_j2twu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+start_animation = &"IdleStanding"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SpecialBattleInitiator"]
+libraries = {
+&"": SubResource("AnimationLibrary_8oqjx")
+}
+
+[node name="Camera3D" type="Camera3D" parent="SpecialBattleInitiator"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 1, 1, 1)

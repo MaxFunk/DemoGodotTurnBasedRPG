@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://ka13y3kosm2v"]
+
+[ext_resource type="Script" uid="uid://5opuh1tu3ona" path="res://GameObjects/Interactables/Movement/climbable_area.gd" id="1_ewhmp"]
+
+[node name="ClimbableArea" type="Node3D"]
+script = ExtResource("1_ewhmp")
+
+[node name="PathFollowVertical" type="PathFollow3D" parent="."]
+loop = false
+
+[node name="PathFollowHorizontal" type="PathFollow3D" parent="."]
+loop = false

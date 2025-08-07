@@ -8,6 +8,7 @@ const OppoDisplay := preload("res://UserInterfaces/Battle/Displays/battle_oppone
 const ArtsMenu := preload("res://UserInterfaces/Battle/ActionMenu/battle_action_arts.gd");
 const TacticsMenu := preload("res://UserInterfaces/Battle/ActionMenu/battle_action_tactics.gd");
 const InspectMenu := preload("res://UserInterfaces/Battle/ActionMenu/battle_character_inspect.gd");
+const DmgNumber := preload("res://UserInterfaces/Battle/Displays/damage_number_label.gd");
 
 const tactic_decriptions: Array[StringName] = [
 	"Inspect characters on the field",
@@ -32,6 +33,8 @@ enum MENUSTATE {OFF, MAIN, ARTS, ITEMS, TACTICS, TARGETING, INSPECT}
 @onready var battle_menu_tactics := $BattleActionTactics as TacticsMenu;
 @onready var battle_menu_inspect := $BattleCharacterInspect as InspectMenu;
 @onready var lbl_description := $LabelDescription as Label;
+@onready var lbl_action_name := $LabelActionName as Label;
+@onready var dmg_numbers := $DamageNumbers as Control;
 
 var battle_scene: BattleScene;
 var cur_action: ActionData = null;
@@ -260,6 +263,9 @@ func change_menu_state(new_state: MENUSTATE) -> void:
 	lbl_description.visible = menu_state != MENUSTATE.OFF and menu_state != MENUSTATE.MAIN;
 	accept_inputs = menu_state != MENUSTATE.OFF;
 	
+	if menu_state != MENUSTATE.OFF:
+		lbl_action_name.visible = false;
+	
 	match new_state:
 		MENUSTATE.OFF:
 			reset_target_arrows();
@@ -352,4 +358,18 @@ func get_battledata_from_idx(index) -> BattleData:
 func prepare_after_analyze() -> void:
 	inspect_as_analyze = true;
 	change_menu_state(MENUSTATE.INSPECT);
+	return
+
+
+func create_damage_number(action_result: ActionResult, target: BattleData, art: BattleArt) -> void:
+	var world_pos := target.battle_char.global_position + Vector3.UP;
+	var cur_camera := get_viewport().get_camera_3d();
+	if cur_camera.is_position_behind(world_pos):
+		return
+	
+	var number_node := preload("res://UserInterfaces/Battle/Displays/damage_number_label.tscn").instantiate() as DmgNumber;
+	var screen_pos := get_viewport().get_camera_3d().unproject_position(world_pos);
+	get_viewport().get_camera_3d()
+	dmg_numbers.add_child(number_node);
+	number_node.set_text_data(action_result, screen_pos, art);
 	return
