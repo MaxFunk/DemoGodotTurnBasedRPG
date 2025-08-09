@@ -5,7 +5,7 @@ extends Area3D
 @export var camera_3d: Camera3D;
 
 @export var animation_name: StringName;
-@export var opponent_ids: PackedInt32Array = [];
+@export var opponent_ids: Array[int] = [];
 
 var valid: bool = true;
 

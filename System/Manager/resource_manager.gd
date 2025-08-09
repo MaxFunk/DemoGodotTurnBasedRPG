@@ -39,3 +39,30 @@ func get_opponent_data(id: int) -> Dictionary:
 	if id >= 0 and id < opponent_dt.records.size():
 		return opponent_dt.records[id];
 	return {}
+
+
+func get_textbox_data(id: int) -> TextboxData:
+	const textbox_csv := preload("res://Resources/DataTables/textbox_data.csv");
+	if id < 0 or id >= textbox_csv.records.size():
+		return null
+	
+	var textbox_row := textbox_csv.records[id] as Dictionary;
+	var td := TextboxData.new();
+	
+	td.id = textbox_row["id"];
+	var next_id_str: String = textbox_row["next_id_1"];
+	td.next_id_1 = int(next_id_str) if next_id_str != "" else -1;
+	next_id_str = textbox_row["next_id_2"];
+	td.next_id_2 = int(next_id_str) if next_id_str != "" else -1;
+	
+	td.is_question = true if (textbox_row["is_question"] as String) == "1" else false;
+	
+	td.speaker_name = textbox_row["speaker"];
+	td.text = textbox_row["text"];
+	td.speaker_icon = textbox_row["icon"];
+	td.answer_1 = textbox_row["answer_1"];
+	td.answer_2 = textbox_row["answer_2"];
+	
+	td.next_td_1 = get_textbox_data(td.next_id_1);
+	td.next_td_2 = get_textbox_data(td.next_id_2);
+	return td

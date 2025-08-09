@@ -1,0 +1,7 @@
+id,is_question,next_id_1,next_id_2,speaker,text,answer_1,answer_2,icon
+0,0,"1","","Dummy Speaker","Hello, this is a dummy text! I can only speak a little bit.","","",""
+1,0,"2","","Dummy Speaker","I can also speak even more, but there is nothing to talk about.","","",""
+2,0,"","","Dummy Speaker","Come back, when there is actual text to read here! Bye.","","",""
+3,1,"4","5","Dummy Asker","Do you like the color red?","Yes, I do.","No, I do not.",""
+4,0,"","","Dummy Asker","Thought as much.","","",""
+5,0,"","","Dummy Asker","Interesting. Perhaps the colors black or blue might fit better to you.","","",""

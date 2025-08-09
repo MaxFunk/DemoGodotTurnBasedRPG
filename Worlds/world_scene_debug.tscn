@@ -232,8 +232,13 @@ mesh = SubResource("BoxMesh_gp2ay")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBodies/TowerOnTower"]
 shape = SubResource("BoxShape3D_tfas3")
 
-[node name="NPCGeneric" parent="." instance=ExtResource("6_hx6yu")]
+[node name="NPCGenericTalking" parent="." instance=ExtResource("6_hx6yu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -6)
+first_text_id = 0
+
+[node name="NPCGenericQuestion" parent="." instance=ExtResource("6_hx6yu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -6)
+first_text_id = 3
 
 [node name="EnemyCharacter" parent="." instance=ExtResource("7_s0jbs")]
 transform = Transform3D(-5.96046e-08, 0, 1, 0, 1, 0, -1, 0, -5.96046e-08, 6, 0, -1)
@@ -286,6 +291,7 @@ script = ExtResource("14_fg3dg")
 anim_player = NodePath("AnimationPlayer")
 camera_3d = NodePath("Camera3D")
 animation_name = &"SpecialStart"
+opponent_ids = [2]
 metadata/_custom_type_script = "uid://dajvjvfw1fjs8"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SpecialBattleInitiator"]

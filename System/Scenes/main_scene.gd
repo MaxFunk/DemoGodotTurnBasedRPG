@@ -87,13 +87,12 @@ func close_ingame_menu() -> void:
 	return
 
 
-func instantiate_talking_ui() -> void:
+func instantiate_talking_ui(first_text_id: int) -> void:
 	if talking_ui == null: # safety?
 		player_char.move_mode = player_char.MOVEMODE.NONE;
 		talking_ui = preload("res://UserInterfaces/General/talking_ui.tscn").instantiate() as TalkingUI;
 		add_child(talking_ui);
-		talking_ui.load_text();
-		talking_ui.begin();
+		talking_ui.begin(first_text_id);
 	return
 
 
