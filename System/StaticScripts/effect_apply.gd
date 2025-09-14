@@ -22,6 +22,8 @@ static func apply(user: BattleData, target: BattleData, art: BattleArt) -> void:
 			EffectIDs.APPLY_SHACKLED: apply_ailment(user, target, Ailments.SHACKLED, art.effect_values[i]);
 			EffectIDs.APPLY_CORRUPTED: apply_ailment(user, target, Ailments.CORRUPTED, art.effect_values[i]);
 			EffectIDs.APPLY_BLESSED: apply_ailment(user, target, Ailments.BLESSED, art.effect_values[i]);
+			
+			EffectIDs.HEAL_AILMENT: heal_ailment(target);
 	return
 
 
@@ -60,3 +62,11 @@ static func apply_ailment_art(user: BattleData, target: BattleData, art: BattleA
 			action_res.ailment = ailment_idx;
 			target.update_display.emit();
 	return action_res
+
+
+static func heal_ailment(target: BattleData) -> void:
+	target.ailment = Ailments.NONE;
+	target.ailment_turns = 0;
+	print(target.name, " was healed from ailment");
+	target.update_display.emit();
+	return

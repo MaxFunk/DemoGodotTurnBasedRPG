@@ -6,7 +6,7 @@ const dates_table := preload("res://Resources/DataTables/dates.csv");
 func get_hero_model(id: int) -> PackedScene:
 	match id:
 		0: return preload("res://Resources/Models/Heros/hero_M.glb");
-		1: return preload("res://Resources/Models/Heros/hero_A.glb");
+		1: return preload("res://Resources/Models/Heros/hero_a.glb");
 		_: return preload("res://Resources/Models/Heros/hero_E.glb");
 
 

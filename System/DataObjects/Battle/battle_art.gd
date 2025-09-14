@@ -21,8 +21,8 @@ var hit_amount: int = 0;
 var is_ult: bool = false;
 var attribute_1: int = -1;
 var attribute_2: int = -1;
-var effects: PackedInt64Array = [];
-var effect_values: PackedInt64Array = [];
+var effects: PackedInt32Array = [];
+var effect_values: PackedInt32Array = [];
 
 var disable_multcast: bool = false;
 
@@ -69,6 +69,22 @@ func init_default_art() -> void:
 	targeting = TARGETING.SINGLE_OPPONENT;
 	base_power = 10;
 	hit_amount = 1;
+	return
+
+
+func set_from_item(item: ItemConsumable) -> void:
+	effects = item.effects.duplicate();
+	effect_values = item.effect_values.duplicate();
+	cast_path = item.cast_path;
+	name = item.name;
+	accuracy = 100;
+	targeting = item.cast_targeting as TARGETING;
+	match item.type:
+		0, 1, 2: category = CATEGORY.HEAL;
+		3: category = CATEGORY.STRATEGY;
+		4: category = CATEGORY.AILMENT;
+		5: category = CATEGORY.ETHER;
+		_: category = CATEGORY.PASSIVE;
 	return
 
 

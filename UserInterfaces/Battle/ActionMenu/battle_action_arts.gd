@@ -1,6 +1,6 @@
 extends Control
 
-const ArtDisplay := preload("res://UserInterfaces/Battle/ActionMenu/art_display.gd");
+const ArtDisplay := preload("res://UserInterfaces/Battle/Displays/art_display.gd");
 
 @onready var selector := $Selector as ColorRect;
 @onready var art_disps: Array[ArtDisplay] = [

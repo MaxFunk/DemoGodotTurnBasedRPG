@@ -1,0 +1,235 @@
+[gd_scene load_steps=9 format=3 uid="uid://ctrvmoh7ajptu"]
+
+[ext_resource type="Script" uid="uid://dr27i5yit4hhc" path="res://UserInterfaces/IngameMenu/Items/ingame_menu_items_ui.gd" id="1_0hmpd"]
+[ext_resource type="Script" uid="uid://do4k2b0sjshwf" path="res://UserInterfaces/Custom/label_button.gd" id="2_bl7y8"]
+[ext_resource type="Script" uid="uid://bwpsbotk7yxbp" path="res://UserInterfaces/Custom/scroll_controll.gd" id="2_vikj1"]
+[ext_resource type="PackedScene" uid="uid://ciy3ku3hbig5m" path="res://UserInterfaces/IngameMenu/Items/item_delete_ui.tscn" id="4_ygbjm"]
+[ext_resource type="PackedScene" uid="uid://dtdrmyavgetf" path="res://UserInterfaces/IngameMenu/Items/item_use_ui.tscn" id="5_x7llv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bl7y8"]
+draw_center = false
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ygbjm"]
+bg_color = Color(0.0627451, 0.0627451, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x7llv"]
+bg_color = Color(1, 1, 1, 1)
+
+[node name="IngameMenuItemsUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0hmpd")
+
+[node name="Header" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 100.0
+grow_horizontal = 2
+
+[node name="LabelButtonConsumables" type="Label" parent="Header"]
+layout_mode = 1
+offset_left = 50.0
+offset_top = 20.0
+offset_right = 400.0
+offset_bottom = 100.0
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxFlat_bl7y8")
+text = "Consumables"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+script = ExtResource("2_bl7y8")
+hovered_color = Color(0.863, 0.078, 0.235, 1)
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="LabelButtonMaterials" type="Label" parent="Header"]
+layout_mode = 1
+offset_left = 400.0
+offset_top = 20.0
+offset_right = 750.0
+offset_bottom = 100.0
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxFlat_bl7y8")
+text = "Materials"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+script = ExtResource("2_bl7y8")
+hovered_color = Color(0.863, 0.078, 0.235, 1)
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="LabelButtonIngredients" type="Label" parent="Header"]
+layout_mode = 1
+offset_left = 750.0
+offset_top = 20.0
+offset_right = 1100.0
+offset_bottom = 100.0
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxFlat_bl7y8")
+text = "Ingredients"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+script = ExtResource("2_bl7y8")
+hovered_color = Color(0.863, 0.078, 0.235, 1)
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="LabelButtonKeyitems" type="Label" parent="Header"]
+layout_mode = 1
+offset_left = 1100.0
+offset_top = 20.0
+offset_right = 1450.0
+offset_bottom = 100.0
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxFlat_bl7y8")
+text = "Keyitems"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+script = ExtResource("2_bl7y8")
+hovered_color = Color(0.863, 0.078, 0.235, 1)
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="ScrollControl" type="Control" parent="." node_paths=PackedStringArray("scrollbar")]
+clip_contents = true
+anchors_preset = 0
+offset_left = 50.0
+offset_top = 150.0
+offset_right = 850.0
+offset_bottom = 950.0
+script = ExtResource("2_vikj1")
+max_displayed_elements = 10
+element_size = Vector2(750, 80)
+scrollbar = NodePath("VScrollBar")
+metadata/_custom_type_script = "uid://bwpsbotk7yxbp"
+
+[node name="VScrollBar" type="VScrollBar" parent="ScrollControl"]
+layout_mode = 1
+offset_left = 790.0
+offset_right = 800.0
+offset_bottom = 800.0
+theme_override_styles/scroll = SubResource("StyleBoxFlat_ygbjm")
+theme_override_styles/scroll_focus = SubResource("StyleBoxFlat_ygbjm")
+theme_override_styles/grabber = SubResource("StyleBoxFlat_x7llv")
+theme_override_styles/grabber_highlight = SubResource("StyleBoxFlat_x7llv")
+theme_override_styles/grabber_pressed = SubResource("StyleBoxFlat_x7llv")
+max_value = 10.0
+step = 1.0
+page = 5.0
+
+[node name="LabelNoItems" type="Label" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 50.0
+offset_top = 150.0
+offset_right = 850.0
+offset_bottom = 173.0
+theme_override_font_sizes/font_size = 32
+text = "No Items of this kind available"
+horizontal_alignment = 1
+
+[node name="DetailControl" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 870.0
+offset_top = 150.0
+offset_right = 1870.0
+offset_bottom = 950.0
+
+[node name="IconRect" type="ColorRect" parent="DetailControl"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 25.0
+offset_right = 175.0
+offset_bottom = 175.0
+
+[node name="LabelItemName" type="Label" parent="DetailControl"]
+layout_mode = 0
+offset_left = 200.0
+offset_top = 35.0
+offset_right = 700.0
+offset_bottom = 110.0
+theme_override_font_sizes/font_size = 48
+text = "Item Name"
+vertical_alignment = 1
+clip_text = true
+
+[node name="LabelItemAmount" type="Label" parent="DetailControl"]
+layout_mode = 0
+offset_left = 700.0
+offset_top = 35.0
+offset_right = 950.0
+offset_bottom = 110.0
+theme_override_font_sizes/font_size = 48
+text = "999x"
+horizontal_alignment = 2
+vertical_alignment = 1
+clip_text = true
+
+[node name="LabelSubcategory" type="Label" parent="DetailControl"]
+self_modulate = Color(0.8, 0.8, 0.8, 1)
+layout_mode = 0
+offset_left = 200.0
+offset_top = 110.0
+offset_right = 700.0
+offset_bottom = 165.0
+theme_override_font_sizes/font_size = 40
+text = "Subcatergory"
+clip_text = true
+
+[node name="LabelDescription" type="Label" parent="DetailControl"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 200.0
+offset_right = 950.0
+offset_bottom = 490.0
+theme_override_font_sizes/font_size = 40
+text = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum."
+autowrap_mode = 3
+clip_text = true
+max_lines_visible = 5
+
+[node name="LabelButtonUse" type="Label" parent="DetailControl"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 550.0
+offset_right = 350.0
+offset_bottom = 625.0
+theme_override_font_sizes/font_size = 48
+text = "Use Item"
+script = ExtResource("2_bl7y8")
+hovered_color = Color(0.863, 0.078, 0.235, 1)
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="LabelButtonDelete" type="Label" parent="DetailControl"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 650.0
+offset_right = 350.0
+offset_bottom = 725.0
+theme_override_font_sizes/font_size = 48
+text = "Delete Item"
+script = ExtResource("2_bl7y8")
+hovered_color = Color(0.863, 0.078, 0.235, 1)
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="ItemDeleteUI" parent="." instance=ExtResource("4_ygbjm")]
+visible = false
+offset_left = 920.0
+offset_top = 700.0
+offset_right = 1820.0
+offset_bottom = 900.0
+
+[node name="ItemUseUI" parent="." instance=ExtResource("5_x7llv")]
+visible = false
+offset_left = 870.0
+offset_top = 150.0
+offset_right = 1870.0
+offset_bottom = 950.0

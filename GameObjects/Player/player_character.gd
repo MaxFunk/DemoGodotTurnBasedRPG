@@ -22,7 +22,7 @@ var jump_direction := Vector3(0, 0, 0);
 
 
 func _ready() -> void:
-	load_hero_model(0);
+	load_hero_model(1);
 	GameData.main_scene.player_char = self;
 	set_process_input(true);
 	return
@@ -151,6 +151,7 @@ func load_hero_model(model_id: int) -> void:
 	var packed_model: PackedScene = ResourceManager.get_hero_model(model_id);
 	model_3d = packed_model.instantiate() as Model3D;
 	add_child(model_3d);
+	model_3d.rotate_y(PI);
 	return
 
 

@@ -13,6 +13,7 @@ var target_type := TARGETTYPE.SINGLE_OPPONENT;
 var index_target: int = 0; # equals position, for All -> first 3 hero, then rest oppo
 var battle_scene: BattleScene;
 var art: BattleArt;
+var item: ItemConsumable;
 
 # Data filled after action was commited -> will not be modified afterwards
 var user: BattleData;
@@ -30,6 +31,19 @@ var ult_points_adjusted: bool = false;
 func _init(act_type: ACTIONTYPE, scene: BattleScene) -> void:
 	action_type = act_type;
 	battle_scene = scene;
+	return
+
+
+func process() -> void:
+	if check_casts:
+		var all_casts_finished: bool = true;
+		for cast in action_casts:
+			if !cast.is_finished: all_casts_finished = false;
+		if all_casts_finished:
+			check_casts = false;
+			finished_casting.emit();
+	
+	# TODO
 	return
 
 
@@ -123,19 +137,6 @@ func clean_up_casts() -> void:
 	return
 
 
-func process() -> void:
-	if check_casts:
-		var all_casts_finished: bool = true;
-		for cast in action_casts:
-			if !cast.is_finished: all_casts_finished = false;
-		if all_casts_finished:
-			check_casts = false;
-			finished_casting.emit();
-	
-	# TODO
-	return
-
-
 func action_cast_hit(t_idx: int) -> void:
 	if get_multcast_allowed():
 		await apply_action(t_idx);
@@ -183,8 +184,7 @@ func apply_action(t_idx: int) -> void:
 			user.is_blocking = true;
 			user.recieve_ult_points(16);
 		ACTIONTYPE.ITEM:
-			# consume item
-			print("TODO: ACTION.ITEM");
+			apply_item(user, targets[t_idx], item);
 		ACTIONTYPE.ANALYZE:
 			var target := targets[t_idx];
 			target.is_analyzed = true;
@@ -225,6 +225,45 @@ func apply_art(u: BattleData, t: BattleData, a: BattleArt) -> void:
 	return
 
 
+func apply_item(u: BattleData, t: BattleData, i: ItemConsumable) -> void:
+	var item_art := BattleArt.new(-1);
+	item_art.set_from_item(i);
+	var action_res := ActionResult.new();
+	
+	match i.type:
+		0: # Restore HP
+			if i.effects[0] == EffectIDs.ITEM_RESTORE_PERCENT:
+				var percent_hp := t.hp_max * i.effect_values[0] / 100.0;
+				action_res.healing = ceili(percent_hp);
+			else:
+				action_res.healing = i.effect_values[0];
+			battle_scene.battle_ui.create_damage_number(action_res, t, item_art);
+			t.recieve_healing(action_res.healing);
+		
+		1: # Restore SP
+			if i.effects[0] == EffectIDs.ITEM_RESTORE_PERCENT:
+				var percent_sp := t.sp_max * i.effect_values[0] / 100.0;
+				action_res.healing = ceili(percent_sp);
+			else:
+				action_res.healing = i.effect_values[0];
+			battle_scene.battle_ui.create_damage_number(action_res, t, item_art);
+			t.change_sp(action_res.healing);
+		
+		5: # Damaging Shard/Item
+			if i.effects[0] == EffectIDs.ITEM_DAMAGE:
+				action_res.damage = i.effect_values[0];
+				battle_scene.battle_ui.create_damage_number(action_res, t, item_art);
+				var defeated := t.take_damage(action_res.damage);
+				if defeated:
+					battle_scene.on_character_defeated(t);
+		
+		_:
+			EffectApply.apply(u, t, item_art);
+	
+	u.recieve_ult_points(5);
+	return
+
+
 func apply_ult_points(u: BattleData, t: BattleData, action_res: ActionResult) -> void:
 	if action_res.attribute_multiplier == 0.0:
 		t.recieve_ult_points(10);
@@ -247,6 +286,13 @@ func set_targettype(tt: TARGETTYPE) -> void:
 func set_targettype_from_art(new_art: BattleArt) -> void:
 	art = new_art;
 	target_type = art.targeting as TARGETTYPE; # TODO match{} to make it safe
+	init_target_index();
+	return
+
+
+func set_targettype_from_item(new_item: ItemConsumable) -> void:
+	item = new_item;
+	target_type = item.cast_targeting as TARGETTYPE;
 	init_target_index();
 	return
 
@@ -395,7 +441,7 @@ func get_action_cast_path() -> String:
 		ACTIONTYPE.BLOCK:
 			cast_path = default_cast;
 		ACTIONTYPE.ITEM:
-			cast_path = default_cast;
+			cast_path += item.cast_path;
 		ACTIONTYPE.ANALYZE:
 			cast_path = default_cast;
 		_:
@@ -423,6 +469,6 @@ func get_action_name() -> String:
 		ACTIONTYPE.ART: return art.name;
 		ACTIONTYPE.ULT: return user.ult_art.name;
 		ACTIONTYPE.BLOCK: return "Block";
-		ACTIONTYPE.ITEM: return "Item";
+		ACTIONTYPE.ITEM: return item.name;
 		ACTIONTYPE.ANALYZE: return "Analyze";
 		_: return ""

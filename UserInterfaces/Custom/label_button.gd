@@ -30,6 +30,12 @@ func set_hovered() -> void:
 	return
 
 
+func set_hovered_value(val: bool) -> void:
+	btn_hovered = val;
+	self_modulate = hovered_color if val else base_color;
+	return
+
+
 func press_button() -> void:
 	btn_pressed.emit();
 	return

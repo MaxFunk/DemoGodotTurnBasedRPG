@@ -32,8 +32,8 @@ static func get_exp_to_next_level(cur_level: int) -> int:
 
 
 static func calc_damage(user: BattleData, target: BattleData, art: BattleArt) -> ActionResult:
-	var is_crit: int = 0;
-	var missed: int = 0;
+	var is_crit: bool = false;
+	var missed: bool = false;
 	var attr: float = 1.0;
 	var offense_val: float = get_offense_val(user, art);
 	var defense_val: float = get_defense_val(target, art);
@@ -54,9 +54,9 @@ static func calc_damage(user: BattleData, target: BattleData, art: BattleArt) ->
 	var accuracy: float = get_accuracy_val(user, target, art);
 	var crit_chance: float = get_crit_chance(user, target, art);
 	if randf() > accuracy:
-		missed = 1;
+		missed = true;
 	if randf() < crit_chance:
-		is_crit = 1;
+		is_crit = true;
 		damage *= 2.0;
 	if target.is_blocking: damage *= 0.5;
 	if user.is_charged: damage *= 2.0;

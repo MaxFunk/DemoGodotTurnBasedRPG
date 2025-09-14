@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://orn75ppa0n7m"]
 
 [ext_resource type="Script" uid="uid://bjhariacnwwnx" path="res://UserInterfaces/Battle/ActionMenu/battle_action_arts.gd" id="1_msver"]
-[ext_resource type="PackedScene" uid="uid://bchr1jkg5ujgt" path="res://UserInterfaces/Battle/ActionMenu/art_display.tscn" id="2_xqk5i"]
+[ext_resource type="PackedScene" uid="uid://bchr1jkg5ujgt" path="res://UserInterfaces/Battle/Displays/art_display.tscn" id="2_xqk5i"]
 
 [node name="BattleActionArts" type="Control"]
 layout_mode = 3

@@ -1,0 +1,181 @@
+[gd_scene load_steps=4 format=3 uid="uid://dtdrmyavgetf"]
+
+[ext_resource type="Script" uid="uid://pt6a36xp2sdn" path="res://UserInterfaces/IngameMenu/Items/item_use_ui.gd" id="1_qacrx"]
+[ext_resource type="Script" uid="uid://do4k2b0sjshwf" path="res://UserInterfaces/Custom/label_button.gd" id="2_rdf7n"]
+[ext_resource type="PackedScene" uid="uid://cvap84mcnui56" path="res://UserInterfaces/IngameMenu/Items/item_use_effect_display.tscn" id="3_b4jhx"]
+
+[node name="ItemUseUI" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1000.0
+offset_bottom = 800.0
+script = ExtResource("1_qacrx")
+
+[node name="LabelItemName" type="Label" parent="."]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 25.0
+offset_right = 450.0
+offset_bottom = 92.0
+theme_override_font_sizes/font_size = 48
+text = "Item Name"
+clip_text = true
+
+[node name="LabelItemAmount" type="Label" parent="."]
+layout_mode = 0
+offset_left = 450.0
+offset_top = 25.0
+offset_right = 550.0
+offset_bottom = 92.0
+theme_override_font_sizes/font_size = 48
+text = "999"
+horizontal_alignment = 2
+clip_text = true
+
+[node name="CharNames" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 50.0
+offset_top = 135.0
+offset_right = 475.0
+offset_bottom = 775.0
+
+[node name="LabelButtonName1" type="Label" parent="CharNames"]
+layout_mode = 0
+offset_right = 425.0
+offset_bottom = 80.0
+theme_override_font_sizes/font_size = 48
+text = "Character Name"
+vertical_alignment = 1
+clip_text = true
+script = ExtResource("2_rdf7n")
+hovered_color = Color(0.863, 0.078, 0.235, 1)
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="LabelButtonName2" type="Label" parent="CharNames"]
+layout_mode = 0
+offset_top = 80.0
+offset_right = 425.0
+offset_bottom = 160.0
+theme_override_font_sizes/font_size = 48
+text = "Character Name"
+vertical_alignment = 1
+clip_text = true
+script = ExtResource("2_rdf7n")
+hovered_color = Color(0.863, 0.078, 0.235, 1)
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="LabelButtonName3" type="Label" parent="CharNames"]
+layout_mode = 0
+offset_top = 160.0
+offset_right = 425.0
+offset_bottom = 240.0
+theme_override_font_sizes/font_size = 48
+text = "Character Name"
+vertical_alignment = 1
+clip_text = true
+script = ExtResource("2_rdf7n")
+hovered_color = Color(0.863, 0.078, 0.235, 1)
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="LabelButtonName4" type="Label" parent="CharNames"]
+layout_mode = 0
+offset_top = 240.0
+offset_right = 425.0
+offset_bottom = 320.0
+theme_override_font_sizes/font_size = 48
+text = "Character Name"
+vertical_alignment = 1
+clip_text = true
+script = ExtResource("2_rdf7n")
+hovered_color = Color(0.863, 0.078, 0.235, 1)
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="LabelButtonName5" type="Label" parent="CharNames"]
+layout_mode = 0
+offset_top = 320.0
+offset_right = 425.0
+offset_bottom = 400.0
+theme_override_font_sizes/font_size = 48
+text = "Character Name"
+vertical_alignment = 1
+clip_text = true
+script = ExtResource("2_rdf7n")
+hovered_color = Color(0.863, 0.078, 0.235, 1)
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="LabelButtonName6" type="Label" parent="CharNames"]
+layout_mode = 0
+offset_top = 400.0
+offset_right = 425.0
+offset_bottom = 480.0
+theme_override_font_sizes/font_size = 48
+text = "Character Name"
+vertical_alignment = 1
+clip_text = true
+script = ExtResource("2_rdf7n")
+hovered_color = Color(0.863, 0.078, 0.235, 1)
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="LabelButtonName7" type="Label" parent="CharNames"]
+layout_mode = 0
+offset_top = 480.0
+offset_right = 425.0
+offset_bottom = 560.0
+theme_override_font_sizes/font_size = 48
+text = "Character Name"
+vertical_alignment = 1
+clip_text = true
+script = ExtResource("2_rdf7n")
+hovered_color = Color(0.863, 0.078, 0.235, 1)
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="LabelButtonName8" type="Label" parent="CharNames"]
+layout_mode = 0
+offset_top = 560.0
+offset_right = 425.0
+offset_bottom = 640.0
+theme_override_font_sizes/font_size = 48
+text = "Character Name"
+vertical_alignment = 1
+clip_text = true
+script = ExtResource("2_rdf7n")
+hovered_color = Color(0.863, 0.078, 0.235, 1)
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="CharDisplays" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 500.0
+offset_top = 135.0
+offset_right = 950.0
+offset_bottom = 775.0
+
+[node name="ItemUseEffectDisplay1" parent="CharDisplays" instance=ExtResource("3_b4jhx")]
+
+[node name="ItemUseEffectDisplay2" parent="CharDisplays" instance=ExtResource("3_b4jhx")]
+offset_top = 80.0
+offset_bottom = 160.0
+
+[node name="ItemUseEffectDisplay3" parent="CharDisplays" instance=ExtResource("3_b4jhx")]
+offset_top = 160.0
+offset_bottom = 240.0
+
+[node name="ItemUseEffectDisplay4" parent="CharDisplays" instance=ExtResource("3_b4jhx")]
+offset_top = 240.0
+offset_bottom = 320.0
+
+[node name="ItemUseEffectDisplay5" parent="CharDisplays" instance=ExtResource("3_b4jhx")]
+offset_top = 320.0
+offset_bottom = 400.0
+
+[node name="ItemUseEffectDisplay6" parent="CharDisplays" instance=ExtResource("3_b4jhx")]
+offset_top = 400.0
+offset_bottom = 480.0
+
+[node name="ItemUseEffectDisplay7" parent="CharDisplays" instance=ExtResource("3_b4jhx")]
+offset_top = 480.0
+offset_bottom = 560.0
+
+[node name="ItemUseEffectDisplay8" parent="CharDisplays" instance=ExtResource("3_b4jhx")]
+offset_top = 560.0
+offset_bottom = 640.0

@@ -6,6 +6,7 @@ signal close_analyze();
 const HeroDisplay := preload("res://UserInterfaces/Battle/Displays/battle_hero_display.gd");
 const OppoDisplay := preload("res://UserInterfaces/Battle/Displays/battle_opponent_display.gd");
 const ArtsMenu := preload("res://UserInterfaces/Battle/ActionMenu/battle_action_arts.gd");
+const ItemsMenu := preload("res://UserInterfaces/Battle/ActionMenu/battle_action_items.gd");
 const TacticsMenu := preload("res://UserInterfaces/Battle/ActionMenu/battle_action_tactics.gd");
 const InspectMenu := preload("res://UserInterfaces/Battle/ActionMenu/battle_character_inspect.gd");
 const DmgNumber := preload("res://UserInterfaces/Battle/Displays/damage_number_label.gd");
@@ -30,6 +31,7 @@ enum MENUSTATE {OFF, MAIN, ARTS, ITEMS, TACTICS, TARGETING, INSPECT}
 	$DataDisplays/BattleOpponentDisplay5 as OppoDisplay];
 @onready var battle_menu_main := $BattleActionMain as Control;
 @onready var battle_menu_arts := $BattleActionArts as ArtsMenu;
+@onready var battle_menu_items := $BattleActionItems as ItemsMenu;
 @onready var battle_menu_tactics := $BattleActionTactics as TacticsMenu;
 @onready var battle_menu_inspect := $BattleCharacterInspect as InspectMenu;
 @onready var lbl_description := $LabelDescription as Label;
@@ -63,6 +65,8 @@ func _input(event: InputEvent) -> void:
 			input_main(event);
 		MENUSTATE.ARTS:
 			input_arts(event);
+		MENUSTATE.ITEMS:
+			input_items(event);
 		MENUSTATE.TACTICS:
 			input_tactics(event);
 		MENUSTATE.TARGETING:
@@ -107,10 +111,10 @@ func input_main(event: InputEvent) -> void:
 		return
 	
 	if event.is_action_pressed("Start"):
-		#var action := ActionData.new(ActionData.ACTIONTYPE.ITEM);
-		#action.target_type = ActionData.TARGETTYPE.SINGLE_OPPONENT; # TODO
-		#battle_scene.cur_action = action;
-		change_menu_state(MENUSTATE.ITEMS);
+		if battle_menu_items.consumables.size() > 0:
+			change_menu_state(MENUSTATE.ITEMS);
+		else:
+			print("NO ITEMS AVAILABLE...");
 		return
 	
 	if event.is_action_pressed("Select"):
@@ -182,6 +186,31 @@ func input_arts(event: InputEvent) -> void:
 		index_arts = mini(index_arts + 1, battle_scene.cur_actor.get_max_arts() - 1);
 		update_description(battle_scene.cur_actor.arts[index_arts].description);
 		battle_menu_arts.update_selector(index_arts);
+	return
+
+
+func input_items(event: InputEvent) -> void:
+	if event.is_action_pressed("Btn_B"):
+		cur_action = null;
+		change_menu_state(MENUSTATE.MAIN);
+		return
+	
+	if event.is_action_pressed("Btn_Y"):
+		cur_action = ActionData.new(ActionData.ACTIONTYPE.ITEM, battle_scene);
+		cur_action.set_targettype_from_item(battle_menu_items.get_item_obj(index_items));
+		change_menu_state(MENUSTATE.TARGETING);
+		return
+	
+	if event.is_action_pressed("D_Pad_Up"):
+		index_items = maxi(index_items - 1, 0);
+		update_description(battle_menu_items.get_item_description(index_items));
+		battle_menu_items.set_index(index_items);
+		return
+	
+	if event.is_action_pressed("D_Pad_Down"):
+		index_items = mini(index_items + 1, battle_menu_items.consumables.size() - 1);
+		update_description(battle_menu_items.get_item_description(index_items));
+		battle_menu_items.set_index(index_items);
 	return
 
 
@@ -258,6 +287,7 @@ func change_menu_state(new_state: MENUSTATE) -> void:
 	menu_state = new_state;
 	battle_menu_main.visible = menu_state == MENUSTATE.MAIN;
 	battle_menu_arts.visible = menu_state == MENUSTATE.ARTS;
+	battle_menu_items.visible = menu_state == MENUSTATE.ITEMS;
 	battle_menu_tactics.visible = menu_state == MENUSTATE.TACTICS;
 	battle_menu_inspect.visible = menu_state == MENUSTATE.INSPECT;
 	lbl_description.visible = menu_state != MENUSTATE.OFF and menu_state != MENUSTATE.MAIN;
@@ -277,7 +307,9 @@ func change_menu_state(new_state: MENUSTATE) -> void:
 			battle_menu_arts.update_selector(index_arts);
 			update_description(battle_scene.cur_actor.arts[index_arts].description);
 		MENUSTATE.ITEMS:
-			update_description("TODO: Items lol");
+			index_items = 0;
+			battle_menu_items.set_index(0);
+			update_description(battle_menu_items.get_item_description(index_items));
 		MENUSTATE.TACTICS:
 			update_description(tactic_decriptions[index_tactics]);
 		MENUSTATE.TARGETING:
@@ -296,6 +328,7 @@ func on_hero_turn_start() -> void:
 	index_arts = 0;
 	index_items = 0;
 	index_tactics = 0;
+	battle_menu_items.prepare_view();
 	return
 
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bchr1jkg5ujgt"]
 
 [ext_resource type="Texture2D" uid="uid://c72d0lo1ce5up" path="res://Resources/Images/ArtIcons/icon_spell_none.png" id="1_7sxsj"]
-[ext_resource type="Script" uid="uid://r023ywijy0s1" path="res://UserInterfaces/Battle/ActionMenu/art_display.gd" id="1_eufwu"]
+[ext_resource type="Script" uid="uid://r023ywijy0s1" path="res://UserInterfaces/Battle/Displays/art_display.gd" id="1_eufwu"]
 
 [node name="ArtDisplay" type="Control"]
 layout_mode = 3

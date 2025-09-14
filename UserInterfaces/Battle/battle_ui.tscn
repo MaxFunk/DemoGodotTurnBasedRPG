@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://bi2equxpsbw3p"]
+[gd_scene load_steps=10 format=3 uid="uid://bi2equxpsbw3p"]
 
 [ext_resource type="Script" uid="uid://kkugbwbobcam" path="res://UserInterfaces/Battle/battle_ui.gd" id="1_85mwi"]
 [ext_resource type="PackedScene" uid="uid://cmhugtyy2cxdu" path="res://UserInterfaces/Battle/Displays/battle_hero_display.tscn" id="2_6i4db"]
 [ext_resource type="PackedScene" uid="uid://bu6dyirwqosnp" path="res://UserInterfaces/Battle/Displays/battle_opponent_display.tscn" id="3_71a3f"]
 [ext_resource type="PackedScene" uid="uid://bomsgltaj46u5" path="res://UserInterfaces/Battle/ActionMenu/battle_action_main.tscn" id="4_0smqk"]
 [ext_resource type="PackedScene" uid="uid://orn75ppa0n7m" path="res://UserInterfaces/Battle/ActionMenu/battle_action_arts.tscn" id="5_namm0"]
+[ext_resource type="PackedScene" uid="uid://owxgeqb1y1nt" path="res://UserInterfaces/Battle/ActionMenu/battle_action_items.tscn" id="6_60kbq"]
 [ext_resource type="PackedScene" uid="uid://bsv17ju0ux6a" path="res://UserInterfaces/Battle/ActionMenu/battle_action_tactics.tscn" id="6_ld7hv"]
 [ext_resource type="PackedScene" uid="uid://bcudu8px10xng" path="res://UserInterfaces/Battle/ActionMenu/battle_character_inspect.tscn" id="7_0gbsk"]
 
@@ -87,6 +88,12 @@ offset_right = 900.0
 offset_bottom = 950.0
 
 [node name="BattleActionArts" parent="." instance=ExtResource("5_namm0")]
+offset_left = 700.0
+offset_top = 300.0
+offset_right = 1250.0
+offset_bottom = 700.0
+
+[node name="BattleActionItems" parent="." instance=ExtResource("6_60kbq")]
 offset_left = 700.0
 offset_top = 300.0
 offset_right = 1250.0

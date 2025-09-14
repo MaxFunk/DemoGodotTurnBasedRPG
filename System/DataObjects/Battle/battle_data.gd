@@ -190,7 +190,10 @@ func recieve_healing(healing: int) -> void:
 
 func change_sp(value: int) -> void:
 	if ailment == Ailments.EXHAUSTED:
-		value *= 2;
+		if value < 0:
+			value *= 2;
+		else:
+			value /= 2; 
 	sp_cur = clampi(sp_cur + value, 0, sp_max);
 	update_display.emit();
 	return

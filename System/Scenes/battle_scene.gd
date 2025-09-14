@@ -145,6 +145,8 @@ func commit_action(action: ActionData) -> void:
 		battle_ui.accept_inputs = false;
 	
 	cur_action = action;
+	if cur_action.action_type == cur_action.ACTIONTYPE.ITEM and cur_action.item:
+		cur_action.item.delete_items(1);
 	action.commit_user_and_targets();
 	action.cast_action();
 	

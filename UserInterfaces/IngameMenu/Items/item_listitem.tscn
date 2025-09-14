@@ -1,0 +1,36 @@
+[gd_scene load_steps=2 format=3 uid="uid://yxnhwrsxot5s"]
+
+[ext_resource type="Script" uid="uid://budcu40c6llpd" path="res://UserInterfaces/IngameMenu/Items/item_listitem.gd" id="1_mif50"]
+
+[node name="ItemListitem" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 750.0
+offset_bottom = 80.0
+script = ExtResource("1_mif50")
+
+[node name="IconRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 65.0
+offset_bottom = 65.0
+
+[node name="LabelName" type="Label" parent="."]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 15.0
+offset_right = 580.0
+offset_bottom = 60.0
+theme_override_font_sizes/font_size = 32
+text = "Item Name"
+
+[node name="LabelAmount" type="Label" parent="."]
+layout_mode = 0
+offset_left = 600.0
+offset_top = 15.0
+offset_right = 725.0
+offset_bottom = 60.0
+theme_override_font_sizes/font_size = 32
+text = "999x"
+horizontal_alignment = 2

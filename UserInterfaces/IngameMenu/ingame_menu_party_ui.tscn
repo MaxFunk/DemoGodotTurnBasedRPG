@@ -47,43 +47,43 @@ offset_bottom = 625.0
 grow_horizontal = 2
 
 [node name="PartyPanelSmall1" parent="." instance=ExtResource("3_vuspy")]
-offset_left = 100.0
+offset_left = 140.0
 offset_top = 750.0
-offset_right = 300.0
+offset_right = 340.0
 offset_bottom = 1000.0
 
 [node name="PartyPanelSmall2" parent="." instance=ExtResource("3_vuspy")]
-offset_left = 340.0
+offset_left = 380.0
 offset_top = 750.0
-offset_right = 540.0
+offset_right = 580.0
 offset_bottom = 1000.0
 
 [node name="PartyPanelSmall3" parent="." instance=ExtResource("3_vuspy")]
-offset_left = 580.0
+offset_left = 620.0
 offset_top = 750.0
-offset_right = 780.0
+offset_right = 820.0
 offset_bottom = 1000.0
 
 [node name="PartyPanelSmall4" parent="." instance=ExtResource("3_vuspy")]
-offset_left = 820.0
+offset_left = 860.0
 offset_top = 750.0
-offset_right = 1020.0
+offset_right = 1060.0
 offset_bottom = 1000.0
 
 [node name="PartyPanelSmall5" parent="." instance=ExtResource("3_vuspy")]
-offset_left = 1060.0
+offset_left = 1100.0
 offset_top = 750.0
-offset_right = 1260.0
+offset_right = 1300.0
 offset_bottom = 1000.0
 
 [node name="PartyPanelSmall6" parent="." instance=ExtResource("3_vuspy")]
-offset_left = 1300.0
+offset_left = 1340.0
 offset_top = 750.0
-offset_right = 1500.0
+offset_right = 1540.0
 offset_bottom = 1000.0
 
 [node name="PartyPanelSmall7" parent="." instance=ExtResource("3_vuspy")]
-offset_left = 1540.0
+offset_left = 1580.0
 offset_top = 750.0
-offset_right = 1740.0
+offset_right = 1780.0
 offset_bottom = 1000.0

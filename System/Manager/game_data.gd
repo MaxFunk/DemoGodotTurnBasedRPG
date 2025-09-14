@@ -16,6 +16,11 @@ var inaccessable: PackedInt32Array = [];
 
 var analyzed_opponents: PackedInt32Array = [];
 
+var item_keyitems: PackedInt32Array = [];
+var item_consumables: PackedInt32Array = [];
+var item_materials: PackedInt32Array = [];
+var item_ingredients: PackedInt32Array = [];
+
 
 func _ready() -> void:
 	#for i in range(3):
@@ -51,6 +56,7 @@ func game_instance_reset() -> void:
 	inaccessable.clear();
 	
 	analyzed_opponents.clear();
+	reset_item_data();
 	return
 
 
@@ -71,7 +77,11 @@ func save_game_data() -> Dictionary[String, Variant]:
 			"inaccessable": inaccessable
 			},
 		"characters": char_dict,
-		"analyzed_opponents": analyzed_opponents
+		"analyzed_opponents": analyzed_opponents,
+		"items_keyitems": item_keyitems,
+		"items_consumables": item_consumables,
+		"items_materials": item_materials,
+		"items_ingredients": item_ingredients
 	};
 	return save_dict
 
@@ -102,6 +112,20 @@ func load_existing_game_data(data: Dictionary, save_slot: int) -> void:
 	for analyzed_id in data["analyzed_opponents"] as Array:
 		analyzed_opponents.append(int(analyzed_id));
 	
+	reset_item_data();
+	var item_data_k := data["items_keyitems"] as Array;
+	for i in item_data_k.size():
+		item_keyitems[i] = int(item_data_k[i]);
+	var item_data_c := data["items_consumables"] as Array;
+	for i in item_data_c.size():
+		item_consumables[i] = int(item_data_c[i]);
+	var item_data_m := data["items_materials"] as Array;
+	for i in item_data_m.size():
+		item_materials[i] = int(item_data_m[i]);
+	var item_data_i := data["items_ingredients"] as Array;
+	for i in item_data_i.size():
+		item_ingredients[i] = int(item_data_i[i]);
+	
 	cur_savefile_slot = save_slot;
 	game_running = true;
 	main_scene.load_world(data["worldscene_id"]);
@@ -110,6 +134,7 @@ func load_existing_game_data(data: Dictionary, save_slot: int) -> void:
 
 func load_new_game_data(save_slot: int) -> void:
 	game_instance_reset(); # maybe optional
+	# reset_item_data(); if above is removed
 	
 	game_running = true;
 	cur_savefile_slot = save_slot;
@@ -160,4 +185,19 @@ func reload_savefile() -> void:
 	var load_slot: int = GameData.cur_savefile_slot;
 	game_instance_reset();
 	SaveFileManager.load_from_file(load_slot);
+	return
+
+
+func reset_item_data() -> void:
+	item_keyitems.clear();
+	item_keyitems.resize(ItemKeyitem.get_list_size());
+	
+	item_consumables.clear();
+	item_consumables.resize(ItemConsumable.get_list_size());
+	
+	item_materials.clear();
+	item_materials.resize(ItemMaterial.get_list_size());
+	
+	item_ingredients.clear();
+	item_ingredients.resize(ItemIngredient.get_list_size());
 	return

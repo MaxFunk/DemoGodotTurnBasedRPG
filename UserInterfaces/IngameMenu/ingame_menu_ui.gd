@@ -2,6 +2,7 @@ extends Control
 
 const CharacterUI := preload("res://UserInterfaces/IngameMenu/ingame_menu_character_ui.gd");
 const PartyUI := preload("res://UserInterfaces/IngameMenu/ingame_menu_party_ui.gd");
+const ItemsUI := preload("res://UserInterfaces/IngameMenu/Items/ingame_menu_items_ui.gd");
 
 enum MENUSTATE {MAIN, PARTY, CHARACTERS, ITEMS, MAP, QUESTS, SAVES, SETTINGS, TITELSCREEN}
 
@@ -17,6 +18,7 @@ enum MENUSTATE {MAIN, PARTY, CHARACTERS, ITEMS, MAP, QUESTS, SAVES, SETTINGS, TI
 	$MainView/LabelButton8];
 @onready var character_ui := $IngameMenuCharacterUI as CharacterUI;
 @onready var party_ui := $IngameMenuPartyUI as PartyUI;
+@onready var items_ui := $IngameMenuItemsUI as ItemsUI;
 
 var menu_state := MENUSTATE.MAIN;
 var main_view_index: int = 0;
@@ -37,6 +39,8 @@ func _input(event: InputEvent) -> void:
 			close_sub_menu = party_ui.input_event(event);
 		MENUSTATE.CHARACTERS:
 			close_sub_menu = character_ui.input_event(event);
+		MENUSTATE.ITEMS:
+			close_sub_menu = items_ui.input_event(event);
 	
 	if close_sub_menu:
 		update_view_state(MENUSTATE.MAIN);
@@ -63,6 +67,7 @@ func input_event_main(event: InputEvent) -> void:
 		match main_view_index:
 			0: update_view_state(MENUSTATE.PARTY);
 			1: update_view_state(MENUSTATE.CHARACTERS);
+			2: update_view_state(MENUSTATE.ITEMS);
 			5: print("Saving File"); SaveFileManager.save_to_file(GameData.cur_savefile_slot);
 			7: GameData.return_to_titlescreen();
 		return
@@ -73,21 +78,20 @@ func input_event_main(event: InputEvent) -> void:
 
 
 func update_view_state(new_state: MENUSTATE) -> void:
+	main_view_ctrl.visible = true if new_state == MENUSTATE.MAIN else false;
+	party_ui.visible = true if new_state == MENUSTATE.PARTY else false;
+	character_ui.visible = true if new_state == MENUSTATE.CHARACTERS else false;
+	items_ui.visible = true if new_state == MENUSTATE.ITEMS else false;
+	
 	match new_state:
 		MENUSTATE.MAIN:
-			main_view_ctrl.visible = true;
-			party_ui.visible = false;
-			character_ui.visible = false;
 			main_view_btns[main_view_index].set_hovered();
 		MENUSTATE.PARTY:
-			main_view_ctrl.visible = false;
-			party_ui.visible = true;
-			character_ui.visible = false;
 			party_ui.prepare_view();
 		MENUSTATE.CHARACTERS:
-			main_view_ctrl.visible = false;
-			party_ui.visible = false;
-			character_ui.visible = true;
 			character_ui.prepare_view();
+		MENUSTATE.ITEMS:
+			items_ui.prepare_view();
+	
 	menu_state = new_state;
 	return

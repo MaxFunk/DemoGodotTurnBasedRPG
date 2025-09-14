@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=3 uid="uid://ciy3ku3hbig5m"]
+
+[ext_resource type="Script" uid="uid://ch7oy5mjp4dao" path="res://UserInterfaces/IngameMenu/Items/item_delete_ui.gd" id="1_7d1mh"]
+
+[node name="ItemDeleteUI" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 900.0
+offset_bottom = 200.0
+script = ExtResource("1_7d1mh")
+
+[node name="LabelDelete" type="Label" parent="."]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 25.0
+offset_right = 225.0
+offset_bottom = 75.0
+theme_override_font_sizes/font_size = 36
+text = "Delete:"
+
+[node name="LabelItemName" type="Label" parent="."]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 100.0
+offset_right = 625.0
+offset_bottom = 175.0
+theme_override_font_sizes/font_size = 48
+text = "Item Name"
+
+[node name="LabelAmount" type="Label" parent="."]
+layout_mode = 0
+offset_left = 650.0
+offset_top = 100.0
+offset_right = 800.0
+offset_bottom = 175.0
+theme_override_font_sizes/font_size = 48
+text = "000"
+horizontal_alignment = 2

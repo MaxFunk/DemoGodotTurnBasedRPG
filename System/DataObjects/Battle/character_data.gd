@@ -190,3 +190,16 @@ func get_number_of_arts() -> int:
 	for art_id in art_ids:
 		if art_id >= 0: num_arts += 1;
 	return num_arts
+
+
+func recieve_bonus_stat(stat_id: int, value: int) -> void:
+	if stat_id < 0 or stat_id >= 8:
+		return
+	
+	bonus_stats[stat_id] = mini(bonus_stats[stat_id] + value, 999);
+	if stat_id == 0:
+		cur_health += value;
+	if stat_id == 1:
+		cur_stamina += value;
+	accumulate_stats();
+	return
