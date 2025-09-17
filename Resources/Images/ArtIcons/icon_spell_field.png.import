@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b2fqqsxl5vow1"
-path="res://.godot/imported/attribute_icon_10_sound.png-eb0006e0a14d69cf201fa89b3ba7a186.ctex"
+uid="uid://djolifbjte8pg"
+path="res://.godot/imported/icon_spell_field.png-e70a2d23fb1c19daee72e962755e50b3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Resources/Images/AttributeIcons/attribute_icon_10_sound.png"
-dest_files=["res://.godot/imported/attribute_icon_10_sound.png-eb0006e0a14d69cf201fa89b3ba7a186.ctex"]
+source_file="res://Resources/Images/ArtIcons/icon_spell_field.png"
+dest_files=["res://.godot/imported/icon_spell_field.png-e70a2d23fb1c19daee72e962755e50b3.ctex"]
 
 [params]
 

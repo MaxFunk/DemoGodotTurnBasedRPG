@@ -22,7 +22,7 @@ var jump_direction := Vector3(0, 0, 0);
 
 
 func _ready() -> void:
-	load_hero_model(1);
+	load_hero_model(0);
 	GameData.main_scene.player_char = self;
 	set_process_input(true);
 	return
@@ -73,11 +73,13 @@ func process_walking(delta: float) -> void:
 	
 	var move_input := Input.get_vector("L_Stick_Left", "L_Stick_Right", "L_Stick_Up", "L_Stick_Down");
 	var run_mult: float = 2.5 if is_running else 1.0;
+	var just_jumped: bool = false;
 	
 	if Input.is_action_just_pressed("Btn_B") and is_on_floor():
 		#jump_direction = Vector3(move_input.x, 0, move_input.y);
 		velocity.y += jump_strength * delta;
 		is_jumping = true;
+		just_jumped = true;
 	
 	var movement_dir := camera_pivot.transform.basis * Vector3(move_input.x, 0, move_input.y);
 	if is_jumping:
@@ -89,14 +91,18 @@ func process_walking(delta: float) -> void:
 		look_at(global_position + movement_dir);
 	move_and_slide();
 	
-	if is_zero_approx(velocity.x) and is_zero_approx(velocity.z):
-		model_3d.play_animation("Idle", true);
+	if is_jumping:
+		if just_jumped:
+			model_3d.play_animation("Jump", true, 1.0);
 	else:
-		var input_speed: float = snappedf(move_input.length(), 0.01);
-		if is_running:
-			model_3d.play_animation("Run", true, 2.0 * input_speed);
+		if is_zero_approx(velocity.x) and is_zero_approx(velocity.z):
+			model_3d.play_animation("Idle", true);
 		else:
-			model_3d.play_animation("Walk", true, 1.7 * input_speed);
+			var input_speed: float = snappedf(move_input.length(), 0.01);
+			if is_running:
+				model_3d.play_animation("Run", true, 2.0 * input_speed);
+			else:
+				model_3d.play_animation("Walk", true, 2.0 * input_speed);
 	
 	if is_on_floor():
 		is_jumping = false;

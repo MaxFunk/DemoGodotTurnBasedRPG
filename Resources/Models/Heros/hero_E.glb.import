@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://do32qv2d0p24h"
-path="res://.godot/imported/hero_E.glb-8bf82aac8bdff7127dfe812d1b7d5221.scn"
+path="res://.godot/imported/hero_e.glb-472c19d73c090dcac56ec400554f60f3.scn"
 
 [deps]
 
-source_file="res://Resources/Models/Heros/hero_E.glb"
-dest_files=["res://.godot/imported/hero_E.glb-8bf82aac8bdff7127dfe812d1b7d5221.scn"]
+source_file="res://Resources/Models/Heros/hero_e.glb"
+dest_files=["res://.godot/imported/hero_e.glb-472c19d73c090dcac56ec400554f60f3.scn"]
 
 [params]
 

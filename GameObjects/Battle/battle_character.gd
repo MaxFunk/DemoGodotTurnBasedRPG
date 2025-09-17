@@ -18,6 +18,8 @@ func load_model(model_id: int, is_hero: bool) -> void:
 		packed_model = preload("res://Resources/Models/NPCs/char_base.glb");
 	model_3d = packed_model.instantiate() as Model3D;
 	add_child(model_3d);
+	if is_hero:
+		model_3d.rotate_y(PI);
 	
 	model_3d.animation_finished.connect(play_idle_anim);
 	return

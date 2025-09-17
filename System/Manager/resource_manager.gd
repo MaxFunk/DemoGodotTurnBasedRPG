@@ -5,9 +5,9 @@ const dates_table := preload("res://Resources/DataTables/dates.csv");
 
 func get_hero_model(id: int) -> PackedScene:
 	match id:
-		0: return preload("res://Resources/Models/Heros/hero_M.glb");
+		0: return preload("res://Resources/Models/Heros/hero_m.glb");
 		1: return preload("res://Resources/Models/Heros/hero_a.glb");
-		_: return preload("res://Resources/Models/Heros/hero_E.glb");
+		_: return preload("res://Resources/Models/Heros/hero_e.glb");
 
 
 func get_hero_portrait(id: int) -> CompressedTexture2D:
@@ -29,8 +29,9 @@ func get_art_category_icon(id: int) -> CompressedTexture2D:
 		2: return preload("res://Resources/Images/ArtIcons/icon_spell_heal.png");
 		3: return preload("res://Resources/Images/ArtIcons/icon_spell_strategy.png");
 		4: return preload("res://Resources/Images/ArtIcons/icon_spell_ailment.png");
-		5: return preload("res://Resources/Images/ArtIcons/icon_spell_soulpower.png");
-		6: return preload("res://Resources/Images/ArtIcons/icon_spell_passive.png");
+		5: return preload("res://Resources/Images/ArtIcons/icon_spell_field.png");
+		6: return preload("res://Resources/Images/ArtIcons/icon_spell_soulpower.png");
+		7: return preload("res://Resources/Images/ArtIcons/icon_spell_passive.png");
 		_: return preload("res://Resources/Images/ArtIcons/icon_spell_none.png");
 
 
