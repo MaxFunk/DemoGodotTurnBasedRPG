@@ -1,14 +1,9 @@
-class_name ItemIngredient
-extends RefCounted
+class_name ItemIngredient extends Item
 
 const data_table := preload("res://Resources/DataTables/item_ingredient_data.csv");
 
 enum TYPE {FRUITS, VEGETABLES, GRAINS, SPICES, SWEETS, LIQUIDS, OTHER}
 
-var id: int = -1;
-var name: String = "";
-var description: String = "";
-var amount: int = 0;
 var type := TYPE.FRUITS;
 
 
@@ -20,6 +15,8 @@ func _init(lookup_id: int, amount_value: int) -> void:
 	name = data["name"];
 	type = (data["type"] as int) as TYPE;
 	description = data["description"];
+	
+	category_str = get_category_name();
 	return
 
 
@@ -35,11 +32,8 @@ func get_category_name() -> StringName:
 		_: return "Unknown"
 
 
-func get_detail_data(data_array: Array[String]) -> void:
-	data_array.append(name);
-	data_array.append(str(amount));
-	data_array.append(get_category_name());
-	data_array.append(description);
+func get_detail_data() -> void:
+	print("TODO")
 	return
 
 

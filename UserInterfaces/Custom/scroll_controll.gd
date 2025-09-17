@@ -62,8 +62,7 @@ func change_index(amount: int) -> void:
 	if elements.size() <= max_displayed_elements: return
 	
 	if amount > 0:
-		var cond_1: bool = idx_selected >= max_displayed_elements * scrollbar.value;
-		if cond_1:
+		if idx_selected - roundi(scrollbar.value) > max_displayed_elements - 1:
 			scrollbar.value += amount;
 			elem_container.position.y = -element_size.y * scrollbar.value;
 	

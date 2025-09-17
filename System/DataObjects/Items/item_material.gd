@@ -1,14 +1,9 @@
-class_name ItemMaterial
-extends RefCounted
+class_name ItemMaterial extends Item
 
 const data_table := preload("res://Resources/DataTables/item_material_data.csv");
 
 enum TYPE {MATERIAL, OTHERS}
 
-var id: int = -1;
-var name: String = "";
-var description: String = "";
-var amount: int = 0;
 var type := TYPE.MATERIAL;
 
 
@@ -20,6 +15,8 @@ func _init(lookup_id: int, amount_value: int) -> void:
 	name = data["name"];
 	type = (data["type"] as int) as TYPE;
 	description = data["description"];
+	
+	category_str = get_category_name();
 	return
 
 
@@ -29,11 +26,8 @@ func get_category_name() -> StringName:
 		_: return "Unknown"
 
 
-func get_detail_data(data_array: Array[String]) -> void:
-	data_array.append(name);
-	data_array.append(str(amount));
-	data_array.append(get_category_name());
-	data_array.append(description);
+func get_detail_data() -> void:
+	print("TODO")
 	return
 
 

@@ -200,37 +200,28 @@ func load_item_lis() -> void:
 
 func load_detail_ui() -> void:
 	var item_idx := scroll_ctrl.idx_selected;
-	var data_array: Array[String] = [];
-	var show_detail: bool = true;
+	var item: Item = null;
 	
 	match item_type_idx:
 		0:
 			if item_idx < consumables.size():
-				consumables[item_idx].get_detail_data(data_array);
-			else:
-				show_detail = false;
+				item = consumables[item_idx];
 		1:
 			if item_idx < materials.size():
-				materials[item_idx].get_detail_data(data_array);
-			else:
-				show_detail = false;
+				item = materials[item_idx];
 		2:
 			if item_idx < ingredients.size():
-				ingredients[item_idx].get_detail_data(data_array);
-			else:
-				show_detail = false;
+				item = ingredients[item_idx];
 		3:
 			if item_idx < keyitems.size():
-				keyitems[item_idx].get_detail_data(data_array);
-			else:
-				show_detail = false;
+				item = keyitems[item_idx];
 	
-	detail_ctrl.visible = show_detail;
-	if data_array.size() >= 4 and show_detail:
-		lbl_item_name.text = data_array[0];
-		lbl_item_amount.text = data_array[1];
-		lbl_subcategory.text = data_array[2];
-		lbl_description.text = data_array[3];
+	detail_ctrl.visible = item != null;
+	if item != null:
+		lbl_item_name.text = item.name;
+		lbl_item_amount.text = str(item.amount);
+		lbl_subcategory.text = item.category_str;
+		lbl_description.text = item.description;
 	
 	lblbtn_use.clear_hovered();
 	lblbtn_delete.clear_hovered();

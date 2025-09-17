@@ -1,5 +1,4 @@
-class_name ItemConsumable
-extends RefCounted
+class_name ItemConsumable extends Item
 
 const data_table := preload("res://Resources/DataTables/item_consumable_data.csv");
 
@@ -15,10 +14,6 @@ enum TYPE {
 	ART_SHARD = 8
 	}
 
-var id: int = -1;
-var name: String = "";
-var description: String = "";
-var amount: int = 0;
 var type := TYPE.RESTORE_HP;
 
 var battle_only: bool = false;
@@ -43,6 +38,8 @@ func _init(lookup_id: int, amount_value: int) -> void:
 	description = data["description"];
 	cast_targeting = int(data["cast_targeting"]);
 	cast_path = data["cast_path"];
+	
+	category_str = get_category_name();
 	
 	var effect_ids := (data["effect_ids"] as String).split(",");
 	var effect_values_str := (data["effect_values"] as String).split(",");
@@ -69,11 +66,8 @@ func get_category_name() -> StringName:
 		_: return "Unknown"
 
 
-func get_detail_data(data_array: Array[String]) -> void:
-	data_array.append(name);
-	data_array.append(str(amount));
-	data_array.append(get_category_name());
-	data_array.append(description);
+func get_detail_data() -> void:
+	print("TODO")
 	return
 
 

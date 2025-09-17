@@ -3,9 +3,9 @@
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_j6oj2"]
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_w87cf"]
+noise = SubResource("FastNoiseLite_j6oj2")
 seamless = true
 as_normal_map = true
-noise = SubResource("FastNoiseLite_j6oj2")
 
 [resource]
 albedo_color = Color(0.403922, 0.894118, 0.396078, 1)

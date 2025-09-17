@@ -222,6 +222,7 @@ metadata/_custom_type_script = "uid://do4k2b0sjshwf"
 
 [node name="ItemDeleteUI" parent="." instance=ExtResource("4_ygbjm")]
 visible = false
+layout_mode = 0
 offset_left = 920.0
 offset_top = 700.0
 offset_right = 1820.0
@@ -229,6 +230,7 @@ offset_bottom = 900.0
 
 [node name="ItemUseUI" parent="." instance=ExtResource("5_x7llv")]
 visible = false
+layout_mode = 0
 offset_left = 870.0
 offset_top = 150.0
 offset_right = 1870.0
