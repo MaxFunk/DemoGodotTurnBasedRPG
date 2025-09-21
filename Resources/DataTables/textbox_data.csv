@@ -5,3 +5,5 @@ id,is_question,next_id_1,next_id_2,speaker,text,answer_1,answer_2,icon
 3,1,"4","5","Dummy Asker","Do you like the color red?","Yes, I do.","No, I do not.",""
 4,0,"","","Dummy Asker","Thought as much.","","",""
 5,0,"","","Dummy Asker","Interesting. Perhaps the colors black or blue might fit better to you.","","",""
+6,0,"","","Hero E","So this the plateau where the monster should be.","","",""
+7,0,"","","Hero E","Let's search for it.","","",""

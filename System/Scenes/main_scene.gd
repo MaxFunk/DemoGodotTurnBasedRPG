@@ -4,11 +4,10 @@ extends Node3D
 const ingame_menu_scene := preload("res://UserInterfaces/IngameMenu/ingame_menu_ui.tscn");
 const battle_scene_packed := preload("res://System/Scenes/battle_scene.tscn");
 const IngameMenu := preload("res://UserInterfaces/IngameMenu/ingame_menu_ui.gd");
-const TalkingUI := preload("res://UserInterfaces/General/talking_ui.gd");
 
 signal battle_finished();
 
-@onready var loading_screen := $LoadingScreenRect as ColorRect;
+@onready var loading_screen := $LoadingScreen as LoadingScreen;
 
 var world_scene: WorldScene;
 var battle_scene: BattleScene;
@@ -43,7 +42,11 @@ func _process(_delta: float) -> void:
 
 ## Prepares and starts threaded loading of World
 func load_world(id: int) -> void:
-	loading_screen.visible = true;
+	if id == 1:
+		loading_screen.set_active();
+	else:
+		loading_screen.start_fade_in();
+		await loading_screen.fade_finished;
 	
 	if world_scene:
 		remove_child(world_scene);
@@ -61,11 +64,12 @@ func instantiate_world() -> void:
 	var scene := ResourceLoader.load_threaded_get(loading_path) as PackedScene;
 	world_scene = scene.instantiate() as WorldScene;
 	add_child(world_scene);
+	
+	loading_screen.start_fade_out();
 	return
 
 ## Returns the path the World
 func get_scene_path(id: int) -> StringName:
-	loading_screen.visible = false;
 	match id:
 		1: return "res://Worlds/world_scene_title_screen.tscn"
 		_: return "res://Worlds/world_scene_debug.tscn"
@@ -122,4 +126,34 @@ func end_battle_scene() -> void:
 		world_scene.visible = true;
 		enable_world_processing = true;
 		battle_finished.emit();
+	return
+
+
+func load_game_cutscene(_id: int, activator: Node3D) -> void:
+	world_scene.process_mode = Node.PROCESS_MODE_DISABLED;
+	loading_screen.start_fade_in();
+	await loading_screen.fade_finished;
+	
+	var cutscene_node := preload("uid://dhljnek2lxm7i").instantiate() as GameCutscene;
+	world_scene.add_cutscene_node(cutscene_node);
+	cutscene_node.setup_cutscene(activator);
+	player_char.visible = false;
+	activator.queue_free();
+	
+	loading_screen.start_fade_out();
+	cutscene_node.start_next_step();
+	return
+
+
+func finish_game_cutscene(char_transform: Transform3D) -> void:
+	loading_screen.start_fade_in();
+	await loading_screen.fade_finished;
+	
+	world_scene.clear_cutscene_node();
+	world_scene.process_mode = Node.PROCESS_MODE_INHERIT;
+	player_char.global_transform = char_transform;
+	player_char.visible = true;
+	player_char.model_3d.play_animation("Idle");
+	
+	loading_screen.start_fade_out();
 	return

@@ -1,4 +1,7 @@
-extends Control
+class_name TalkingUI extends Control
+
+@export var cutscene_mode: bool = false;
+@export var cutscene_node: GameCutscene;
 
 @onready var without_icon_ctrl := $WithoutIcon as Control;
 @onready var lbl_text := $WithoutIcon/LabelText as Label;
@@ -12,7 +15,7 @@ extends Control
 
 var cur_td: TextboxData;
 
-var has_begun: bool = false;
+var active: bool = false;
 var is_shaping: bool = false;
 var is_in_question: bool = false;
 
@@ -21,7 +24,7 @@ var char_per_sec: float = 20.0;
 
 
 func _process(delta: float) -> void:
-	if !has_begun: return
+	if !active: return
 	
 	if Input.is_action_just_pressed("Btn_Y"):
 		next_step();
@@ -68,7 +71,7 @@ func load_cur_td() -> void:
 func begin(first_text_id: int) -> void:
 	cur_td = ResourceManager.get_textbox_data(first_text_id);
 	load_cur_td();
-	has_begun = true;
+	active = true;
 	return
 
 
@@ -96,7 +99,12 @@ func skip_shaping() -> void:
 
 
 func end() -> void:
-	GameData.main_scene.clear_talking_ui();
+	active = false;
+	if cutscene_mode:
+		assert(cutscene_node, "Does not have a cutscene node to notify")
+		cutscene_node.talking_ui_end();
+	else:
+		GameData.main_scene.clear_talking_ui();
 	return
 
 

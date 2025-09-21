@@ -10,6 +10,13 @@ func get_hero_model(id: int) -> PackedScene:
 		_: return preload("res://Resources/Models/Heros/hero_e.glb");
 
 
+func get_hero_weapon(id: int) -> PackedScene:
+	match id:
+		0: return preload("res://Resources/Models/Heros/weapon_hero_m.glb");
+		1: return preload("res://Resources/Models/Heros/weapon_hero_a.glb");
+		_: return preload("res://Resources/Models/Heros/weapon_hero_e.glb");
+
+
 func get_hero_portrait(id: int) -> CompressedTexture2D:
 	match id:
 		0: return preload("res://Resources/Images/CharacterPortraits/character_portrait_hero_0.png");

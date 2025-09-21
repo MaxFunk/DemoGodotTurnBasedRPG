@@ -45,7 +45,8 @@ enabled=PackedStringArray("res://addons/csv-data-importer/plugin.cfg")
 
 folder_colors={
 "res://Addons/": "gray",
-"res://GameObjects/": "red",
+"res://Cutscenes/": "red",
+"res://GameObjects/": "orange",
 "res://Resources/": "yellow",
 "res://System/": "green",
 "res://UserInterfaces/": "blue",

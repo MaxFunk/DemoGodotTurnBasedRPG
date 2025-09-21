@@ -167,6 +167,8 @@ func get_max_arts() -> int:
 # Returns true if dead
 func take_damage(damage: int) -> bool:
 	hp_cur -= damage;
+	
+	# TODO definitly not like this lol (ugly code)
 	if hp_cur <= 0:
 		hp_cur = 0;
 		modifier = [0, 0, 0];
@@ -177,7 +179,10 @@ func take_damage(damage: int) -> bool:
 		is_blocking = false;
 		is_charged = false;
 		is_defeated = true;
+		battle_char.play_anim("BattleDefeat", false, 1.5);
 		return true
+	
+	battle_char.play_anim("BattleHit", false, 1.5);
 	update_display.emit();
 	return false
 

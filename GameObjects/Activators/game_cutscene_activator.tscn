@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://hk6wiqxqgq2l"]
+
+[ext_resource type="Script" uid="uid://dq37il40rkaym" path="res://GameObjects/Activators/game_cutscene_activator.gd" id="1_2wh0y"]
+
+[node name="GameCutsceneActivator" type="Area3D"]
+collision_layer = 0
+collision_mask = 256
+script = ExtResource("1_2wh0y")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -96,10 +96,7 @@ func cast_action() -> void:
 	battle_scene.battle_ui.lbl_action_name.text = get_action_name();
 	battle_scene.battle_ui.lbl_action_name.visible = true;
 	
-	if user.is_hero:
-		user.battle_char.model_3d.play_animation("EtherMultiple");
-	else:
-		user.battle_char.model_3d.play_animation("CastEther");
+	user.battle_char.play_anim(get_model_anim_name());
 	
 	if get_multcast_allowed():
 		for i in targets.size():
@@ -439,7 +436,7 @@ func get_action_cast_path() -> String:
 		ACTIONTYPE.ULT:
 			cast_path += user.ult_art.cast_path;
 		ACTIONTYPE.BLOCK:
-			cast_path = default_cast;
+			cast_path = "res://GameObjects/Battle/ActionCasts/General/action_cast_block.tscn";
 		ACTIONTYPE.ITEM:
 			cast_path += item.cast_path;
 		ACTIONTYPE.ANALYZE:
@@ -450,6 +447,24 @@ func get_action_cast_path() -> String:
 	if !ResourceLoader.exists(cast_path):
 		cast_path = default_cast;
 	return cast_path
+
+
+func get_model_anim_name() -> String:
+	if user.is_hero == false:
+		return "CastEther"
+	
+	match action_type:
+		ACTIONTYPE.ATTACK:
+			return "BattleAttack"
+		ACTIONTYPE.ART, ACTIONTYPE.ULT:
+			if art.category == art.CATEGORY.PHYSICAL:
+				return "BattlePhysicalArt"
+			return "BattleEtherArt"
+		ACTIONTYPE.BLOCK:
+			return "BattleBlock"
+		ACTIONTYPE.ITEM, ACTIONTYPE.ANALYZE:
+			return "BattleEtherArt"
+	return ""
 
 
 func get_multcast_allowed() -> bool:

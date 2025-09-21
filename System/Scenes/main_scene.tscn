@@ -1,16 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://t37lyoqjqxv2"]
+[gd_scene load_steps=3 format=3 uid="uid://t37lyoqjqxv2"]
 
 [ext_resource type="Script" uid="uid://bgqjhd40s2ca0" path="res://System/Scenes/main_scene.gd" id="1_fc6ub"]
+[ext_resource type="PackedScene" uid="uid://c602ne2304yx" path="res://System/Scenes/loading_screen.tscn" id="2_sharc"]
 
 [node name="MainScene" type="Node3D"]
 script = ExtResource("1_fc6ub")
 
-[node name="LoadingScreenRect" type="ColorRect" parent="."]
+[node name="LoadingScreen" parent="." instance=ExtResource("2_sharc")]
 visible = false
-top_level = true
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
+z_index = 5
