@@ -16,7 +16,6 @@ var player_char: PlayerCharacter;
 var ingame_menu_node: IngameMenu;
 var talking_ui: TalkingUI;
 
-
 var is_world_loading: bool = false;
 var enable_world_processing: bool = false;
 var loading_path: StringName;
@@ -108,23 +107,21 @@ func clear_talking_ui() -> void:
 	return
 
 
-func instantiate_battle_scene(enemy_ids: PackedInt32Array) -> void:
+func instantiate_battle_scene(scene_transform: Transform3D, enemy_ids: PackedInt32Array) -> void:
 	if battle_scene == null:
 		battle_scene = battle_scene_packed.instantiate() as BattleScene;
-		add_child(battle_scene);
-		battle_scene.global_position = player_char.global_position;
-		world_scene.process_mode = Node.PROCESS_MODE_DISABLED;
-		world_scene.visible = false;
+		world_scene.add_child(battle_scene);
+		world_scene.change_all_actors_visibility(false);
+		battle_scene.global_transform = scene_transform;
 		battle_scene.initiate_field(enemy_ids);
 	return
 
 
 func end_battle_scene() -> void:
 	if battle_scene:
-		remove_child(battle_scene);
+		world_scene.remove_child(battle_scene);
+		world_scene.change_all_actors_visibility(true);
 		battle_scene.queue_free();
-		world_scene.visible = true;
-		enable_world_processing = true;
 		battle_finished.emit();
 	return
 

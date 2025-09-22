@@ -53,6 +53,10 @@ folder_colors={
 "res://Worlds/": "pink"
 }
 
+[global_group]
+
+Actors="All Objects that are Actors like Characters, etc."
+
 [input]
 
 L_Stick_Left={

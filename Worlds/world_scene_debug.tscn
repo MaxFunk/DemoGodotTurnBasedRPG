@@ -116,6 +116,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [Vector3(0, 0.261799, 0)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ModelNPC:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_j2twu"]
 resource_name = "SpecialStart"
@@ -156,6 +168,18 @@ tracks/2/keys = {
 "args": ["IdleBattle", false, 1.0],
 "method": &"play_animation"
 }]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ModelNPC:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8oqjx"]
@@ -305,13 +329,14 @@ enemy_ids = [null, 1]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
 enemy_ids = [2]
 
-[node name="SpecialBattleInitiator" type="Area3D" parent="." node_paths=PackedStringArray("anim_player", "camera_3d")]
+[node name="SpecialBattleInitiator" type="Area3D" parent="." node_paths=PackedStringArray("anim_player", "camera_3d", "battle_marker")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 17, 0, 0)
 collision_layer = 0
 collision_mask = 256
 script = ExtResource("14_fg3dg")
 anim_player = NodePath("AnimationPlayer")
 camera_3d = NodePath("Camera3D")
+battle_marker = NodePath("BattleCenterMarker")
 animation_name = &"SpecialStart"
 opponent_ids = [2]
 metadata/_custom_type_script = "uid://dajvjvfw1fjs8"
@@ -330,6 +355,9 @@ libraries = {
 
 [node name="Camera3D" type="Camera3D" parent="SpecialBattleInitiator"]
 transform = Transform3D(0.96592605, 0, 0.25881872, 0, 1, 0, -0.25881872, 0, 0.96592605, 1, 1, 1)
+
+[node name="BattleCenterMarker" type="Marker3D" parent="SpecialBattleInitiator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
 
 [node name="Area2" type="Node3D" parent="."]
 

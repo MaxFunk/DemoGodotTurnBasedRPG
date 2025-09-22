@@ -3,6 +3,7 @@ extends Area3D
 
 @export var anim_player: AnimationPlayer;
 @export var camera_3d: Camera3D;
+@export var battle_marker: Marker3D;
 
 @export var animation_name: StringName;
 @export var opponent_ids: Array[int] = [];
@@ -39,8 +40,10 @@ func on_animation_finished(anim_name: StringName) -> void:
 	if anim_name == animation_name:
 		var player := GameData.main_scene.player_char;
 		player.move_mode = player.MOVEMODE.WALKING;
-		#player.process_mode = Node.PROCESS_MODE_INHERIT;
-		GameData.main_scene.instantiate_battle_scene(opponent_ids);
+		if battle_marker:
+			GameData.main_scene.instantiate_battle_scene(battle_marker.global_transform, opponent_ids);
+		else:
+			GameData.main_scene.instantiate_battle_scene(global_transform, opponent_ids);
 	return
 
 

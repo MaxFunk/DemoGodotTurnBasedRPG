@@ -12,7 +12,7 @@ radius = 0.4
 material = SubResource("StandardMaterial3D_5hfwl")
 size = Vector3(0.6, 0.6, 1)
 
-[node name="EnemyCharacter" type="CharacterBody3D"]
+[node name="EnemyCharacter" type="CharacterBody3D" groups=["Actors"]]
 collision_layer = 1024
 collision_mask = 1799
 script = ExtResource("1_g3203")

@@ -4,6 +4,8 @@ extends Node3D
 const PostBattleUI := preload("res://UserInterfaces/Battle/PostBattle/post_battle_menu.gd");
 
 @onready var battle_ui := $BattleUI as BattleUI;
+@onready var post_battle_ui := $PostBattleMenu as PostBattleUI;
+@onready var battle_transitions := $BattleTransitions as AnimationPlayer;
 
 # Targeting Camera
 @onready var cam_pivot := $CameraPivot as Marker3D;
@@ -24,8 +26,6 @@ const PostBattleUI := preload("res://UserInterfaces/Battle/PostBattle/post_battl
 	$CameraMarker/CamMarkerAll as Marker3D,
 	$CameraMarker/CamMarkerAllHeros as Marker3D,
 	$CameraMarker/CamMarkerAllOppos as Marker3D];
-
-@onready var post_battle_ui := $PostBattleMenu as PostBattleUI;
 
 var active_heros: Array[BattleData] = [];
 var opponents: Array[BattleData] = [];
@@ -61,6 +61,11 @@ func initiate_field(enemy_ids: PackedInt32Array) -> void:
 	spawn_battle_chars();
 	determine_turn_order();
 	battle_ui.init_battle_ui(self);
+	
+	camera.make_current();
+	battle_transitions.play("BattleEntrance");
+	await battle_transitions.animation_finished;
+	
 	on_begin_turn();
 	return
 
@@ -221,6 +226,8 @@ func sort_agility(a: BattleData, b: BattleData) -> bool:
 
 
 func on_character_defeated(chd: BattleData) -> void:
+	await chd.on_defeat();
+	
 	remove_child(chd.battle_char); # queue_free? (careful with 'battle_chars' !)
 	turn_order.erase(chd);
 	next_round.erase(chd);
@@ -242,6 +249,10 @@ func on_character_defeated(chd: BattleData) -> void:
 		
 		for oppo in opponents:
 			if oppo != null: return
+		
+		camera.make_current();
+		battle_transitions.play("BattleWon");
+		await battle_transitions.animation_finished;
 		
 		battle_ending = true;
 		for hero in active_heros:

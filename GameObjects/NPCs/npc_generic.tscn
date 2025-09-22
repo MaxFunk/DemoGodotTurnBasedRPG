@@ -6,7 +6,7 @@
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_j16xx"]
 
-[node name="NPCGeneric" type="StaticBody3D"]
+[node name="NPCGeneric" type="StaticBody3D" groups=["Actors"]]
 collision_layer = 512
 collision_mask = 775
 script = ExtResource("1_j16xx")

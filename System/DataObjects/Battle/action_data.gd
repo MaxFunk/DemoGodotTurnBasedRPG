@@ -165,23 +165,23 @@ func apply_action(t_idx: int) -> void:
 	
 	match action_type:
 		ACTIONTYPE.ATTACK:
-			apply_art(user, targets[t_idx], user.default_attack);
+			await apply_art(user, targets[t_idx], user.default_attack);
 		ACTIONTYPE.ART:
 			if user.is_hero and !sp_adjusted:
 				user.change_sp(-art.sp_cost);
 				sp_adjusted = true;
-			apply_art(user, targets[t_idx], art);
+			await apply_art(user, targets[t_idx], art);
 		ACTIONTYPE.ULT:
 			if !ult_points_adjusted:
 				user.ult_points = 0;
 				user.update_display.emit();
 				ult_points_adjusted = true;
-			apply_art(user, targets[t_idx], user.ult_art);
+			await apply_art(user, targets[t_idx], user.ult_art);
 		ACTIONTYPE.BLOCK:
 			user.is_blocking = true;
 			user.recieve_ult_points(16);
 		ACTIONTYPE.ITEM:
-			apply_item(user, targets[t_idx], item);
+			await apply_item(user, targets[t_idx], item);
 		ACTIONTYPE.ANALYZE:
 			var target := targets[t_idx];
 			target.is_analyzed = true;
@@ -201,7 +201,8 @@ func apply_art(u: BattleData, t: BattleData, a: BattleArt) -> void:
 				apply_ult_points(u, t, action_res);
 				var defeated := t.take_damage(action_res.damage);
 				if defeated:
-					battle_scene.on_character_defeated(t);
+					await battle_scene.on_character_defeated(t);
+					return
 		
 		a.CATEGORY.HEAL:
 			var action_res := Calculations.calc_healing(u, a);
@@ -252,7 +253,7 @@ func apply_item(u: BattleData, t: BattleData, i: ItemConsumable) -> void:
 				battle_scene.battle_ui.create_damage_number(action_res, t, item_art);
 				var defeated := t.take_damage(action_res.damage);
 				if defeated:
-					battle_scene.on_character_defeated(t);
+					await battle_scene.on_character_defeated(t);
 		
 		_:
 			EffectApply.apply(u, t, item_art);

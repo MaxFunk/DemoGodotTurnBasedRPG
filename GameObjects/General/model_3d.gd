@@ -48,3 +48,7 @@ func play_animation(anim_name: String, with_capture: bool = false, speed_scale: 
 func on_anim_finished(anim_name: StringName) -> void:
 	animation_finished.emit(anim_name);
 	return
+
+
+func has_animation(anim_name: String) -> bool:
+	return anim_player and anim_player.has_animation(anim_name);

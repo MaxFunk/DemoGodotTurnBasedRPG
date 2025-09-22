@@ -18,3 +18,11 @@ func clear_cutscene_node() -> void:
 		cutscene_node.queue_free();
 		cutscene_node = null;
 	return
+
+
+func change_all_actors_visibility(value: bool) -> void:
+	for child in get_children():
+		if child.is_in_group("Actors") and child is Node3D:
+			(child as Node3D).visible = value;
+			child.process_mode = Node.PROCESS_MODE_INHERIT if value else Node.PROCESS_MODE_DISABLED;
+	return

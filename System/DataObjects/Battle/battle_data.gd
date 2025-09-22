@@ -158,6 +158,24 @@ func on_turn_end() -> void:
 	return
 
 
+func on_defeat() -> void:
+	# Reset for revive?
+	modifier = [0, 0, 0];
+	modifier_timer = [0, 0, 0];
+	ailment = 0;
+	ailment_turns = 0;
+	ult_points = 0;
+	is_blocking = false;
+	is_charged = false;
+	
+	if battle_char.model_3d.has_animation("BattleDefeat"):
+		battle_char.play_anim("BattleDefeat", false, 1.5);
+		await battle_char.defeated_anim_finished;
+	else:
+		print("WARNING: NO DEFEATED ANIMATION..");
+	return
+
+
 func get_max_arts() -> int:
 	var ret_val: int = 0;
 	for art in arts:
@@ -171,15 +189,8 @@ func take_damage(damage: int) -> bool:
 	# TODO definitly not like this lol (ugly code)
 	if hp_cur <= 0:
 		hp_cur = 0;
-		modifier = [0, 0, 0];
-		modifier_timer = [0, 0, 0];
-		ailment = 0;
-		ailment_turns = 0;
-		ult_points = 0;
-		is_blocking = false;
-		is_charged = false;
 		is_defeated = true;
-		battle_char.play_anim("BattleDefeat", false, 1.5);
+		update_display.emit();
 		return true
 	
 	battle_char.play_anim("BattleHit", false, 1.5);
