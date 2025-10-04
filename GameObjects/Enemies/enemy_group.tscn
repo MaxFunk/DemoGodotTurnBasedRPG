@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dxe5uy6a0o5wp"]
+
+[ext_resource type="Script" uid="uid://bcdmfss1np2xf" path="res://GameObjects/Enemies/enemy_group.gd" id="1_i2cin"]
+
+[node name="EnemyGroup" type="Node3D" groups=["Actors"]]
+script = ExtResource("1_i2cin")

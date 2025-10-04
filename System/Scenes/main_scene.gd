@@ -107,13 +107,17 @@ func clear_talking_ui() -> void:
 	return
 
 
-func instantiate_battle_scene(scene_transform: Transform3D, enemy_ids: PackedInt32Array) -> void:
+func instantiate_battle_scene(scene_transform: Transform3D, enemy_group: EnemyGroup) -> void:
+	if enemy_group == null:
+		return
+	
 	if battle_scene == null:
+		battle_finished.connect(enemy_group.on_battle_finished);
 		battle_scene = battle_scene_packed.instantiate() as BattleScene;
 		world_scene.add_child(battle_scene);
 		world_scene.change_all_actors_visibility(false);
 		battle_scene.global_transform = scene_transform;
-		battle_scene.initiate_field(enemy_ids);
+		battle_scene.initiate_field(enemy_group.enemy_ids);
 	return
 
 

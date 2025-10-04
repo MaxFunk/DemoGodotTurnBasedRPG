@@ -147,9 +147,9 @@ func check_interaction() -> void:
 			(collider as InteractionComponent).emit_interaction();
 		
 		if collider is EnemyCharacter:
-			var enemy_ids := (collider as EnemyCharacter).enemy_ids;
-			if enemy_ids.size() > 0:
-				GameData.main_scene.instantiate_battle_scene(global_transform, enemy_ids);
+			var enemy_group := (collider as EnemyCharacter).enemy_group;
+			if enemy_group.enemy_ids.size() > 0:
+				GameData.main_scene.instantiate_battle_scene(global_transform, enemy_group);
 	return
 
 

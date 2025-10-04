@@ -40,10 +40,12 @@ func on_animation_finished(anim_name: StringName) -> void:
 	if anim_name == animation_name:
 		var player := GameData.main_scene.player_char;
 		player.move_mode = player.MOVEMODE.WALKING;
+		var enemy_group := EnemyGroup.new();
+		enemy_group.enemy_ids = opponent_ids;
 		if battle_marker:
-			GameData.main_scene.instantiate_battle_scene(battle_marker.global_transform, opponent_ids);
+			GameData.main_scene.instantiate_battle_scene(battle_marker.global_transform, enemy_group);
 		else:
-			GameData.main_scene.instantiate_battle_scene(global_transform, opponent_ids);
+			GameData.main_scene.instantiate_battle_scene(global_transform, enemy_group);
 	return
 
 
