@@ -8,9 +8,11 @@ enum MOVEMODE {WALKING = 0, SWIMMING = 1, CAM_ONLY = 2, NONE = 9}
 @onready var player_cam := $CameraPivot/SpringArm/PlayerCam as Camera3D;
 @onready var interact_cast := $RayCastInteract as RayCast3D;
 @onready var water_checker := $WaterChecker as Area3D;
+@onready var timer_coyote := $TimerCoyote as Timer;
 
 const move_speed: float = 150.0;
 const jump_strength: float = 320.0;
+const coyote_time_duration: float = 0.25;
 
 var model_3d: Model3D;
 var cur_model_id: int = -1;
@@ -18,12 +20,17 @@ var cur_model_id: int = -1;
 var move_mode := MOVEMODE.WALKING;
 var is_jumping: bool = false;
 var is_running: bool = false;
+var is_falling: bool = false;
+var is_coyote_time: bool = false;
+
 var current_water: Water3D = null;
 var jump_direction := Vector3(0, 0, 0);
 
 
 func _ready() -> void:
 	load_hero_model();
+	timer_coyote.wait_time = coyote_time_duration;
+	
 	GameData.main_scene.player_char = self;
 	set_process_input(true);
 	return
@@ -76,14 +83,14 @@ func process_walking(delta: float) -> void:
 	var run_mult: float = 2.5 if is_running else 1.0;
 	var just_jumped: bool = false;
 	
-	if Input.is_action_just_pressed("Btn_B") and is_on_floor():
+	if Input.is_action_just_pressed("Btn_B") and (is_on_floor() or is_coyote_time):
 		#jump_direction = Vector3(move_input.x, 0, move_input.y);
 		velocity.y += jump_strength * delta;
 		is_jumping = true;
 		just_jumped = true;
 	
 	var movement_dir := camera_pivot.transform.basis * Vector3(move_input.x, 0, move_input.y);
-	if is_jumping:
+	if is_jumping or is_falling:
 		movement_dir = movement_dir * 0.67; # + jump_direction * 0.33;
 	velocity.x = movement_dir.x * move_speed * delta * run_mult;
 	velocity.z = movement_dir.z * move_speed * delta * run_mult;
@@ -95,7 +102,7 @@ func process_walking(delta: float) -> void:
 	if is_jumping:
 		if just_jumped:
 			model_3d.play_animation("Jump", true, 1.0);
-	else:
+	elif is_falling == false:
 		if is_zero_approx(velocity.x) and is_zero_approx(velocity.z):
 			model_3d.play_animation("Idle", true);
 		else:
@@ -105,8 +112,15 @@ func process_walking(delta: float) -> void:
 			else:
 				model_3d.play_animation("Walk", true, 2.0 * input_speed);
 	
-	if is_on_floor():
+	var on_floor := is_on_floor();
+	if on_floor:
 		is_jumping = false;
+		is_falling = false;
+	
+	# Check if started falling in this frame
+	if !on_floor and !is_jumping and !is_falling and !is_coyote_time:
+		is_coyote_time = true;
+		timer_coyote.start();
 	return
 
 
@@ -168,6 +182,7 @@ func load_hero_model() -> void:
 	model_3d = packed_model.instantiate() as Model3D;
 	add_child(model_3d);
 	model_3d.rotate_y(PI);
+	model_3d.animation_finished.connect(on_model3d_animation_finished);
 	cur_model_id = model_id;
 	return
 
@@ -183,4 +198,19 @@ func _on_water_checker_body_exited(body: Node3D) -> void:
 		current_water = null;
 		move_mode = MOVEMODE.WALKING;
 		motion_mode = CharacterBody3D.MOTION_MODE_GROUNDED;
+	return
+
+
+func _on_timer_coyote_timeout() -> void:
+	is_coyote_time = false;
+	is_falling = true;
+	model_3d.play_animation("Fall", true);
+	return
+
+
+func on_model3d_animation_finished(anim_name: String) -> void:
+	if anim_name == "Jump":
+		is_jumping = false;
+		is_falling = true;
+		model_3d.play_animation("Fall", true);
 	return

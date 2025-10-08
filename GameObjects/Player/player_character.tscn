@@ -45,5 +45,10 @@ collision_mask = 8
 shape = SubResource("SphereShape3D_8w0pj")
 debug_color = Color(0.227572, 0.509106, 1, 0.42)
 
+[node name="TimerCoyote" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
 [connection signal="body_entered" from="WaterChecker" to="." method="_on_water_checker_body_entered"]
 [connection signal="body_exited" from="WaterChecker" to="." method="_on_water_checker_body_exited"]
+[connection signal="timeout" from="TimerCoyote" to="." method="_on_timer_coyote_timeout"]
