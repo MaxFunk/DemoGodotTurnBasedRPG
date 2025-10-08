@@ -16,3 +16,27 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("CapsuleShape3D_3543v")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+target_desired_distance = 0.8
+path_height_offset = 0.5
+debug_enabled = true
+
+[node name="ViewArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+collision_layer = 0
+collision_mask = 256
+
+[node name="ViewAreaColShape" type="CollisionShape3D" parent="ViewArea"]
+debug_color = Color(1, 0, 0, 0.41960785)
+debug_fill = false
+
+[node name="TimerPathFetch" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="RayCastAttack" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+target_position = Vector3(0, 0, -2)
+collision_mask = 256
+
+[connection signal="navigation_finished" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_navigation_finished"]
+[connection signal="body_entered" from="ViewArea" to="." method="_on_view_area_body_entered"]
+[connection signal="timeout" from="TimerPathFetch" to="." method="_on_timer_path_fetch_timeout"]

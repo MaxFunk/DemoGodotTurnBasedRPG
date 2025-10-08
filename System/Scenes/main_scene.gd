@@ -86,6 +86,7 @@ func close_ingame_menu() -> void:
 	if ingame_menu_node:
 		remove_child(ingame_menu_node);
 		ingame_menu_node.queue_free();
+		player_char.load_hero_model();
 		enable_world_processing = true;
 	return
 

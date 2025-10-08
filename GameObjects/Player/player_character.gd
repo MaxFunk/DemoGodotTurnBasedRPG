@@ -13,6 +13,7 @@ const move_speed: float = 150.0;
 const jump_strength: float = 320.0;
 
 var model_3d: Model3D;
+var cur_model_id: int = -1;
 
 var move_mode := MOVEMODE.WALKING;
 var is_jumping: bool = false;
@@ -22,7 +23,7 @@ var jump_direction := Vector3(0, 0, 0);
 
 
 func _ready() -> void:
-	load_hero_model(0);
+	load_hero_model();
 	GameData.main_scene.player_char = self;
 	set_process_input(true);
 	return
@@ -153,11 +154,21 @@ func check_interaction() -> void:
 	return
 
 
-func load_hero_model(model_id: int) -> void:
+func load_hero_model() -> void:
+	var model_id: int = GameData.active_party[0];
+	
+	if cur_model_id == model_id:
+		return
+	
+	if model_3d:
+		remove_child(model_3d);
+		model_3d.queue_free(); # TODO: cache Model?
+	
 	var packed_model: PackedScene = ResourceManager.get_hero_model(model_id);
 	model_3d = packed_model.instantiate() as Model3D;
 	add_child(model_3d);
 	model_3d.rotate_y(PI);
+	cur_model_id = model_id;
 	return
 
 
