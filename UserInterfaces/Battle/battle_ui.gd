@@ -3,6 +3,8 @@ extends Control
 
 signal close_analyze();
 
+const BattleActionMain = preload("uid://bmwt4jiw4oreg")
+
 const HeroDisplay := preload("res://UserInterfaces/Battle/Displays/battle_hero_display.gd");
 const OppoDisplay := preload("res://UserInterfaces/Battle/Displays/battle_opponent_display.gd");
 const ArtsMenu := preload("res://UserInterfaces/Battle/ActionMenu/battle_action_arts.gd");
@@ -29,7 +31,7 @@ enum MENUSTATE {OFF, MAIN, ARTS, ITEMS, TACTICS, TARGETING, INSPECT}
 	$DataDisplays/BattleOpponentDisplay3 as OppoDisplay,
 	$DataDisplays/BattleOpponentDisplay4 as OppoDisplay,
 	$DataDisplays/BattleOpponentDisplay5 as OppoDisplay];
-@onready var battle_menu_main := $BattleActionMain as Control;
+@onready var battle_menu_main := $BattleActionMain as BattleActionMain;
 @onready var battle_menu_arts := $BattleActionArts as ArtsMenu;
 @onready var battle_menu_items := $BattleActionItems as ItemsMenu;
 @onready var battle_menu_tactics := $BattleActionTactics as TacticsMenu;
@@ -44,6 +46,7 @@ var menu_state := MENUSTATE.OFF;
 var prev_menu_state := MENUSTATE.OFF;
 var accept_inputs: bool = false;
 
+var index_main: int = 0;
 var index_arts: int = 0;
 var index_items: int = 0;
 var index_tactics: int = 0;
@@ -79,46 +82,55 @@ func _input(event: InputEvent) -> void:
 
 
 func input_main(event: InputEvent) -> void:
+	if event.is_action_pressed("D_Pad_Up"):
+		index_main = maxi(index_main - 1, 0);
+		battle_menu_main.change_rotation(index_main);
+		update_description(battle_menu_main.get_description_text(index_main));
+	
+	if event.is_action_pressed("D_Pad_Down"):
+		index_main = mini(index_main + 1, 5);
+		battle_menu_main.change_rotation(index_main);
+		update_description(battle_menu_main.get_description_text(index_main));
+	
+	
 	if event.is_action_pressed("Btn_Y"):
-		cur_action = ActionData.new(ActionData.ACTIONTYPE.ATTACK, battle_scene);
-		cur_action.set_targettype_from_art(battle_scene.cur_actor.default_attack);
-		update_description(battle_scene.cur_actor.default_attack.description);
-		change_menu_state(MENUSTATE.TARGETING);
-		return
-	
-	if event.is_action_pressed("Btn_X"):
-		change_menu_state(MENUSTATE.ARTS);
-		return
-	
-	if event.is_action_pressed("Btn_B"):
-		cur_action = ActionData.new(ActionData.ACTIONTYPE.BLOCK, battle_scene);
-		cur_action.set_targettype(ActionData.TARGETTYPE.SELF_ONLY);
-		update_description("Reduce damage until next turn");
-		change_menu_state(MENUSTATE.TARGETING);
-		return
-	
-	if event.is_action_pressed("Btn_A"):
-		if battle_scene.cur_actor.ult_points < 100:
-			print("Not enough ult points!");
-			return
-		if battle_scene.cur_actor.ailment == Ailments.SHACKLED:
-			print(battle_scene.cur_actor.name, " is shackled -> Ult cannot be used!");
-			return
-		cur_action = ActionData.new(ActionData.ACTIONTYPE.ULT, battle_scene);
-		cur_action.set_targettype_from_art(battle_scene.cur_actor.ult_art);
-		update_description(battle_scene.cur_actor.ult_art.description);
-		change_menu_state(MENUSTATE.TARGETING);
-		return
-	
-	if event.is_action_pressed("Start"):
-		if battle_menu_items.consumables.size() > 0:
-			change_menu_state(MENUSTATE.ITEMS);
-		else:
-			print("NO ITEMS AVAILABLE...");
-		return
-	
-	if event.is_action_pressed("Select"):
-		change_menu_state(MENUSTATE.TACTICS);
+		match index_main:
+			0: # ATTACK
+				cur_action = ActionData.new(ActionData.ACTIONTYPE.ATTACK, battle_scene);
+				cur_action.set_targettype_from_art(battle_scene.cur_actor.default_attack);
+				update_description(battle_scene.cur_actor.default_attack.description);
+				change_menu_state(MENUSTATE.TARGETING);
+			
+			1: # ARTS
+				change_menu_state(MENUSTATE.ARTS);
+			
+			2: # ULT
+				if battle_scene.cur_actor.ult_points < 100:
+					print("Not enough ult points!");
+					return
+				if battle_scene.cur_actor.ailment == Ailments.SHACKLED:
+					print(battle_scene.cur_actor.name, " is shackled -> Ult cannot be used!");
+					return
+				cur_action = ActionData.new(ActionData.ACTIONTYPE.ULT, battle_scene);
+				cur_action.set_targettype_from_art(battle_scene.cur_actor.ult_art);
+				update_description(battle_scene.cur_actor.ult_art.description);
+				change_menu_state(MENUSTATE.TARGETING);
+			
+			3: # BLOCK
+				cur_action = ActionData.new(ActionData.ACTIONTYPE.BLOCK, battle_scene);
+				cur_action.set_targettype(ActionData.TARGETTYPE.SELF_ONLY);
+				update_description("Reduce damage until next turn");
+				change_menu_state(MENUSTATE.TARGETING);
+				return
+			
+			4: # ITEMS
+				if battle_menu_items.consumables.size() > 0:
+					change_menu_state(MENUSTATE.ITEMS);
+				else:
+					print("NO ITEMS AVAILABLE...");
+			
+			5: # TACTICS
+				change_menu_state(MENUSTATE.TACTICS);
 	return
 
 
@@ -138,13 +150,13 @@ func input_targeting(event: InputEvent) -> void:
 	
 	if event.is_action_pressed("D_Pad_Left") or event.is_action_pressed("D_Pad_Up"):
 		cur_action.previous_target();
-		set_target_arrows();
+		set_display_selection();
 		battle_scene.update_camera_targeting(cur_action);
 		return
 	
 	if event.is_action_pressed("D_Pad_Right") or event.is_action_pressed("D_Pad_Down"):
 		cur_action.next_target();
-		set_target_arrows();
+		set_display_selection();
 		battle_scene.update_camera_targeting(cur_action);
 	return
 
@@ -281,7 +293,7 @@ func init_battle_ui(battle_sc: BattleScene) -> void:
 func change_menu_state(new_state: MENUSTATE) -> void:
 	prev_menu_state = menu_state;
 	if prev_menu_state == MENUSTATE.TARGETING and new_state != MENUSTATE.INSPECT:
-		reset_target_arrows();
+		reset_display_selection();
 		battle_scene.update_camera_targeting(null);
 	
 	menu_state = new_state;
@@ -290,7 +302,7 @@ func change_menu_state(new_state: MENUSTATE) -> void:
 	battle_menu_items.visible = menu_state == MENUSTATE.ITEMS;
 	battle_menu_tactics.visible = menu_state == MENUSTATE.TACTICS;
 	battle_menu_inspect.visible = menu_state == MENUSTATE.INSPECT;
-	lbl_description.visible = menu_state != MENUSTATE.OFF and menu_state != MENUSTATE.MAIN;
+	lbl_description.visible = menu_state != MENUSTATE.OFF;
 	accept_inputs = menu_state != MENUSTATE.OFF;
 	
 	if menu_state != MENUSTATE.OFF:
@@ -298,10 +310,11 @@ func change_menu_state(new_state: MENUSTATE) -> void:
 	
 	match new_state:
 		MENUSTATE.OFF:
-			reset_target_arrows();
+			reset_display_selection();
 		MENUSTATE.MAIN:
 			cur_action = null;
 			battle_scene.update_camera_targeting(null);
+			update_description(battle_menu_main.get_description_text(index_main));
 		MENUSTATE.ARTS:
 			battle_menu_arts.update_ui(battle_scene.cur_actor);
 			battle_menu_arts.update_selector(index_arts);
@@ -313,7 +326,7 @@ func change_menu_state(new_state: MENUSTATE) -> void:
 		MENUSTATE.TACTICS:
 			update_description(tactic_decriptions[index_tactics]);
 		MENUSTATE.TARGETING:
-			set_target_arrows();
+			set_display_selection();
 			battle_scene.update_camera_targeting(cur_action);
 		MENUSTATE.INSPECT:
 			if inspect_as_analyze:
@@ -324,11 +337,15 @@ func change_menu_state(new_state: MENUSTATE) -> void:
 
 
 func on_hero_turn_start() -> void:
-	change_menu_state(MENUSTATE.MAIN);
+	index_main = 0;
 	index_arts = 0;
 	index_items = 0;
 	index_tactics = 0;
+	
+	battle_menu_main.change_rotation(index_main);
 	battle_menu_items.prepare_view();
+	
+	change_menu_state(MENUSTATE.MAIN);
 	return
 
 
@@ -337,7 +354,7 @@ func update_description(text: String) -> void:
 	return
 
 
-func set_target_arrows() -> void:
+func set_display_selection() -> void:
 	if !cur_action:
 		return
 	
@@ -374,7 +391,7 @@ func set_target_arrows() -> void:
 	return
 
 
-func reset_target_arrows() -> void:
+func reset_display_selection() -> void:
 	for i in range(hero_displays.size()):
 		hero_displays[i].set_selection(false);
 	for i in range(oppo_displays.size()):

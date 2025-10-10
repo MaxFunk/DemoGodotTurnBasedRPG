@@ -3,8 +3,8 @@ extends Control
 const ItemDisplay := preload("res://UserInterfaces/Battle/Displays/item_display.gd");
 const item_disp_scene := preload("res://UserInterfaces/Battle/Displays/item_display.tscn") as PackedScene;
 
-@onready var selector := $Selector as ColorRect;
-@onready var scroll_ctrl := $ScrollControl as ScrollControl;
+@onready var selector := $BackPanel/Selector as ColorRect;
+@onready var scroll_ctrl := $BackPanel/ScrollControl as ScrollControl;
 
 var consumables: Array[ItemConsumable] = [];
 

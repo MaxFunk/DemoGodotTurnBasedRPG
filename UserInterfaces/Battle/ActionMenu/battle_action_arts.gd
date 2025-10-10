@@ -2,7 +2,7 @@ extends Control
 
 const ArtDisplay := preload("res://UserInterfaces/Battle/Displays/art_display.gd");
 
-@onready var selector := $Selector as ColorRect;
+@onready var selector := $BackPanel/Selector as ColorRect;
 @onready var art_disps: Array[ArtDisplay] = [
 	$BackPanel/ArtDisplay1 as ArtDisplay,
 	$BackPanel/ArtDisplay2 as ArtDisplay,

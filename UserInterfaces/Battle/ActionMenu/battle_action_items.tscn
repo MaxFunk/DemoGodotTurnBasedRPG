@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://owxgeqb1y1nt"]
+[gd_scene load_steps=6 format=3 uid="uid://owxgeqb1y1nt"]
 
 [ext_resource type="Script" uid="uid://dbskhk5gwb7ev" path="res://UserInterfaces/Battle/ActionMenu/battle_action_items.gd" id="1_riibj"]
 [ext_resource type="Script" uid="uid://bwpsbotk7yxbp" path="res://UserInterfaces/Custom/scroll_controll.gd" id="2_2ft5p"]
@@ -9,23 +9,25 @@ bg_color = Color(0.0627451, 0.0627451, 0.0627451, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uab2b"]
 bg_color = Color(1, 1, 1, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4dggq"]
+content_margin_left = 10.0
+bg_color = Color(0.13, 0.13, 0.13, 0.7529412)
+
 [node name="BattleActionItems" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 550.0
-offset_bottom = 400.0
+offset_bottom = 450.0
 script = ExtResource("1_riibj")
 
 [node name="BackPanel" type="ColorRect" parent="."]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_top = 45.0
+offset_right = 550.0
+offset_bottom = 445.0
 color = Color(0.12549, 0.12549, 0.12549, 0.752941)
 
-[node name="ScrollControl" type="Control" parent="." node_paths=PackedStringArray("scrollbar")]
+[node name="ScrollControl" type="Control" parent="BackPanel" node_paths=PackedStringArray("scrollbar")]
 anchors_preset = 0
 offset_left = 40.0
 offset_top = 10.0
@@ -37,7 +39,8 @@ element_size = Vector2(500, 55)
 scrollbar = NodePath("VScrollBar")
 metadata/_custom_type_script = "uid://bwpsbotk7yxbp"
 
-[node name="VScrollBar" type="VScrollBar" parent="ScrollControl"]
+[node name="VScrollBar" type="VScrollBar" parent="BackPanel/ScrollControl"]
+layout_mode = 0
 offset_left = 496.0
 offset_right = 500.0
 offset_bottom = 380.0
@@ -45,24 +48,18 @@ theme_override_styles/scroll = SubResource("StyleBoxFlat_2ft5p")
 theme_override_styles/grabber = SubResource("StyleBoxFlat_uab2b")
 step = 1.0
 
-[node name="SidePanel" type="ColorRect" parent="."]
-offset_top = 350.0
-offset_right = 150.0
-offset_bottom = 400.0
-rotation = -1.5708
-pivot_offset = Vector2(0, 50)
-color = Color(0.12549, 0.12549, 0.12549, 0.498039)
-
-[node name="LabelItems" type="Label" parent="SidePanel"]
+[node name="Selector" type="ColorRect" parent="BackPanel"]
 layout_mode = 0
-offset_right = 150.0
-offset_bottom = 45.0
-theme_override_font_sizes/font_size = 32
-text = "Items"
-horizontal_alignment = 1
-
-[node name="Selector" type="ColorRect" parent="."]
 offset_left = 20.0
 offset_top = 10.0
 offset_right = 30.0
 offset_bottom = 60.0
+
+[node name="LabelArts" type="Label" parent="."]
+layout_mode = 0
+offset_right = 250.0
+offset_bottom = 45.0
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_4dggq")
+text = "Items"
+clip_text = true

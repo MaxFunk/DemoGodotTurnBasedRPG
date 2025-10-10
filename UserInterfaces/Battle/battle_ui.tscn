@@ -33,48 +33,56 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="BattleHeroDisplay1" parent="DataDisplays" instance=ExtResource("2_6i4db")]
+layout_mode = 0
 offset_left = 20.0
 offset_top = 20.0
 offset_right = 480.0
 offset_bottom = 140.0
 
 [node name="BattleHeroDisplay2" parent="DataDisplays" instance=ExtResource("2_6i4db")]
+layout_mode = 0
 offset_left = 20.0
 offset_top = 160.0
 offset_right = 480.0
 offset_bottom = 280.0
 
 [node name="BattleHeroDisplay3" parent="DataDisplays" instance=ExtResource("2_6i4db")]
+layout_mode = 0
 offset_left = 20.0
 offset_top = 300.0
 offset_right = 480.0
 offset_bottom = 420.0
 
 [node name="BattleOpponentDisplay1" parent="DataDisplays" instance=ExtResource("3_71a3f")]
+layout_mode = 0
 offset_left = 1440.0
 offset_top = 20.0
 offset_right = 1900.0
 offset_bottom = 120.0
 
 [node name="BattleOpponentDisplay2" parent="DataDisplays" instance=ExtResource("3_71a3f")]
+layout_mode = 0
 offset_left = 1440.0
 offset_top = 140.0
 offset_right = 1900.0
 offset_bottom = 240.0
 
 [node name="BattleOpponentDisplay3" parent="DataDisplays" instance=ExtResource("3_71a3f")]
+layout_mode = 0
 offset_left = 1440.0
 offset_top = 260.0
 offset_right = 1900.0
 offset_bottom = 360.0
 
 [node name="BattleOpponentDisplay4" parent="DataDisplays" instance=ExtResource("3_71a3f")]
+layout_mode = 0
 offset_left = 1440.0
 offset_top = 380.0
 offset_right = 1900.0
 offset_bottom = 480.0
 
 [node name="BattleOpponentDisplay5" parent="DataDisplays" instance=ExtResource("3_71a3f")]
+layout_mode = 0
 offset_left = 1440.0
 offset_top = 500.0
 offset_right = 1900.0
@@ -82,29 +90,34 @@ offset_bottom = 600.0
 
 [node name="BattleActionMain" parent="." instance=ExtResource("4_0smqk")]
 layout_mode = 1
-offset_left = 400.0
-offset_top = 450.0
-offset_right = 900.0
-offset_bottom = 950.0
+offset_left = 600.0
+offset_top = 300.0
+offset_right = 1100.0
+offset_bottom = 800.0
 
 [node name="BattleActionArts" parent="." instance=ExtResource("5_namm0")]
+visible = false
+layout_mode = 0
 offset_left = 700.0
-offset_top = 300.0
+offset_top = 275.0
 offset_right = 1250.0
-offset_bottom = 700.0
+offset_bottom = 725.0
 
 [node name="BattleActionItems" parent="." instance=ExtResource("6_60kbq")]
+visible = false
+layout_mode = 0
 offset_left = 700.0
-offset_top = 300.0
+offset_top = 275.0
 offset_right = 1250.0
-offset_bottom = 700.0
+offset_bottom = 725.0
 
 [node name="BattleActionTactics" parent="." instance=ExtResource("6_ld7hv")]
 visible = false
+layout_mode = 0
 offset_left = 700.0
-offset_top = 450.0
+offset_top = 275.0
 offset_right = 1150.0
-offset_bottom = 700.0
+offset_bottom = 575.0
 
 [node name="LabelDescription" type="Label" parent="."]
 layout_mode = 0
