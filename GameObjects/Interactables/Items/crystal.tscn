@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://ctnre5xcpb2vm"]
+
+[ext_resource type="PackedScene" uid="uid://ckxw05aoy0304" path="res://GameObjects/Interactables/interaction_component.tscn" id="1_ngcgk"]
+[ext_resource type="Script" uid="uid://cs00lpb3vhhth" path="res://GameObjects/Interactables/Items/crystal.gd" id="1_xo3rw"]
+[ext_resource type="Shader" uid="uid://dc6kh38m0et4" path="res://Resources/Shader/shader_vis_crystal.tres" id="2_eb0ql"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4qyke"]
+render_priority = 0
+shader = ExtResource("2_eb0ql")
+shader_parameter/is_active = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_xrto4"]
+material = SubResource("ShaderMaterial_4qyke")
+size = Vector3(0.3, 1, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xrto4"]
+size = Vector3(0.5, 1, 0.5)
+
+[node name="Crystal" type="StaticBody3D"]
+script = ExtResource("1_xo3rw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_xrto4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_xrto4")
+debug_color = Color(0.633526, 0.34392712, 1, 0.41960785)
+debug_fill = false
+
+[node name="InteractionComponent" parent="." instance=ExtResource("1_ngcgk")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionComponent"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_xrto4")
+debug_color = Color(0.633526, 0.34392712, 1, 0.41960785)
+debug_fill = false
+
+[connection signal="interaction" from="InteractionComponent" to="." method="_on_interaction_component_interaction"]

@@ -1,7 +1,23 @@
 class_name WorldScene
 extends Node3D
 
+const ExplorationUI = preload("uid://di5i16mta30pf")
+
+@export var load_exploration_ui: bool = true;
+
 var cutscene_node: GameCutscene = null;
+var exploration_ui: ExplorationUI = null;
+
+
+func _ready() -> void:
+	if load_exploration_ui:
+		var exploration_scene := preload("res://UserInterfaces/Exploration/exploration_user_interface.tscn");
+		exploration_ui = exploration_scene.instantiate() as ExplorationUI;
+		add_child(exploration_ui);
+		exploration_ui.current_world_scene = self;
+		exploration_ui.update_data();
+		
+	return
 
 
 func add_cutscene_node(gc_node: GameCutscene) -> void:

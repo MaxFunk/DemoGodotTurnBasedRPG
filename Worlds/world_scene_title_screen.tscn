@@ -6,6 +6,7 @@
 
 [node name="WorldSceneTitleScreen" type="Node3D"]
 script = ExtResource("1_24pvv")
+load_exploration_ui = false
 metadata/_custom_type_script = "uid://c7ts8ujxoerht"
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]

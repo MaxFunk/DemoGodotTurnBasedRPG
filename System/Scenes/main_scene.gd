@@ -5,6 +5,7 @@ const ingame_menu_scene := preload("res://UserInterfaces/IngameMenu/ingame_menu_
 const battle_scene_packed := preload("res://System/Scenes/battle_scene.tscn");
 const IngameMenu := preload("res://UserInterfaces/IngameMenu/ingame_menu_ui.gd");
 
+signal world_scene_instantiated();
 signal battle_finished();
 
 @onready var loading_screen := $LoadingScreen as LoadingScreen;
@@ -65,7 +66,23 @@ func instantiate_world() -> void:
 	add_child(world_scene);
 	
 	loading_screen.start_fade_out();
+	world_scene_instantiated.emit();
 	return
+
+
+func load_player_transform(pos: String, rot: String) -> void:
+	await world_scene_instantiated;
+	
+	var pos_array := pos.remove_chars("()").split(", ");
+	var rot_array := rot.remove_chars("()").split(", ");
+	
+	if player_char == null or pos_array.size() < 3 or rot_array.size() < 3:
+		return
+	
+	player_char.global_position = Vector3(float(pos_array[0]), float(pos_array[1]), float(pos_array[2]));
+	player_char.global_rotation = Vector3(float(rot_array[0]), float(rot_array[1]), float(rot_array[2]));
+	return
+
 
 ## Returns the path the World
 func get_scene_path(id: int) -> StringName:

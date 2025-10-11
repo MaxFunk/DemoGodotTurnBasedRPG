@@ -203,8 +203,9 @@ func _on_water_checker_body_exited(body: Node3D) -> void:
 
 func _on_timer_coyote_timeout() -> void:
 	is_coyote_time = false;
-	is_falling = true;
-	model_3d.play_animation("Fall", true);
+	if is_jumping == false:
+		is_falling = true;
+		model_3d.play_animation("Fall", true);
 	return
 
 

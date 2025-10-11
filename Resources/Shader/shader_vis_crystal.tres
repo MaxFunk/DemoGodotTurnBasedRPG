@@ -1,0 +1,99 @@
+[gd_resource type="VisualShader" load_steps=9 format=3 uid="uid://dc6kh38m0et4"]
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_p2auy"]
+default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 1, 1), 2, Vector3(0.5, 0.5, 0.5)]
+op_type = 3
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_p2auy"]
+input_name = "time"
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_ihut2"]
+function = 1
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_p2auy"]
+constant = Color(0.7161, 0.50219995, 0.93, 1)
+
+[sub_resource type="VisualShaderNodeBooleanParameter" id="VisualShaderNodeBooleanParameter_p2auy"]
+parameter_name = "is_active"
+default_value_enabled = true
+default_value = true
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_ihut2"]
+constant = Color(0.4672798, 0.2904, 0.88, 1)
+
+[sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_7oua6"]
+default_input_values = [0, false, 1, Vector3(1, 1, 1), 2, Vector3(0, 0, 0)]
+op_type = 4
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_sahf3"]
+constant = Color(0.7384532, 0.40420002, 0.86, 1)
+
+[resource]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, depth_test_default, cull_back, diffuse_lambert, specular_schlick_ggx;
+
+uniform bool is_active = true;
+
+
+
+void fragment() {
+// ColorConstant:13
+	vec4 n_out13p0 = vec4(0.716100, 0.502200, 0.930000, 1.000000);
+
+
+// BooleanParameter:2
+	bool n_out2p0 = is_active;
+
+
+// ColorConstant:3
+	vec4 n_out3p0 = vec4(0.467280, 0.290400, 0.880000, 1.000000);
+
+
+// ColorConstant:6
+	vec4 n_out6p0 = vec4(0.738453, 0.404200, 0.860000, 1.000000);
+
+
+// Input:11
+	float n_out11p0 = TIME;
+
+
+// FloatFunc:12
+	float n_out12p0 = cos(n_out11p0);
+
+
+// Mix:10
+	vec3 n_out10p0 = mix(vec3(n_out3p0.xyz), vec3(n_out6p0.xyz), vec3(n_out12p0));
+
+
+	vec3 n_out4p0;
+// Switch:4
+	vec3 n_in4p2 = vec3(0.00000, 0.00000, 0.00000);
+	n_out4p0 = mix(n_in4p2, n_out10p0, float(n_out2p0));
+
+
+// Output:0
+	ALBEDO = vec3(n_out13p0.xyz);
+	EMISSION = n_out4p0;
+
+
+}
+"
+nodes/vertex/0/position = Vector2(320, 120)
+nodes/fragment/0/position = Vector2(240, -320)
+nodes/fragment/2/node = SubResource("VisualShaderNodeBooleanParameter_p2auy")
+nodes/fragment/2/position = Vector2(-300, -240)
+nodes/fragment/3/node = SubResource("VisualShaderNodeColorConstant_ihut2")
+nodes/fragment/3/position = Vector2(-520, -60)
+nodes/fragment/4/node = SubResource("VisualShaderNodeSwitch_7oua6")
+nodes/fragment/4/position = Vector2(20, -160)
+nodes/fragment/6/node = SubResource("VisualShaderNodeColorConstant_sahf3")
+nodes/fragment/6/position = Vector2(-520, 40)
+nodes/fragment/10/node = SubResource("VisualShaderNodeMix_p2auy")
+nodes/fragment/10/position = Vector2(-240, 0)
+nodes/fragment/11/node = SubResource("VisualShaderNodeInput_p2auy")
+nodes/fragment/11/position = Vector2(-800, 160)
+nodes/fragment/12/node = SubResource("VisualShaderNodeFloatFunc_ihut2")
+nodes/fragment/12/position = Vector2(-520, 160)
+nodes/fragment/13/node = SubResource("VisualShaderNodeColorConstant_p2auy")
+nodes/fragment/13/position = Vector2(20, -320)
+nodes/fragment/connections = PackedInt32Array(2, 0, 4, 0, 11, 0, 12, 0, 12, 0, 10, 2, 3, 0, 10, 0, 6, 0, 10, 1, 10, 0, 4, 1, 4, 0, 0, 5, 13, 0, 0, 0)

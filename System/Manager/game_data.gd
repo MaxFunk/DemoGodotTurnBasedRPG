@@ -15,11 +15,14 @@ var backup_party: PackedInt32Array = [];
 var inaccessable: PackedInt32Array = [];
 
 var analyzed_opponents: PackedInt32Array = [];
+var collected_crystals: PackedInt32Array = [];
 
 var item_keyitems: PackedInt32Array = [];
 var item_consumables: PackedInt32Array = [];
 var item_materials: PackedInt32Array = [];
 var item_ingredients: PackedInt32Array = [];
+
+
 
 
 func _ready() -> void:
@@ -55,12 +58,15 @@ func game_instance_reset() -> void:
 	backup_party.clear();
 	inaccessable.clear();
 	
+	collected_crystals.clear();
 	analyzed_opponents.clear();
 	reset_item_data();
 	return
 
 
 func save_game_data() -> Dictionary[String, Variant]:
+	var player_valid := main_scene.player_char != null;
+	
 	var char_dict: Array[Dictionary] = [];
 	for i in range(8):
 		if characters[i] != null:
@@ -71,17 +77,25 @@ func save_game_data() -> Dictionary[String, Variant]:
 		"playtime": int(min(playtime, 3599999.0)),
 		"date": date_id,
 		"money": money,
+		"player": {
+			"player_valid": player_valid,
+			"player_pos": main_scene.player_char.global_position if player_valid else Vector3.ZERO,
+			"player_rot": main_scene.player_char.global_rotation if player_valid else Vector3.ZERO,
+			},
 		"party": {
 			"active_party": active_party,
 			"backup_party": backup_party,
 			"inaccessable": inaccessable
 			},
 		"characters": char_dict,
+		
 		"analyzed_opponents": analyzed_opponents,
+		"collected_crystals": collected_crystals,
+		
 		"items_keyitems": item_keyitems,
 		"items_consumables": item_consumables,
 		"items_materials": item_materials,
-		"items_ingredients": item_ingredients
+		"items_ingredients": item_ingredients,
 	};
 	return save_dict
 
@@ -111,8 +125,10 @@ func load_existing_game_data(data: Dictionary, save_slot: int) -> void:
 	
 	for analyzed_id in data["analyzed_opponents"] as Array:
 		analyzed_opponents.append(int(analyzed_id));
+	for crystals_id in data["collected_crystals"] as Array:
+		collected_crystals.append(int(crystals_id));
 	
-	reset_item_data();
+	reset_item_data(); # ? unnecessary ?
 	var item_data_k := data["items_keyitems"] as Array;
 	for i in item_data_k.size():
 		item_keyitems[i] = int(item_data_k[i]);
@@ -129,6 +145,10 @@ func load_existing_game_data(data: Dictionary, save_slot: int) -> void:
 	cur_savefile_slot = save_slot;
 	game_running = true;
 	main_scene.load_world(data["worldscene_id"]);
+	
+	var player_data := data["player"] as Dictionary;
+	if player_data["player_valid"] as bool == true:
+		main_scene.load_player_transform(player_data["player_pos"], player_data["player_rot"]);
 	return
 
 
