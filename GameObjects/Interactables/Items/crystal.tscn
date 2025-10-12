@@ -5,12 +5,12 @@
 [ext_resource type="Shader" uid="uid://dc6kh38m0et4" path="res://Resources/Shader/shader_vis_crystal.tres" id="2_eb0ql"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4qyke"]
+resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("2_eb0ql")
 shader_parameter/is_active = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_xrto4"]
-material = SubResource("ShaderMaterial_4qyke")
 size = Vector3(0.3, 1, 0.3)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_xrto4"]
@@ -21,6 +21,7 @@ script = ExtResource("1_xo3rw")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+material_override = SubResource("ShaderMaterial_4qyke")
 mesh = SubResource("BoxMesh_xrto4")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

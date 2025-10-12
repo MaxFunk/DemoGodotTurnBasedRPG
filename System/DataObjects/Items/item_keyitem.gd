@@ -9,6 +9,7 @@ var is_visible: bool = false;
 
 
 func _init(lookup_id: int, amount_value: int) -> void:
+	item_type = 0;
 	id = lookup_id;
 	amount = amount_value;
 	

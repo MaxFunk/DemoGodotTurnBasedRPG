@@ -21,8 +21,19 @@ func _on_interaction_component_interaction() -> void:
 		return
 	
 	deactivate_crystal();
+	
+	var chosen_item: PackedInt32Array = [];
+	var chosen_item_amounts: PackedInt32Array = [];
 	for i in amount_dropped:
-		GameData.item_consumables[choose_item()] += 1;
+		var item_id := choose_item();
+		if chosen_item.has(item_id):
+			chosen_item_amounts[chosen_item.find(item_id)] += 1;
+		else:
+			chosen_item.append(item_id);
+			chosen_item_amounts.append(1);
+	
+	for i in chosen_item.size():
+		GameData.recieve_items(1, chosen_item[i], chosen_item_amounts[i]);
 	return
 
 
@@ -46,6 +57,7 @@ func deactivate_crystal() -> void:
 	if crystal_id >= 0 and GameData.collected_crystals.has(crystal_id) == false:
 		GameData.collected_crystals.append(crystal_id);
 	
-	var material := (mesh_inst.mesh as PrimitiveMesh).material as ShaderMaterial;
+	#var material := mesh_inst.get_surface_override_material(0) as ShaderMaterial;
+	var material := mesh_inst.material_override as ShaderMaterial;
 	material.set_shader_parameter("is_active", false);
 	return

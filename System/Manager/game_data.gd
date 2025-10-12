@@ -177,6 +177,15 @@ func add_new_chardata(id: int) -> void:
 	return
 
 
+func get_active_party_member(index: int) -> CharacterData:
+	if index < 0 or index > 2:
+		return null
+	var char_index := active_party[index];
+	if char_index < 0 or char_index > 7:
+		return null
+	return characters[char_index];
+
+
 func get_characters_only(char_array: Array[CharacterData]) -> void:
 	for ch in characters:
 		if ch:
@@ -191,6 +200,34 @@ func get_first_free_party_slot() -> int:
 	return -1
 
 
+func recieve_items(category: int, id: int, amount: int) -> void:
+	if id < 0:
+		return
+	
+	var new_item: Item;
+	match category:
+		0:
+			if id < item_keyitems.size():
+				item_keyitems[id] += amount;
+				new_item = ItemKeyitem.new(id, amount);
+		1:
+			if id < item_consumables.size():
+				item_consumables[id] += amount;
+				new_item = ItemConsumable.new(id, amount);
+		2:
+			if id < item_materials.size():
+				item_materials[id] += amount;
+				new_item = ItemMaterial.new(id, amount);
+		3:
+			if id < item_ingredients.size():
+				item_ingredients[id] += amount;
+				new_item = ItemIngredient.new(id, amount);
+	
+	if new_item and main_scene.world_scene.exploration_ui:
+		main_scene.world_scene.exploration_ui.queue_new_item(new_item);
+	return
+
+
 func return_to_titlescreen() -> void:
 	main_scene.end_battle_scene();
 	main_scene.close_ingame_menu();
@@ -202,7 +239,7 @@ func return_to_titlescreen() -> void:
 func reload_savefile() -> void:
 	main_scene.end_battle_scene();
 	main_scene.close_ingame_menu();
-	var load_slot: int = GameData.cur_savefile_slot;
+	var load_slot: int = cur_savefile_slot;
 	game_instance_reset();
 	SaveFileManager.load_from_file(load_slot);
 	return

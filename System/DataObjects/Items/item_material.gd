@@ -8,6 +8,7 @@ var type := TYPE.MATERIAL;
 
 
 func _init(lookup_id: int, amount_value: int) -> void:
+	item_type = 2;
 	id = lookup_id;
 	amount = amount_value;
 	

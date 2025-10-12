@@ -49,6 +49,11 @@ debug_color = Color(0.227572, 0.509106, 1, 0.42)
 wait_time = 0.2
 one_shot = true
 
+[node name="TimerStillStanding" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
 [connection signal="body_entered" from="WaterChecker" to="." method="_on_water_checker_body_entered"]
 [connection signal="body_exited" from="WaterChecker" to="." method="_on_water_checker_body_exited"]
 [connection signal="timeout" from="TimerCoyote" to="." method="_on_timer_coyote_timeout"]
+[connection signal="timeout" from="TimerStillStanding" to="." method="_on_timer_still_standing_timeout"]

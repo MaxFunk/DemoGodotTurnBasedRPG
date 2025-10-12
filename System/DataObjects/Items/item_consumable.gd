@@ -27,6 +27,7 @@ var cast_targeting: int = 0;
 
 
 func _init(lookup_id: int, amount_value: int) -> void:
+	item_type = 1;
 	id = lookup_id;
 	amount = amount_value;
 	

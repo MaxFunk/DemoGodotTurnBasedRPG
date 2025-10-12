@@ -95,6 +95,7 @@ func instantiate_ingame_menu() -> void:
 	if ingame_menu_node == null:
 		ingame_menu_node = ingame_menu_scene.instantiate() as IngameMenu;
 		add_child(ingame_menu_node);
+		world_scene.set_exploration_ui_visibility(false);
 		world_scene.process_mode = Node.PROCESS_MODE_DISABLED;
 	return
 
@@ -103,6 +104,7 @@ func close_ingame_menu() -> void:
 	if ingame_menu_node:
 		remove_child(ingame_menu_node);
 		ingame_menu_node.queue_free();
+		world_scene.set_exploration_ui_visibility(true);
 		player_char.load_hero_model();
 		enable_world_processing = true;
 	return
@@ -113,6 +115,7 @@ func instantiate_talking_ui(first_text_id: int) -> void:
 		player_char.move_mode = player_char.MOVEMODE.NONE;
 		talking_ui = preload("res://UserInterfaces/General/talking_ui.tscn").instantiate() as TalkingUI;
 		add_child(talking_ui);
+		world_scene.set_exploration_ui_visibility(false);
 		talking_ui.begin(first_text_id);
 	return
 
@@ -121,6 +124,7 @@ func clear_talking_ui() -> void:
 	if talking_ui:
 		remove_child(talking_ui);
 		talking_ui.queue_free();
+		world_scene.set_exploration_ui_visibility(true);
 		player_char.move_mode = player_char.MOVEMODE.WALKING;
 	return
 
@@ -133,7 +137,10 @@ func instantiate_battle_scene(scene_transform: Transform3D, enemy_group: EnemyGr
 		battle_finished.connect(enemy_group.on_battle_finished);
 		battle_scene = battle_scene_packed.instantiate() as BattleScene;
 		world_scene.add_child(battle_scene);
+		
+		world_scene.set_exploration_ui_visibility(false);
 		world_scene.change_all_actors_visibility(false);
+		
 		battle_scene.global_transform = scene_transform;
 		battle_scene.initiate_field(enemy_group.enemy_ids);
 	return
@@ -142,6 +149,7 @@ func instantiate_battle_scene(scene_transform: Transform3D, enemy_group: EnemyGr
 func end_battle_scene() -> void:
 	if battle_scene:
 		world_scene.remove_child(battle_scene);
+		world_scene.set_exploration_ui_visibility(true);
 		world_scene.change_all_actors_visibility(true);
 		battle_scene.queue_free();
 		battle_finished.emit();
@@ -154,6 +162,7 @@ func load_game_cutscene(_id: int, activator: Node3D) -> void:
 	await loading_screen.fade_finished;
 	
 	var cutscene_node := preload("uid://dhljnek2lxm7i").instantiate() as GameCutscene;
+	world_scene.set_exploration_ui_visibility(false);
 	world_scene.add_cutscene_node(cutscene_node);
 	cutscene_node.setup_cutscene(activator);
 	player_char.visible = false;
@@ -169,6 +178,7 @@ func finish_game_cutscene(char_transform: Transform3D) -> void:
 	await loading_screen.fade_finished;
 	
 	world_scene.clear_cutscene_node();
+	world_scene.set_exploration_ui_visibility(true);
 	world_scene.process_mode = Node.PROCESS_MODE_INHERIT;
 	player_char.global_transform = char_transform;
 	player_char.visible = true;

@@ -256,7 +256,8 @@ func on_character_defeated(chd: BattleData) -> void:
 		
 		battle_ending = true;
 		for hero in active_heros:
-			hero.write_back_character_data();
+			if hero:
+				hero.write_back_character_data();
 		process_mode = Node.PROCESS_MODE_DISABLED;
 		post_battle_ui.init_ui(false, exp_cashout);
 	return

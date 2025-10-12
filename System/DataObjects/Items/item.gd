@@ -5,6 +5,7 @@ var id: int = -1;
 var name: String = "";
 var description: String = "";
 var amount: int = 0;
+var item_type: int = -1; # 0 = Keyitem, 1 = Consumable, 2 = Material, 3 = Ingredient
 var category_str: String = "";
 
 @abstract

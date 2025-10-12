@@ -1,6 +1,249 @@
-[gd_scene load_steps=2 format=3 uid="uid://b42m8to7tm2wc"]
+[gd_scene load_steps=9 format=3 uid="uid://b42m8to7tm2wc"]
 
 [ext_resource type="Script" uid="uid://di5i16mta30pf" path="res://UserInterfaces/Exploration/exploration_user_interface.gd" id="1_mwihc"]
+[ext_resource type="PackedScene" uid="uid://o88v6x2kkdgj" path="res://UserInterfaces/Exploration/exploration_hero_overview.tscn" id="2_rryhr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mwihc"]
+bg_color = Color(0.12549, 0.12549, 0.12549, 0.752941)
+skew = Vector2(0.5, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rryhr"]
+bg_color = Color(0.12549, 0.12549, 0.12549, 0.752941)
+skew = Vector2(-0.5, 0)
+
+[sub_resource type="Animation" id="Animation_rryhr"]
+resource_name = "DetailFadeIn"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ControlDate:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-50, 0), Vector2(-500, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ControlDate:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ControlStory:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1520, 0), Vector2(1970, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ControlStory:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("ControlHeros:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 120), Vector2(-450, 120)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("ControlHeros:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_s87ap"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ControlDate:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-50, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ControlDate:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ControlStory:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1520, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ControlStory:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("ControlHeros:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 120)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("ControlHeros:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_41d0p"]
+resource_name = "DetailFadeIn"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ControlDate:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-500, 0), Vector2(-50, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ControlDate:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ControlStory:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1970, 0), Vector2(1520, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ControlStory:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("ControlHeros:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-450, 120), Vector2(0, 120)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("ControlHeros:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_s87ap"]
+_data = {
+&"DetailFadeIn": SubResource("Animation_41d0p"),
+&"DetailFadeOut": SubResource("Animation_rryhr"),
+&"RESET": SubResource("Animation_s87ap")
+}
 
 [node name="ExplorationUserInterface" type="Control"]
 layout_mode = 3
@@ -11,14 +254,113 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_mwihc")
 
-[node name="LabelDate" type="Label" parent="."]
-layout_mode = 0
-offset_left = 1700.0
-offset_top = 5.0
-offset_right = 1900.0
-offset_bottom = 93.0
+[node name="ControlDate" type="Control" parent="."]
+anchors_preset = 0
+offset_left = -50.0
+offset_right = 400.0
+offset_bottom = 95.0
+
+[node name="LeftPanel" type="Panel" parent="ControlDate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_mwihc")
+
+[node name="LabelDate" type="Label" parent="ControlDate"]
+layout_mode = 1
+offset_left = 75.0
+offset_right = 275.0
+offset_bottom = 100.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 10
 theme_override_font_sizes/font_size = 64
 text = "29/12"
-horizontal_alignment = 2
+
+[node name="LabelDay" type="Label" parent="ControlDate"]
+layout_mode = 1
+offset_left = 275.0
+offset_top = 33.0
+offset_right = 350.0
+offset_bottom = 93.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 32
+text = "FRI"
+
+[node name="IconWeather" type="ColorRect" parent="ControlDate"]
+layout_mode = 0
+offset_left = 350.0
+offset_top = 20.0
+offset_right = 400.0
+offset_bottom = 70.0
+
+[node name="ControlStory" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 1520.0
+offset_right = 1970.0007
+offset_bottom = 95.0
+
+[node name="RightPanel" type="Panel" parent="ControlStory"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_rryhr")
+
+[node name="LabelStoryQuest" type="Label" parent="ControlStory/RightPanel"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 5.0
+offset_right = 425.0
+offset_bottom = 86.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 28
+text = "Story Quest text with short description about the task"
+autowrap_mode = 3
+max_lines_visible = 2
+
+[node name="ControlHeros" type="Control" parent="."]
+anchors_preset = 0
+offset_top = 120.0
+offset_right = 350.0
+offset_bottom = 420.0
+
+[node name="ExplorationHeroOverview1" parent="ControlHeros" instance=ExtResource("2_rryhr")]
+layout_mode = 0
+
+[node name="ExplorationHeroOverview2" parent="ControlHeros" instance=ExtResource("2_rryhr")]
+layout_mode = 0
+offset_top = 100.0
+offset_bottom = 200.0
+
+[node name="ExplorationHeroOverview3" parent="ControlHeros" instance=ExtResource("2_rryhr")]
+layout_mode = 0
+offset_top = 200.0
+offset_bottom = 300.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_s87ap")
+}
+
+[node name="ControlItems" type="Control" parent="."]
+anchors_preset = 0
+offset_top = 500.0
+offset_right = 500.0
+offset_bottom = 800.0
+
+[node name="MinimapPlaceholder" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 1650.0
+offset_top = 500.0
+offset_right = 1900.0
+offset_bottom = 750.0
+color = Color(0.12549, 0.12549, 0.12549, 0.498039)
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

@@ -1,8 +1,6 @@
 class_name WorldScene
 extends Node3D
 
-const ExplorationUI = preload("uid://di5i16mta30pf")
-
 @export var load_exploration_ui: bool = true;
 
 var cutscene_node: GameCutscene = null;
@@ -41,4 +39,12 @@ func change_all_actors_visibility(value: bool) -> void:
 		if child.is_in_group("Actors") and child is Node3D:
 			(child as Node3D).visible = value;
 			child.process_mode = Node.PROCESS_MODE_INHERIT if value else Node.PROCESS_MODE_DISABLED;
+	return
+
+
+func set_exploration_ui_visibility(value: bool) -> void:
+	if exploration_ui:
+		exploration_ui.visible = value;
+		if value:
+			exploration_ui.update_data();
 	return

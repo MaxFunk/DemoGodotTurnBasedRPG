@@ -1,0 +1,57 @@
+[gd_scene load_steps=2 format=3 uid="uid://ddjtcd5p6uyw4"]
+
+[ext_resource type="Script" uid="uid://con5ugiscqvps" path="res://UserInterfaces/Exploration/exploration_item_view.gd" id="1_jwv0d"]
+
+[node name="ExplorationItemView" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 500.0
+offset_bottom = 60.0
+script = ExtResource("1_jwv0d")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.12549, 0.12549, 0.12549, 0.752941)
+
+[node name="IconItem" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 50.0
+offset_bottom = 50.0
+
+[node name="LabelName" type="Label" parent="."]
+layout_mode = 0
+offset_left = 150.0
+offset_top = 8.0
+offset_right = 490.0
+offset_bottom = 53.0
+theme_override_font_sizes/font_size = 32
+text = "Item Name"
+clip_text = true
+
+[node name="LabelAmount" type="Label" parent="."]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 8.0
+offset_right = 120.0
+offset_bottom = 53.0
+theme_override_font_sizes/font_size = 32
+text = "999"
+horizontal_alignment = 2
+clip_text = true
+
+[node name="LabelTimes" type="Label" parent="."]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 8.0
+offset_right = 140.0
+offset_bottom = 53.0
+theme_override_font_sizes/font_size = 32
+text = "x"
+clip_text = true

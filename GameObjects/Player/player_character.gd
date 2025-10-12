@@ -9,6 +9,7 @@ enum MOVEMODE {WALKING = 0, SWIMMING = 1, CAM_ONLY = 2, NONE = 9}
 @onready var interact_cast := $RayCastInteract as RayCast3D;
 @onready var water_checker := $WaterChecker as Area3D;
 @onready var timer_coyote := $TimerCoyote as Timer;
+@onready var timer_stillstanding := $TimerStillStanding as Timer;
 
 const move_speed: float = 150.0;
 const jump_strength: float = 320.0;
@@ -18,6 +19,7 @@ var model_3d: Model3D;
 var cur_model_id: int = -1;
 
 var move_mode := MOVEMODE.WALKING;
+var is_standing_still: bool = true;
 var is_jumping: bool = false;
 var is_running: bool = false;
 var is_falling: bool = false;
@@ -117,6 +119,16 @@ func process_walking(delta: float) -> void:
 		is_jumping = false;
 		is_falling = false;
 	
+	if is_zero_approx(velocity.length_squared()):
+		if is_standing_still == false and timer_stillstanding.is_stopped():
+			timer_stillstanding.start();
+	else:
+		if is_standing_still:
+			if GameData.main_scene.world_scene.exploration_ui:
+				GameData.main_scene.world_scene.exploration_ui.detail_fade_out();
+			is_standing_still = false;
+		timer_stillstanding.stop();
+	
 	# Check if started falling in this frame
 	if !on_floor and !is_jumping and !is_falling and !is_coyote_time:
 		is_coyote_time = true;
@@ -187,6 +199,14 @@ func load_hero_model() -> void:
 	return
 
 
+func on_model3d_animation_finished(anim_name: String) -> void:
+	if anim_name == "Jump":
+		is_jumping = false;
+		is_falling = true;
+		model_3d.play_animation("Fall", true);
+	return
+
+
 func _on_water_checker_body_entered(body: Node3D) -> void:
 	if body is Water3D:
 		current_water = body as Water3D;
@@ -209,9 +229,9 @@ func _on_timer_coyote_timeout() -> void:
 	return
 
 
-func on_model3d_animation_finished(anim_name: String) -> void:
-	if anim_name == "Jump":
-		is_jumping = false;
-		is_falling = true;
-		model_3d.play_animation("Fall", true);
+func _on_timer_still_standing_timeout() -> void:
+	if GameData.main_scene.world_scene.exploration_ui:
+		GameData.main_scene.world_scene.exploration_ui.detail_fade_in();
+	is_standing_still = true;
+	timer_stillstanding.stop();
 	return
