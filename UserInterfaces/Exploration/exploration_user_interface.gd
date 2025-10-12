@@ -2,7 +2,8 @@ class_name ExplorationUI extends Control
 
 const ExplorationHeroOverview = preload("uid://me80g7f5ttfm");
 const ItemView = preload("uid://con5ugiscqvps")
-const EXPLORATION_ITEM_VIEW = preload("uid://ddjtcd5p6uyw4")
+const Minimap = preload("uid://hrq8hdjwddus");
+const EXPLORATION_ITEM_VIEW = preload("uid://ddjtcd5p6uyw4");
 
 @onready var label_date := $ControlDate/LabelDate as Label;
 @onready var label_day := $ControlDate/LabelDay as Label;
@@ -13,6 +14,7 @@ const EXPLORATION_ITEM_VIEW = preload("uid://ddjtcd5p6uyw4")
 @onready var hero_overview_2 := $ControlHeros/ExplorationHeroOverview2 as ExplorationHeroOverview;
 @onready var hero_overview_3 := $ControlHeros/ExplorationHeroOverview3 as ExplorationHeroOverview;
 @onready var ctrl_items := $ControlItems as Control;
+@onready var minimap := $ExplorationMinimap as Minimap;
 @onready var anim_player := $AnimationPlayer as AnimationPlayer;
 
 var current_world_scene: WorldScene = null;
@@ -46,6 +48,11 @@ func update_data() -> void:
 	hero_overview_1.update_data(GameData.get_active_party_member(0));
 	hero_overview_2.update_data(GameData.get_active_party_member(1));
 	hero_overview_3.update_data(GameData.get_active_party_member(2));
+	return
+
+
+func minimap_update(player: PlayerCharacter) -> void:
+	minimap.update_minimap(player.global_position, player.global_rotation);
 	return
 
 

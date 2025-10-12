@@ -133,6 +133,10 @@ func process_walking(delta: float) -> void:
 	if !on_floor and !is_jumping and !is_falling and !is_coyote_time:
 		is_coyote_time = true;
 		timer_coyote.start();
+	
+	# Minimap update
+	if GameData.main_scene.world_scene.exploration_ui:
+		GameData.main_scene.world_scene.exploration_ui.minimap_update(self);
 	return
 
 

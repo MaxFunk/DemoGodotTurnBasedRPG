@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://58dpuct54vxa"]
+
+[ext_resource type="Script" uid="uid://hrq8hdjwddus" path="res://UserInterfaces/Exploration/exploration_minimap.gd" id="1_dy5vh"]
+[ext_resource type="Shader" uid="uid://c44koa22cqpk0" path="res://Resources/Shader/minimap_shader.tres" id="2_pu4cm"]
+[ext_resource type="Texture2D" uid="uid://cinvhuk3vvvvy" path="res://Resources/Images/Minimaps/minimap_debug_world.png" id="3_aa5re"]
+[ext_resource type="Texture2D" uid="uid://d0vvlm6ymd3el" path="res://Resources/Images/Minimaps/minimap_player_icon.png" id="4_1hhdg"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aa5re"]
+shader = ExtResource("2_pu4cm")
+shader_parameter/OffsetUV = Vector2(0, 0)
+shader_parameter/Minimap2D = ExtResource("3_aa5re")
+
+[node name="ExplorationMinimap" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 250.0
+offset_bottom = 250.0
+script = ExtResource("1_dy5vh")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.12549, 0.12549, 0.12549, 0.752941)
+
+[node name="MinimapRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_aa5re")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="IconPlayer" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+pivot_offset = Vector2(125, 125)
+texture = ExtResource("4_1hhdg")
