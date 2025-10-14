@@ -1,6 +1,5 @@
-[gd_scene load_steps=5 format=3 uid="uid://c0vqb1ed8wih7"]
+[gd_scene load_steps=4 format=3 uid="uid://c0vqb1ed8wih7"]
 
-[ext_resource type="PackedScene" uid="uid://dd8q5fg3b203r" path="res://Resources/Models/NPCs/char_base.glb" id="1_iw348"]
 [ext_resource type="Script" uid="uid://dh7eeod6cqxwn" path="res://GameObjects/NPCs/npc_generic.gd" id="1_j16xx"]
 [ext_resource type="PackedScene" uid="uid://ckxw05aoy0304" path="res://GameObjects/Interactables/interaction_component.tscn" id="3_jl5x1"]
 
@@ -11,11 +10,10 @@ collision_layer = 512
 collision_mask = 775
 script = ExtResource("1_j16xx")
 
-[node name="ModelNPC" parent="." instance=ExtResource("1_iw348")]
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CylinderShape3D_j16xx")
+debug_color = Color(0.69912803, 0.49316812, 0, 0.41960785)
 debug_fill = false
 
 [node name="InteractionComponent" parent="." instance=ExtResource("3_jl5x1")]
@@ -23,6 +21,7 @@ debug_fill = false
 [node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionComponent"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CylinderShape3D_j16xx")
+debug_color = Color(0.69912803, 0.49316812, 0, 0.41960785)
 debug_fill = false
 
 [connection signal="interaction" from="InteractionComponent" to="." method="_on_interaction_component_interaction"]

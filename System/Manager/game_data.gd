@@ -153,12 +153,14 @@ func load_existing_game_data(data: Dictionary, save_slot: int) -> void:
 
 
 func load_new_game_data(save_slot: int) -> void:
-	game_instance_reset(); # maybe optional
-	# reset_item_data(); if above is removed
+	game_instance_reset(); # just to be safe
+	
+	# Data to be loaded in when starting a new game
+	add_new_chardata(0);
 	
 	game_running = true;
 	cur_savefile_slot = save_slot;
-	main_scene.load_world(999);
+	main_scene.load_world(2);
 	return
 
 

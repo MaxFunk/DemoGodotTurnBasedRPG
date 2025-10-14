@@ -88,6 +88,7 @@ func load_player_transform(pos: String, rot: String) -> void:
 func get_scene_path(id: int) -> StringName:
 	match id:
 		1: return "res://Worlds/world_scene_title_screen.tscn"
+		2: return "res://Worlds/world_scene_head_quarter.tscn"
 		_: return "res://Worlds/world_scene_debug.tscn"
 
 
