@@ -4,11 +4,11 @@ class_name OpponentDecision
 static func decide_action_standard(opponent: BattleData, scene: BattleScene) -> ActionData:
 	var action := ActionData.new(ActionData.ACTIONTYPE.ATTACK, scene);
 	
-	if opponent.ult_points >= 100 and opponent.ult_art:
-		action.action_type = ActionData.ACTIONTYPE.ULT;
-		action.set_targettype_from_art(opponent.ult_art);
-		action.select_random_target_as_opponent();
-		return action
+	#if opponent.ult_points >= 100 and opponent.ult_art:
+	#	action.action_type = ActionData.ACTIONTYPE.ULT;
+	#	action.set_targettype_from_art(opponent.ult_art);
+	#	action.select_random_target_as_opponent();
+	#	return action
 	
 	if randf() < 0.05:
 		action.action_type = ActionData.ACTIONTYPE.ATTACK;

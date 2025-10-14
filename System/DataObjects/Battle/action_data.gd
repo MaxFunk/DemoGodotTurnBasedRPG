@@ -3,7 +3,7 @@ extends RefCounted
 
 signal finished_casting();
 
-enum ACTIONTYPE {ATTACK = 0, ART = 1, ULT = 2, BLOCK = 3, ITEM = 4, INSPECT = 5, ANALYZE = 6}
+enum ACTIONTYPE {ATTACK = 0, ART = 1, BLOCK = 2, ITEM = 3, INSPECT = 4, ANALYZE = 5}
 enum TARGETTYPE {SINGLE_OPPONENT = 0, SINGLE_ALLY = 1, SELF_ONLY = 2, ALL_OPPONENTS = 3, 
 	ALL_ALLIES = 4, ALL = 5, SINGLE_EVERYONE = 6, NONE = 7} # See BattleArt
 
@@ -171,12 +171,6 @@ func apply_action(t_idx: int) -> void:
 				user.change_sp(-art.sp_cost);
 				sp_adjusted = true;
 			await apply_art(user, targets[t_idx], art);
-		ACTIONTYPE.ULT:
-			if !ult_points_adjusted:
-				user.ult_points = 0;
-				user.update_display.emit();
-				ult_points_adjusted = true;
-			await apply_art(user, targets[t_idx], user.ult_art);
 		ACTIONTYPE.BLOCK:
 			user.is_blocking = true;
 			user.recieve_ult_points(16);
@@ -434,8 +428,6 @@ func get_action_cast_path() -> String:
 			cast_path = default_cast;
 		ACTIONTYPE.ART:
 			cast_path += art.cast_path;
-		ACTIONTYPE.ULT:
-			cast_path += user.ult_art.cast_path;
 		ACTIONTYPE.BLOCK:
 			cast_path = "res://GameObjects/Battle/ActionCasts/General/action_cast_block.tscn";
 		ACTIONTYPE.ITEM:
@@ -457,7 +449,7 @@ func get_model_anim_name() -> String:
 	match action_type:
 		ACTIONTYPE.ATTACK:
 			return "BattleAttack"
-		ACTIONTYPE.ART, ACTIONTYPE.ULT:
+		ACTIONTYPE.ART:
 			if art.category == art.CATEGORY.PHYSICAL:
 				return "BattlePhysicalArt"
 			return "BattleEtherArt"
@@ -472,7 +464,6 @@ func get_multcast_allowed() -> bool:
 	match action_type:
 		ACTIONTYPE.ATTACK: return true
 		ACTIONTYPE.ART: return !art.disable_multcast;
-		ACTIONTYPE.ULT: return !user.ult_art.disable_multcast;
 		ACTIONTYPE.BLOCK: return false
 		ACTIONTYPE.ITEM: return true
 		ACTIONTYPE.ANALYZE: return false
@@ -483,7 +474,6 @@ func get_action_name() -> String:
 	match action_type:
 		ACTIONTYPE.ATTACK: return "Attack";
 		ACTIONTYPE.ART: return art.name;
-		ACTIONTYPE.ULT: return user.ult_art.name;
 		ACTIONTYPE.BLOCK: return "Block";
 		ACTIONTYPE.ITEM: return item.name;
 		ACTIONTYPE.ANALYZE: return "Analyze";

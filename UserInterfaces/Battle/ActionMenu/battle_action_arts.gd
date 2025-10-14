@@ -10,11 +10,12 @@ const ArtDisplay := preload("res://UserInterfaces/Battle/Displays/art_display.gd
 	$BackPanel/ArtDisplay4 as ArtDisplay,
 	$BackPanel/ArtDisplay5 as ArtDisplay,
 	$BackPanel/ArtDisplay6 as ArtDisplay,
-	$BackPanel/ArtDisplay7 as ArtDisplay];
+	$BackPanel/ArtDisplay7 as ArtDisplay,
+	$BackPanel/ArtDisplay8 as ArtDisplay];
 
 
 func update_ui(chd: BattleData) -> void:
-	for i in range(7):
+	for i in range(art_disps.size()):
 		art_disps[i].update(chd.arts[i], chd);
 	return
 

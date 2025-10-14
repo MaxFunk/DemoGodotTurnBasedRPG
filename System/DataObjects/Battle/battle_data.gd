@@ -29,9 +29,8 @@ var attribute_weak: PackedInt32Array = [];
 var attribute_resist: PackedInt32Array = [];
 var attribute_block: PackedInt32Array = [];
 
-var arts: Array[BattleArt] = [null, null, null, null, null, null, null];
+var arts: Array[BattleArt] = [null, null, null, null, null, null, null, null];
 var default_attack: BattleArt;
-var ult_art: BattleArt = null;
 var ult_points: int = 0;
 
 var exp_on_defeat: int = 0;
@@ -79,12 +78,8 @@ func load_opponent_data(load_id: int) -> void:
 	
 	
 	var art_data := (data.get("art_ids") as String).split(",");
-	for i in range(min(7, art_data.size())):
+	for i in range(min(8, art_data.size())):
 		arts[i] = BattleArt.new(int(art_data[i]));
-	
-	var ult_id = int(data.get("ult_id"));
-	if ult_id > 0:
-		ult_art = BattleArt.new(ult_id);
 	
 	exp_on_defeat = int(data.get("exp_on_defeat"));
 	is_analyzed = GameData.analyzed_opponents.has(load_id);
@@ -107,12 +102,9 @@ func load_existing_chardata(char_data: CharacterData) -> void:
 	for i in range(6):
 		stats[i] = char_data.accum_stats[i + 2];
 	
-	for i in range(7):
+	for i in range(8):
 		if char_data.art_ids[i] >= 0:
 			arts[i] = BattleArt.new(char_data.art_ids[i]);
-	
-	if char_data.ult_id >= 0:
-		ult_art = BattleArt.new(char_data.ult_id);
 	
 	attribute_weak = char_data.attribute_weak.duplicate();
 	attribute_resist = char_data.attribute_resist.duplicate();

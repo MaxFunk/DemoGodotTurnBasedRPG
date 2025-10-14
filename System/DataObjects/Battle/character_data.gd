@@ -19,9 +19,8 @@ var attribute_weak: PackedInt32Array = [];
 var attribute_resist: PackedInt32Array = [];
 var attribute_block: PackedInt32Array = [];
 
-var art_ids: PackedInt32Array = [-1, -1, -1, -1, -1, -1, -1];
+var art_ids: PackedInt32Array = [-1, -1, -1, -1, -1, -1, -1, -1];
 var learned_art_ids: PackedInt32Array = [];
-var ult_id: int = -1;
 
 var level_ups: int = 0;
 var level_up_art_ids: PackedInt32Array = [];
@@ -86,10 +85,10 @@ func learn_art(new_id: int, index: int) -> void:
 
 
 func load_init_data(data: Dictionary) -> void:
-	id = data["id"];
+	id = int(data["id"]);
 	name = data["name"];
-	level = data["level"];
-	total_exp = data["total_exp"];
+	level = int(data["level"]);
+	total_exp = int(data["total_exp"]);
 	
 	var basestat_data := (data["base_stats"] as String).split(",");
 	for i in range(8):
@@ -117,7 +116,6 @@ func load_init_data(data: Dictionary) -> void:
 	var art_data := (data["art_ids"] as String).split(",");
 	for i in art_data.size():
 		art_ids[i] = int(art_data[i]);
-	ult_id = int(data["ult_id"]);
 	return
 
 
@@ -157,8 +155,6 @@ func load_save_data(data: Dictionary) -> void:
 	var art_data := data["art_ids"] as Array;
 	for i in art_data.size():
 		art_ids[i] = int(art_data[i]);
-		
-	ult_id = int(data["ult_id"]);
 	
 	var learned_art_data := data["learned_art_ids"] as Array;
 	for i in learned_art_data.size():
@@ -179,7 +175,6 @@ func create_save_data() -> Dictionary[String, Variant]:
 		"attr_resist": attribute_resist,
 		"attr_block": attribute_block,
 		"art_ids": art_ids,
-		"ult_id": ult_id,
 		"learned_art_ids": learned_art_ids
 	};
 	return save_dict

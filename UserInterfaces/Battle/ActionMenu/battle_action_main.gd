@@ -3,18 +3,17 @@ extends Control
 @onready var labels: Array[Label] = [
 	$LabelAttack as Label,
 	$LabelArts as Label,
-	$LabelUlt as Label,
 	$LabelBlock as Label,
 	$LabelItems as Label,
 	$LabelTactics as Label];
 
-var rotation_per_elem: float = 18.0; # in degree
+var rotation_per_elem: float = 22.5; # in degree
 
 
 func change_rotation(input_index: int) -> void:
-	rotation_degrees = -input_index * 18.0;
+	rotation_degrees = -input_index * rotation_per_elem;
 	
-	for i in 6:
+	for i in labels.size():
 		labels[i].modulate.a = get_alpha_from_distance(absi(i - input_index));
 		labels[i].show_behind_parent = i != input_index;
 	return
@@ -34,7 +33,7 @@ func get_description_text(index: int) -> String:
 	match index:
 		0: return "Default Attack"
 		1: return "Use Arts"
-		2: return "TODO: move Ult to Arts"
-		3: return "Half damage of the next incoming attack"
-		4: return "Use Items"
-		_: return "Use Tactics such as Analyze"
+		2: return "Half damage of the next incoming attack"
+		3: return "Use Items"
+		4: return "Use Tactics such as Analyze"
+		_: return "???"

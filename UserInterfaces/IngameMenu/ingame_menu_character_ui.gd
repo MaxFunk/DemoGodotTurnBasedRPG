@@ -27,7 +27,6 @@ const ArtDisplay := preload("res://UserInterfaces/IngameMenu/Subscenes/battle_ar
 	$ContentControl/MiddleColumn/StatDisplay4 as StatDisplay,
 	$ContentControl/MiddleColumn/StatDisplay5 as StatDisplay,
 	$ContentControl/MiddleColumn/StatDisplay6 as StatDisplay];
-@onready var ult_disp := $ContentControl/RightColumn/BattleArtDisplayUlt as ArtDisplay;
 @onready var art_disps: Array[ArtDisplay] = [
 	$ContentControl/RightColumn/BattleArtDisplay1 as ArtDisplay,
 	$ContentControl/RightColumn/BattleArtDisplay2 as ArtDisplay,
@@ -35,7 +34,8 @@ const ArtDisplay := preload("res://UserInterfaces/IngameMenu/Subscenes/battle_ar
 	$ContentControl/RightColumn/BattleArtDisplay4 as ArtDisplay,
 	$ContentControl/RightColumn/BattleArtDisplay5 as ArtDisplay,
 	$ContentControl/RightColumn/BattleArtDisplay6 as ArtDisplay,
-	$ContentControl/RightColumn/BattleArtDisplay7 as ArtDisplay];
+	$ContentControl/RightColumn/BattleArtDisplay7 as ArtDisplay,
+	$ContentControl/RightColumn/BattleArtDisplay8 as ArtDisplay];
 @onready var marker_attr_icons: Array[Control] = [
 	$ContentControl/BottomRow/MarkerIconsWeak as Control,
 	$ContentControl/BottomRow/MarkerIconsResist as Control,
@@ -113,9 +113,6 @@ func load_character_data(index: int) -> void:
 			cur_displayed_arts.append(null);
 	for i in cur_displayed_arts.size():
 		art_disps[i].fill_data(cur_displayed_arts[i]);
-	
-	cur_displayed_ult = BattleArt.new(chd.ult_id) if chd.ult_id >= 0 else null;
-	ult_disp.fill_data(cur_displayed_ult);
 	
 	load_attribute_icons(chd);
 	return

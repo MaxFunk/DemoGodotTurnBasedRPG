@@ -88,7 +88,7 @@ func input_main(event: InputEvent) -> void:
 		update_description(battle_menu_main.get_description_text(index_main));
 	
 	if event.is_action_pressed("D_Pad_Down"):
-		index_main = mini(index_main + 1, 5);
+		index_main = mini(index_main + 1, 4);
 		battle_menu_main.change_rotation(index_main);
 		update_description(battle_menu_main.get_description_text(index_main));
 	
@@ -104,32 +104,20 @@ func input_main(event: InputEvent) -> void:
 			1: # ARTS
 				change_menu_state(MENUSTATE.ARTS);
 			
-			2: # ULT
-				if battle_scene.cur_actor.ult_points < 100:
-					print("Not enough ult points!");
-					return
-				if battle_scene.cur_actor.ailment == Ailments.SHACKLED:
-					print(battle_scene.cur_actor.name, " is shackled -> Ult cannot be used!");
-					return
-				cur_action = ActionData.new(ActionData.ACTIONTYPE.ULT, battle_scene);
-				cur_action.set_targettype_from_art(battle_scene.cur_actor.ult_art);
-				update_description(battle_scene.cur_actor.ult_art.description);
-				change_menu_state(MENUSTATE.TARGETING);
-			
-			3: # BLOCK
+			2: # BLOCK
 				cur_action = ActionData.new(ActionData.ACTIONTYPE.BLOCK, battle_scene);
 				cur_action.set_targettype(ActionData.TARGETTYPE.SELF_ONLY);
 				update_description("Reduce damage until next turn");
 				change_menu_state(MENUSTATE.TARGETING);
 				return
 			
-			4: # ITEMS
+			3: # ITEMS
 				if battle_menu_items.consumables.size() > 0:
 					change_menu_state(MENUSTATE.ITEMS);
 				else:
 					print("NO ITEMS AVAILABLE...");
 			
-			5: # TACTICS
+			4: # TACTICS
 				change_menu_state(MENUSTATE.TACTICS);
 	return
 

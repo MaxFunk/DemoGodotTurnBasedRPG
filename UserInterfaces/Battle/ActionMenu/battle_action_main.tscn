@@ -31,24 +31,11 @@ offset_left = 100.0
 offset_top = -25.0
 offset_right = 350.0
 offset_bottom = 25.0
-rotation = 0.31415927
+rotation = 0.3926991
 pivot_offset = Vector2(-100, 25)
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_g5nfd")
 text = "Arts"
-clip_text = true
-
-[node name="LabelUlt" type="Label" parent="."]
-layout_mode = 0
-offset_left = 100.0
-offset_top = -25.0
-offset_right = 350.0
-offset_bottom = 25.0
-rotation = 0.62831855
-pivot_offset = Vector2(-100, 25)
-theme_override_font_sizes/font_size = 32
-theme_override_styles/normal = SubResource("StyleBoxFlat_g5nfd")
-text = "Ult"
 clip_text = true
 
 [node name="LabelBlock" type="Label" parent="."]
@@ -57,7 +44,7 @@ offset_left = 100.0
 offset_top = -25.0
 offset_right = 350.0
 offset_bottom = 25.0
-rotation = 0.9424778
+rotation = 0.7853982
 pivot_offset = Vector2(-100, 25)
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_g5nfd")
@@ -70,7 +57,7 @@ offset_left = 100.0
 offset_top = -25.0
 offset_right = 350.0
 offset_bottom = 25.0
-rotation = 1.2566371
+rotation = 1.1780972
 pivot_offset = Vector2(-100, 25)
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_g5nfd")

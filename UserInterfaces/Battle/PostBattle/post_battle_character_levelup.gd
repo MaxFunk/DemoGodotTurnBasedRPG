@@ -28,7 +28,6 @@ const ArtDisplay := preload("res://UserInterfaces/IngameMenu/Subscenes/battle_ar
 	$LeftColumn/LabelStatUp7 as Label,
 	$LeftColumn/LabelStatUp8 as Label];
 
-@onready var ult_disp := $RightColumn/BattleArtDisplayUlt as ArtDisplay;
 @onready var art_disps: Array[ArtDisplay] = [
 	$RightColumn/BattleArtDisplay1 as ArtDisplay,
 	$RightColumn/BattleArtDisplay2 as ArtDisplay,
@@ -36,7 +35,8 @@ const ArtDisplay := preload("res://UserInterfaces/IngameMenu/Subscenes/battle_ar
 	$RightColumn/BattleArtDisplay4 as ArtDisplay,
 	$RightColumn/BattleArtDisplay5 as ArtDisplay,
 	$RightColumn/BattleArtDisplay6 as ArtDisplay,
-	$RightColumn/BattleArtDisplay7 as ArtDisplay];
+	$RightColumn/BattleArtDisplay7 as ArtDisplay,
+	$RightColumn/BattleArtDisplay8 as ArtDisplay];
 @onready var new_art_disp := $RightColumn/BattleArtDisplayNew as ArtDisplay;
 @onready var new_art_lbl := $RightColumn/LabelNewArt as Label;
 @onready var art_selector := $RightColumn/ArtSelector as ColorRect;
@@ -68,9 +68,6 @@ func update_view(index: int, show_stat_ups: bool) -> void:
 			cur_displayed_arts.append(null);
 	for i in cur_displayed_arts.size():
 		art_disps[i].fill_data(cur_displayed_arts[i]);
-	
-	cur_displayed_ult = BattleArt.new(chd.ult_id) if chd.ult_id >= 0 else null;
-	ult_disp.fill_data(cur_displayed_ult);
 	
 	for i in range(8):
 		if chd.level_up_stats[i] > 0 and show_stat_ups:

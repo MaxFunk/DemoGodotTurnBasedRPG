@@ -101,7 +101,7 @@ layout_mode = 0
 offset_left = 700.0
 offset_top = 275.0
 offset_right = 1250.0
-offset_bottom = 725.0
+offset_bottom = 775.0
 
 [node name="BattleActionItems" parent="." instance=ExtResource("6_60kbq")]
 visible = false
