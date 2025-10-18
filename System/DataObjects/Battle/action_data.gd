@@ -1,5 +1,4 @@
-class_name ActionData
-extends RefCounted
+class_name ActionData extends RefCounted
 
 signal finished_casting();
 
@@ -22,15 +21,13 @@ var targets: Array[BattleData];
 var action_casts: Array[ActionCast] = [];
 
 var check_casts: bool = false;
-var user_is_stunned: bool = false;
-var user_is_confused: bool = false;
-var sp_adjusted: bool = false;
 var ult_points_adjusted: bool = false;
 
 
 func _init(act_type: ACTIONTYPE, scene: BattleScene) -> void:
 	action_type = act_type;
 	battle_scene = scene;
+	user = battle_scene.cur_actor;
 	return
 
 
@@ -38,18 +35,15 @@ func process() -> void:
 	if check_casts:
 		var all_casts_finished: bool = true;
 		for cast in action_casts:
-			if !cast.is_finished: all_casts_finished = false;
+			if !cast.is_finished:
+				all_casts_finished = false;
 		if all_casts_finished:
 			check_casts = false;
 			finished_casting.emit();
-	
-	# TODO
 	return
 
 
-func commit_user_and_targets() -> void:
-	user = battle_scene.cur_actor;
-	
+func commit_targets() -> void:
 	match target_type:
 		TARGETTYPE.SINGLE_OPPONENT:
 			if user.is_hero:
@@ -87,6 +81,33 @@ func commit_user_and_targets() -> void:
 				targets.append(battle_scene.opponents[index_target - 3]);
 		_:
 			pass
+	return
+
+
+func check_user_can_cast() -> bool:
+	if user.ailment == Ailments.STUNNED and randf() < 0.33:
+		print(user.name, " is stunned ...");
+		return false
+	
+	if user.ailment == Ailments.CONFUSED and randf() < 0.5:
+		action_type = ACTIONTYPE.ATTACK;
+		target_type = TARGETTYPE.SINGLE_OPPONENT;
+		targets.clear();
+		targets = [battle_scene.get_random_opponent()];
+		print(user.name, " is confused ...");
+	return true
+
+
+func apply_action_cost() -> void:
+	if action_type == ACTIONTYPE.ART:
+		if art.is_ult:
+			user.change_ult_points(-art.sp_cost);
+		else:
+			if user.is_hero:
+				user.change_sp(-art.sp_cost);
+	elif action_type == ACTIONTYPE.ITEM:
+		if item: # unnecessary check?
+			item.delete_items(1);
 	return
 
 
@@ -147,33 +168,14 @@ func apply_action(t_idx: int) -> void:
 	if t_idx < 0 or t_idx >= targets.size():
 		return
 	
-	if user_is_stunned or user.ailment == Ailments.STUNNED and randf() > 0.67:
-		print(user.name, " is stunned ...");
-		user_is_stunned = true;
-		return
-	
-	if user.ailment == Ailments.CONFUSED and randf() > 0.67 and !user_is_confused:
-		action_type = ACTIONTYPE.ATTACK;
-		target_type = TARGETTYPE.SINGLE_OPPONENT;
-		targets.clear();
-		targets = [battle_scene.get_random_opponent()];
-		print(user.name, " is confused ...");
-		user_is_confused = true;
-	
-	if user_is_confused:
-		return
-	
 	match action_type:
 		ACTIONTYPE.ATTACK:
 			await apply_art(user, targets[t_idx], user.default_attack);
 		ACTIONTYPE.ART:
-			if user.is_hero and !sp_adjusted:
-				user.change_sp(-art.sp_cost);
-				sp_adjusted = true;
 			await apply_art(user, targets[t_idx], art);
 		ACTIONTYPE.BLOCK:
 			user.is_blocking = true;
-			user.recieve_ult_points(16);
+			user.change_ult_points(16);
 		ACTIONTYPE.ITEM:
 			await apply_item(user, targets[t_idx], item);
 		ACTIONTYPE.ANALYZE:
@@ -202,16 +204,20 @@ func apply_art(u: BattleData, t: BattleData, a: BattleArt) -> void:
 			var action_res := Calculations.calc_healing(u, a);
 			battle_scene.battle_ui.create_damage_number(action_res, t, a);
 			t.recieve_healing(action_res.healing);
-			u.recieve_ult_points(4);
+			u.change_ult_points(4);
 		
 		a.CATEGORY.STRATEGY:
-			u.recieve_ult_points(4);
+			u.change_ult_points(4);
 		
 		a.CATEGORY.AILMENT:
 			var action_res := EffectApply.apply_ailment_art(u, t, a);
 			battle_scene.battle_ui.create_damage_number(action_res, t, a);
 			if !action_res.is_missed:
-				u.recieve_ult_points(7);
+				u.change_ult_points(7);
+		
+		a.CATEGORY.FIELD:
+			battle_scene.create_field(a, u);
+			u.change_ult_points(5);
 	
 	EffectApply.apply(u, t, a);
 	return
@@ -252,20 +258,20 @@ func apply_item(u: BattleData, t: BattleData, i: ItemConsumable) -> void:
 		_:
 			EffectApply.apply(u, t, item_art);
 	
-	u.recieve_ult_points(5);
+	u.change_ult_points(5);
 	return
 
 
 func apply_ult_points(u: BattleData, t: BattleData, action_res: ActionResult) -> void:
 	if action_res.attribute_multiplier == 0.0:
-		t.recieve_ult_points(10);
+		t.change_ult_points(10);
 		return
 	
 	var points: float = action_res.attribute_multiplier * 8.0;
 	if action_res.is_crit:
 		points *= 1.5;
 	
-	u.recieve_ult_points(roundi(points));
+	u.change_ult_points(roundi(points));
 	return
 
 
@@ -277,7 +283,7 @@ func set_targettype(tt: TARGETTYPE) -> void:
 
 func set_targettype_from_art(new_art: BattleArt) -> void:
 	art = new_art;
-	target_type = art.targeting as TARGETTYPE; # TODO match{} to make it safe
+	target_type = int(art.targeting) as TARGETTYPE;
 	init_target_index();
 	return
 
@@ -295,10 +301,10 @@ func init_target_index() -> void:
 			index_target = 0;
 			for oppo in battle_scene.opponents:
 				if oppo != null:
-					index_target = oppo.position;
+					index_target = oppo.position - 3;
 					return
 		TARGETTYPE.SINGLE_ALLY, TARGETTYPE.SELF_ONLY:
-			index_target = battle_scene.cur_actor.position;
+			index_target = user.position if user.is_hero else user.position - 3;
 		TARGETTYPE.ALL_OPPONENTS:
 			index_target = -1;
 		TARGETTYPE.ALL_ALLIES:
@@ -306,113 +312,68 @@ func init_target_index() -> void:
 		TARGETTYPE.ALL:
 			index_target = -3;
 		TARGETTYPE.SINGLE_EVERYONE:
-			index_target = 3; # 0-2 = heros, 3-7 = opponents;
+			index_target = 0; # 0-2 = heros, 3-7 = opponents;
 			for oppo in battle_scene.opponents:
 				if oppo != null:
-					index_target = oppo.position + 3;
+					index_target = oppo.position - 3;
 					return
 		_:
 			index_target = 0;
 	return
 
 
-func next_target() -> void:
+func next_target_index(dir: int) -> void:
 	match target_type:
 		TARGETTYPE.SINGLE_OPPONENT:
 			while true:
-				index_target += 1;
-				if index_target >= battle_scene.opponents.size():
+				index_target += dir;
+				if index_target < 0:
+					index_target = 4;
+				if index_target >= 5:
 					index_target = 0;
 				if battle_scene.opponents[index_target] != null:
 					break;
+		
 		TARGETTYPE.SINGLE_ALLY:
 			while true:
-				index_target += 1;
-				if index_target >= battle_scene.active_heros.size():
+				index_target += dir;
+				if index_target < 0:
+					index_target = 2;
+				if index_target >= 3:
 					index_target = 0;
 				if battle_scene.active_heros[index_target] != null:
 					break;
+		
 		TARGETTYPE.SINGLE_EVERYONE:
 			while true:
-				index_target += 1;
+				index_target += dir;
+				if index_target < 0:
+					index_target = 7;
+				if index_target >= 8:
+					index_target = 0;
 				if index_target < 3:
 					if battle_scene.active_heros[index_target] != null:
 						break;
 				else:
-					if index_target >= battle_scene.opponents.size() + 3:
-						index_target = -1;
-					elif battle_scene.opponents[index_target - 3] != null:
-						break;
-		TARGETTYPE.SELF_ONLY, TARGETTYPE.ALL_OPPONENTS, TARGETTYPE.ALL_ALLIES, TARGETTYPE.ALL:
-			pass
-		_:
-			index_target = 0;
-	return
-
-
-func previous_target() -> void:
-	match target_type:
-		TARGETTYPE.SINGLE_OPPONENT:
-			while true:
-				index_target -= 1;
-				if index_target < 0:
-					index_target = battle_scene.opponents.size() - 1;
-				if battle_scene.opponents[index_target] != null:
-					break;
-		TARGETTYPE.SINGLE_ALLY:
-			while true:
-				index_target -= 1;
-				if index_target < 0:
-					index_target = battle_scene.active_heros.size() - 1;
-				if battle_scene.active_heros[index_target] != null:
-					break;
-		TARGETTYPE.SINGLE_EVERYONE:
-			while true:
-				index_target -= 1;
-				if index_target < 3:
-					if index_target < 0:
-						index_target =  battle_scene.opponents.size() - 1 + 3;
-					elif battle_scene.active_heros[index_target] != null:
-						break;
-				else:
 					if battle_scene.opponents[index_target - 3] != null:
 						break;
+		
 		TARGETTYPE.SELF_ONLY, TARGETTYPE.ALL_OPPONENTS, TARGETTYPE.ALL_ALLIES, TARGETTYPE.ALL:
 			pass
 		_:
 			index_target = 0;
 	return
 
-# TODO: bad name lol
-func select_random_target_as_opponent() -> void:
+
+func set_target_index(index: int, is_hero: bool) -> void:
 	match target_type:
-		TARGETTYPE.SINGLE_OPPONENT:
-			var possible_ids: PackedInt32Array = [];
-			for hero in battle_scene.active_heros:
-				if hero != null and !hero.is_defeated: 
-					possible_ids.append(hero.position);
-			index_target = possible_ids[randi_range(0, possible_ids.size() - 1)];
+		TARGETTYPE.SINGLE_OPPONENT, TARGETTYPE.SINGLE_ALLY, TARGETTYPE.SINGLE_EVERYONE:
+			index_target = index if is_hero else index - 3;
 		
-		TARGETTYPE.SINGLE_ALLY:
-			var possible_ids: PackedInt32Array = [];
-			for oppo in battle_scene.opponents:
-				if oppo != null and !oppo.is_defeated: 
-					possible_ids.append(oppo.position);
-			index_target = possible_ids[randi_range(0, possible_ids.size() - 1)];
-		
-		TARGETTYPE.SINGLE_EVERYONE:
-			# 0-2 = heros, 3-7 = opponents;
-			var possible_ids: PackedInt32Array = [];
-			for hero in battle_scene.active_heros:
-				if hero != null and !hero.is_defeated: 
-					possible_ids.append(hero.position);
-			for oppo in battle_scene.opponents:
-				if oppo != null and !oppo.is_defeated: 
-					possible_ids.append(oppo.position + 3);
-			index_target = possible_ids[randi_range(0, possible_ids.size() - 1)];
-		
+		TARGETTYPE.SELF_ONLY, TARGETTYPE.ALL_OPPONENTS, TARGETTYPE.ALL_ALLIES, TARGETTYPE.ALL:
+			return
 		_:
-			pass; # index_target stays the same
+			index_target = 0;
 	return
 
 

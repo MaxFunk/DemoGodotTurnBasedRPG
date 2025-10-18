@@ -3,7 +3,7 @@ extends RefCounted
 
 enum CATEGORY {PHYSICAL = 0, ETHER = 1, HEAL = 2, STRATEGY = 3, AILMENT = 4, FIELD = 5, SOULPOWER = 6, PASSIVE = 7, NONE = 8}
 enum TARGETING {SINGLE_OPPONENT = 0, SINGLE_ALLY = 1, SELF_ONLY = 2, ALL_OPPONENTS = 3, 
-	ALL_ALLIES = 4, ALL = 5, SPECIAL = 6, NONE = 7}
+	ALL_ALLIES = 4, ALL = 5, SINGLE_EVERYONE = 6, NONE = 7}
 
 var id: int = -1;
 var name: String = "Art";

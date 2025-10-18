@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://d330yhst8ao4y"]
+
+[ext_resource type="Script" uid="uid://beb8g0tge56wr" path="res://GameObjects/Battle/Fields/battle_field.gd" id="1_uyf7m"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2ccv7"]
+cull_mode = 2
+albedo_color = Color(0.6466665, 0.485, 0.97, 1)
+emission = Color(0.6078665, 0.4268, 0.97, 1)
+disable_receive_shadows = true
+stencil_flags = 2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_4at5p"]
+material = SubResource("StandardMaterial3D_2ccv7")
+top_radius = 2.2
+bottom_radius = 2.0
+height = 0.1
+cap_top = false
+
+[node name="BattleFieldOffenseAura" type="Node3D" node_paths=PackedStringArray("anim_player")]
+script = ExtResource("1_uyf7m")
+field_type = 1
+field_effect = 201
+anim_player = NodePath("AnimationPlayer")
+metadata/_custom_type_script = "uid://beb8g0tge56wr"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.055, 0)
+mesh = SubResource("CylinderMesh_4at5p")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

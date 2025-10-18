@@ -89,6 +89,7 @@ func get_scene_path(id: int) -> StringName:
 	match id:
 		1: return "res://Worlds/world_scene_title_screen.tscn"
 		2: return "res://Worlds/world_scene_head_quarter.tscn"
+		3: return "res://Worlds/world_scene_dungeon_a.tscn"
 		_: return "res://Worlds/world_scene_debug.tscn"
 
 

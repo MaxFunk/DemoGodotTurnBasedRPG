@@ -31,6 +31,9 @@ var active_heros: Array[BattleData] = [];
 var opponents: Array[BattleData] = [];
 
 var battle_chars: Array[BattleCharacter] = [];
+var battle_field_global: BattleField = null;
+var battle_field_heros: BattleField = null;
+var battle_field_oppos: BattleField = null;
 
 var turn_order: Array[BattleData] = [];
 var next_round: Array[BattleData] = [];
@@ -75,7 +78,7 @@ func initiate_battle_data_objects(oppo_ids: PackedInt32Array) -> void:
 		if i < oppo_ids.size():
 			var new_oppo := BattleData.new();
 			new_oppo.load_opponent_data(oppo_ids[i]);
-			new_oppo.position = i;
+			new_oppo.position = i + 3;
 			opponents.append(new_oppo);
 		else:
 			opponents.append(null);
@@ -150,14 +153,12 @@ func commit_action(action: ActionData) -> void:
 		battle_ui.accept_inputs = false;
 	
 	cur_action = action;
-	if cur_action.action_type == cur_action.ACTIONTYPE.ITEM and cur_action.item:
-		cur_action.item.delete_items(1);
-	action.commit_user_and_targets();
-	action.cast_action();
-	
-	await action.finished_casting;
-	
-	cur_action.clean_up_casts();
+	cur_action.commit_targets();
+	if cur_action.check_user_can_cast():
+		cur_action.apply_action_cost();
+		cur_action.cast_action();
+		await cur_action.finished_casting;
+		cur_action.clean_up_casts();
 	cur_action = null;
 	
 	if !battle_ending:
@@ -168,6 +169,7 @@ func commit_action(action: ActionData) -> void:
 ## Does everything that happen when current turn ends
 func on_end_turn() -> void:
 	cur_actor.on_turn_end();
+	check_fields(cur_actor);
 	next_round.append(cur_actor);
 	next_round.sort_custom(sort_agility);
 	cur_actor = null;
@@ -215,7 +217,7 @@ func update_camera_2_positioning() -> void:
 	if cur_actor.is_hero:
 		cam_2_pivot.global_transform = hero_spawnpoints[cur_actor.position].global_transform;
 	else:
-		cam_2_pivot.global_transform = enemy_spawnpoints[cur_actor.position].global_transform;
+		cam_2_pivot.global_transform = enemy_spawnpoints[cur_actor.position - 3].global_transform;
 	return
 
 
@@ -242,10 +244,11 @@ func on_character_defeated(chd: BattleData) -> void:
 		process_mode = Node.PROCESS_MODE_DISABLED;
 		post_battle_ui.init_ui(true, exp_cashout);
 	else:
+		var chd_index := chd.position - 3;
 		exp_cashout += chd.exp_on_defeat;
-		opponents[chd.position] = null;
-		battle_ui.oppo_displays[chd.position].visible = false;
-		battle_ui.oppo_displays[chd.position].oppo_data = null;
+		opponents[chd_index] = null;
+		battle_ui.oppo_displays[chd_index].visible = false;
+		battle_ui.oppo_displays[chd_index].oppo_data = null;
 		
 		for oppo in opponents:
 			if oppo != null: return
@@ -270,3 +273,67 @@ func get_random_opponent() -> BattleData:
 	
 	var random_index: int = valid_indices[randi_range(0, valid_indices.size() - 1)];
 	return opponents[random_index];
+
+
+func create_field(art: BattleArt, caster: BattleData) -> void:
+	if art.effects.size() <= 0 or art.effect_values.size() <= 0:
+		return
+	if art.effects[0] == EffectIDs.FIELD_CREATE:
+		var field_id: int = art.effect_values[0];
+		var field_scene := BattleFieldHandler.get_field_scene(field_id);
+		var field := field_scene.instantiate() as BattleField;
+		var cast_by_hero = caster.is_hero;
+		field.caster = caster;
+		if field == null:
+			return
+		
+		if field.field_type == field.FIELDTYPE.GLOBAL:
+			if battle_field_global:
+				remove_field(battle_field_global);
+			add_child(field);
+			battle_field_global = field;
+		
+		elif (field.field_type == field.FIELDTYPE.ALLIED and cast_by_hero) or \
+		(field.field_type == field.FIELDTYPE.OPPOSITE and !cast_by_hero):
+			if battle_field_heros:
+				remove_field(battle_field_heros);
+			add_child(field);
+			field.global_position = hero_spawnpoints[0].global_position;
+			battle_field_heros = field;
+		
+		elif (field.field_type == field.FIELDTYPE.ALLIED and !cast_by_hero) or \
+		(field.field_type == field.FIELDTYPE.OPPOSITE and cast_by_hero):
+			if battle_field_oppos:
+				remove_field(battle_field_oppos);
+			add_child(field);
+			field.global_position = enemy_spawnpoints[0].global_position;
+			battle_field_oppos = field;
+	return
+
+
+func remove_field(field: BattleField) -> void:
+	if battle_field_global == field:
+		battle_field_global = null;
+	elif battle_field_heros == field:
+		battle_field_global = null;
+	elif battle_field_oppos == field:
+		battle_field_global = null;
+	
+	remove_child(field);
+	field.queue_free();
+	return
+
+
+func check_fields(actor: BattleData) -> void:
+	if battle_field_global and battle_field_global.caster == actor:
+		if battle_field_global.increas_turn_timer():
+			remove_field(battle_field_global);
+	
+	if battle_field_heros and battle_field_heros.caster == actor:
+		if battle_field_heros.increas_turn_timer():
+			remove_field(battle_field_heros);
+	
+	if battle_field_oppos and battle_field_oppos.caster == actor:
+		if battle_field_oppos.increas_turn_timer():
+			remove_field(battle_field_oppos);
+	return

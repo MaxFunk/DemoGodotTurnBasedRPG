@@ -13,12 +13,38 @@ offset_right = 500.0
 offset_bottom = 500.0
 script = ExtResource("1_g2mex")
 
+[node name="LabelCopyItems" type="Label" parent="."]
+layout_mode = 0
+offset_left = 100.0
+offset_top = -25.0
+offset_right = 350.0
+offset_bottom = 25.0
+rotation = -0.7853982
+pivot_offset = Vector2(-100, 25)
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_g5nfd")
+text = "Items"
+clip_text = true
+
+[node name="LabelCopyTactics" type="Label" parent="."]
+layout_mode = 0
+offset_left = 100.0
+offset_top = -25.0
+offset_right = 350.0
+offset_bottom = 25.0
+rotation = -0.3926991
+pivot_offset = Vector2(-100, 25)
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_g5nfd")
+text = "Tactics"
+clip_text = true
+
 [node name="LabelAttack" type="Label" parent="."]
 layout_mode = 0
 offset_left = 100.0
 offset_top = -25.0
 offset_right = 350.0
-offset_bottom = 20.0
+offset_bottom = 25.0
 pivot_offset = Vector2(-100, 25)
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_g5nfd")
@@ -75,4 +101,30 @@ pivot_offset = Vector2(-100, 25)
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_g5nfd")
 text = "Tactics"
+clip_text = true
+
+[node name="LabelCopyAttack" type="Label" parent="."]
+layout_mode = 0
+offset_left = 100.0
+offset_top = -25.0
+offset_right = 350.0
+offset_bottom = 25.0
+rotation = 1.9634954
+pivot_offset = Vector2(-100, 25)
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_g5nfd")
+text = "Attack"
+clip_text = true
+
+[node name="LabelCopyArts" type="Label" parent="."]
+layout_mode = 0
+offset_left = 100.0
+offset_top = -25.0
+offset_right = 350.0
+offset_bottom = 25.0
+rotation = 2.3561945
+pivot_offset = Vector2(-100, 25)
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_g5nfd")
+text = "Arts"
 clip_text = true

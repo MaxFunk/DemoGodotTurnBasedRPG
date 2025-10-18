@@ -31,7 +31,7 @@ var attribute_block: PackedInt32Array = [];
 
 var arts: Array[BattleArt] = [null, null, null, null, null, null, null, null];
 var default_attack: BattleArt;
-var ult_points: int = 0;
+var ult_points: int = 50;
 
 var exp_on_defeat: int = 0;
 
@@ -167,13 +167,6 @@ func on_defeat() -> void:
 		print("WARNING: NO DEFEATED ANIMATION..");
 	return
 
-
-func get_max_arts() -> int:
-	var ret_val: int = 0;
-	for art in arts:
-		if art != null: ret_val += 1;
-	return ret_val
-
 # Returns true if dead
 func take_damage(damage: int) -> bool:
 	hp_cur -= damage;
@@ -207,7 +200,18 @@ func change_sp(value: int) -> void:
 	return
 
 
-func recieve_ult_points(value: int) -> void:
-	ult_points = mini(ult_points + value, 100);
+func change_ult_points(value: int) -> void:
+	ult_points = clampi(ult_points + value, 0, 100);
 	update_display.emit();
 	return
+
+
+func get_max_arts() -> int:
+	var ret_val: int = 0;
+	for art in arts:
+		if art != null: ret_val += 1;
+	return ret_val
+
+
+func get_modifier_total() -> int:
+	return modifier[0] + modifier[1] + modifier[2]

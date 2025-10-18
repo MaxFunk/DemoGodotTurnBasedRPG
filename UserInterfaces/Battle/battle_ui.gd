@@ -83,15 +83,10 @@ func _input(event: InputEvent) -> void:
 
 func input_main(event: InputEvent) -> void:
 	if event.is_action_pressed("D_Pad_Up"):
-		index_main = maxi(index_main - 1, 0);
-		battle_menu_main.change_rotation(index_main);
-		update_description(battle_menu_main.get_description_text(index_main));
+		change_index_main(-1);
 	
 	if event.is_action_pressed("D_Pad_Down"):
-		index_main = mini(index_main + 1, 4);
-		battle_menu_main.change_rotation(index_main);
-		update_description(battle_menu_main.get_description_text(index_main));
-	
+		change_index_main(1);
 	
 	if event.is_action_pressed("Btn_Y"):
 		match index_main:
@@ -137,13 +132,13 @@ func input_targeting(event: InputEvent) -> void:
 		return
 	
 	if event.is_action_pressed("D_Pad_Left") or event.is_action_pressed("D_Pad_Up"):
-		cur_action.previous_target();
+		cur_action.next_target_index(-1);
 		set_display_selection();
 		battle_scene.update_camera_targeting(cur_action);
 		return
 	
 	if event.is_action_pressed("D_Pad_Right") or event.is_action_pressed("D_Pad_Down"):
-		cur_action.next_target();
+		cur_action.next_target_index(1);
 		set_display_selection();
 		battle_scene.update_camera_targeting(cur_action);
 	return
@@ -161,10 +156,16 @@ func input_arts(event: InputEvent) -> void:
 			print("Cannot use passive Art!");
 			return
 		
-		var sp_cost: int = art.sp_cost * 2 if cur_actor.ailment == Ailments.EXHAUSTED else art.sp_cost;
-		if art.sp_cost > cur_actor.sp_cur:
-			print("Not enough SP to use Art!");
-			return
+		if art.is_ult:
+			var cp_cost: int = art.sp_cost;
+			if cp_cost > cur_actor.ult_points:
+				print("Not enough CP to use Ult-Art!");
+				return
+		else:
+			var sp_cost: int = art.sp_cost * 2 if cur_actor.ailment == Ailments.EXHAUSTED else art.sp_cost;
+			if art.sp_cost > cur_actor.sp_cur:
+				print("Not enough SP to use Art!");
+				return
 		
 		cur_action = ActionData.new(ActionData.ACTIONTYPE.ART, battle_scene);
 		cur_action.set_targettype_from_art(art);
@@ -264,6 +265,18 @@ func input_inspect(event: InputEvent) -> void:
 	
 	if event.is_action_pressed("Btn_Y"):
 		print("TODO, INSPECT")
+	return
+
+
+func change_index_main(idx_change: int) -> void:
+	index_main = index_main + idx_change;
+	if index_main < 0:
+		index_main = 4;
+	if index_main > 4:
+		index_main = 0;
+	
+	battle_menu_main.change_rotation(index_main);
+	update_description(battle_menu_main.get_description_text(index_main));
 	return
 
 

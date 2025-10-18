@@ -42,7 +42,8 @@ func start_cast_animation(action_data: ActionData, t_idx: int) -> void:
 	match cast_type:
 		CASTTYPE.TOWARDS_TARGET:
 			transform = action.user.battle_char.transform;
-			look_at(action.targets[t_idx].battle_char.global_position);
+			if action.user != action.targets[t_idx]:
+				look_at(action.targets[t_idx].battle_char.global_position);
 		CASTTYPE.ON_TARGET:
 			transform = action.targets[t_idx].battle_char.transform;
 		CASTTYPE.GLOBAL:

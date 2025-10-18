@@ -7,6 +7,10 @@ extends Control
 @onready var lbl_cost_val := $LabelCostValue as Label;
 @onready var lbl_cost := $LabelCost as Label;
 
+const color_usable := Color(1, 1, 1);
+const color_unusable := Color(1.0, 0.141, 0.183, 1.0);
+const color_gray := Color(0.4, 0.4, 0.4);
+
 
 func update(art: BattleArt, actor: BattleData) -> void:
 	if art == null:
@@ -23,14 +27,22 @@ func update(art: BattleArt, actor: BattleData) -> void:
 	else:
 		lbl_cost_val.text = str(art.sp_cost);
 	
-	if art.sp_cost > actor.sp_cur:
-		lbl_cost_val.modulate = Color.WEB_MAROON;
-		lbl_cost.modulate = Color.WEB_MAROON;
+	var check_1: bool = art.is_ult and art.sp_cost > actor.ult_points;
+	var check_2: bool = art.is_ult == false and art.sp_cost > actor.sp_cur;
+	var unusable: bool = check_1 or check_2;
+	if unusable:
+		lbl_name.modulate = color_unusable;
+		lbl_cost_val.modulate = color_unusable;
+		lbl_cost.modulate = color_unusable;
 	else:
-		lbl_cost_val.modulate = Color.WHITE;
-		lbl_cost.modulate = Color.WHITE;
+		lbl_name.modulate = color_usable;
+		lbl_cost_val.modulate = color_usable;
+		lbl_cost.modulate = color_usable;
 	
-	lbl_cost.visible = false if art.is_ult or art.is_passive_art() else true;
-	lbl_cost_val.visible = false if art.is_ult or art.is_passive_art() else true;
-	modulate.a = 0.5 if art.is_passive_art() or actor.ailment == Ailments.SHACKLED else 1.0;
+	lbl_cost.text = "CP" if art.is_ult else "SP";
+	
+	lbl_cost.visible = false if art.is_passive_art() else true;
+	lbl_cost_val.visible = false if art.is_passive_art() else true;
+	var gray_out: bool = unusable or art.is_passive_art() or actor.ailment == Ailments.SHACKLED;
+	modulate = color_gray if gray_out else color_usable;
 	return

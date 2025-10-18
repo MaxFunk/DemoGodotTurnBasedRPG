@@ -31,7 +31,11 @@ enum {
 	ITEM_DISH_HEALTH = 102,
 	ITEM_DISH_STAMINA = 103,
 	ITEM_DISH_STAT = 104,
-	ITEM_DAMAGE = 105
+	ITEM_DAMAGE = 105,
+	
+	FIELD_CREATE = 200,
+	FIELD_DAMAGE_UP = 201,
+	FIELD_DAMAGE_DOWN = 202
 }
 	#INC_BURN_CHANCE = 31,
 	#INC_FREEZE_CHANCE = 32,
@@ -54,8 +58,12 @@ enum {
 #	SP_REGEN = 111,
 #	}
 
-#static func get_skill_with_effectid(eff_id: int, skills: Array[Skill]) -> Skill:
-#	for skill in skills:
-#		if skill and skill.effects.has(eff_id):
-#			return skill
-#	return null
+static func strategy_art_subcategory(art: BattleArt) -> int:
+	if art.effects.size() < 0:
+		return 0
+	var eff_id: int = art.effects[0];
+	if eff_id == OFFENSE_UP or eff_id == DEFENSE_UP or eff_id == ACCURACY_UP:
+		return 1 # Buff Art
+	if eff_id == OFFENSE_DOWN or eff_id == DEFENSE_DOWN or eff_id == ACCURACY_DOWN:
+		return 2 # Debuff Art
+	return 0 # No effect
