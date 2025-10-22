@@ -39,11 +39,13 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("Btn_Y") and event.is_pressed():
-		check_interaction();
-	
 	if event.is_action_pressed("Btn_X"):
 		GameData.main_scene.instantiate_ingame_menu();
+	return
+
+
+func _process(_delta: float) -> void:
+	check_interaction(Input.is_action_just_pressed("Btn_Y"));
 	return
 
 
@@ -168,19 +170,32 @@ func process_swimming(delta: float) -> void:
 	return
 
 
-func check_interaction() -> void:
+func check_interaction(interact: bool) -> void:
 	if is_jumping:
 		return
+	
+	var explore_ui := GameData.main_scene.world_scene.exploration_ui;
+	var show_interaction: bool = false;
+	var interaction_text: String = ""
 	
 	if interact_cast.is_colliding():
 		var collider := interact_cast.get_collider();
 		if collider is InteractionComponent:
-			(collider as InteractionComponent).emit_interaction();
+			var interact_comp := (collider as InteractionComponent);
+			if interact_comp.is_interactable():
+				if interact:
+					interact_comp.emit_interaction();
+				else:
+					show_interaction = true;
+					interaction_text = interact_comp.get_interaction_text();
 		
-		if collider is EnemyCharacter:
+		if collider is EnemyCharacter and interact:
 			var enemy_group := (collider as EnemyCharacter).enemy_group;
 			if enemy_group.enemy_ids.size() > 0:
 				GameData.main_scene.instantiate_battle_scene(global_transform, enemy_group);
+	
+	if explore_ui:
+		explore_ui.update_interaction_text(show_interaction, interaction_text);
 	return
 
 

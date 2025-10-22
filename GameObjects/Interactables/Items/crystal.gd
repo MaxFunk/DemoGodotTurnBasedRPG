@@ -6,6 +6,7 @@ extends StaticBody3D
 @export var crystal_id: int = -1;
 
 @onready var mesh_inst := $MeshInstance3D as MeshInstance3D;
+@onready var interact_comp := $InteractionComponent as InteractionComponent;
 
 var is_active: bool = true;
 
@@ -60,4 +61,9 @@ func deactivate_crystal() -> void:
 	#var material := mesh_inst.get_surface_override_material(0) as ShaderMaterial;
 	var material := mesh_inst.material_override as ShaderMaterial;
 	material.set_shader_parameter("is_active", false);
+	return
+
+
+func _on_interaction_component_update_text() -> void:
+	interact_comp.interaction_text = "Collect" if is_active else "";
 	return

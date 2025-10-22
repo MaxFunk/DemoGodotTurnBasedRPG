@@ -12,6 +12,9 @@ extends Node3D
 @onready var mesh_btn_1 := $InteractionComponent1/MeshButton1 as MeshInstance3D;
 @onready var mesh_btn_2 := $InteractionComponent2/MeshButton2 as MeshInstance3D;
 @onready var mesh_btn_3 := $InteractionComponent3/MeshButton3 as MeshInstance3D;
+@onready var interact_comp_1 := $InteractionComponent1 as InteractionComponent;
+@onready var interact_comp_2 := $InteractionComponent2 as InteractionComponent;
+@onready var interact_comp_3 := $InteractionComponent3 as InteractionComponent;
 
 const pillar_amount: int = 5;
 
@@ -36,6 +39,9 @@ func _ready() -> void:
 	var mat_3 := mesh_btn_3.get_surface_override_material(0) as ShaderMaterial;
 	mat_3.set_shader_parameter("ButtonActive", btn_3_active);
 	
+	interact_comp_1.block_interaction = !btn_1_active;
+	interact_comp_2.block_interaction = !btn_2_active;
+	interact_comp_3.block_interaction = !btn_3_active;
 	if interact_btn2_activator:
 		interact_btn2_activator.interaction.connect(on_interaction_btn2_activation);
 	return
@@ -52,6 +58,9 @@ func _physics_process(delta: float) -> void:
 				pillars[i].move_and_collide(motion);
 		
 		if pillars_finished >= pillar_amount:
+			interact_comp_1.block_interaction = !btn_1_active;
+			interact_comp_2.block_interaction = !btn_2_active;
+			interact_comp_3.block_interaction = !btn_3_active;
 			wait_for_move = false;
 	return
 
@@ -85,6 +94,9 @@ func change_pillars() -> void:
 		target_pos[i] = -4.9 + new_states[i];
 		pillar_dir[i] = target_pos[i] - pillars[i].position.y;
 	
+	interact_comp_1.block_interaction = true;
+	interact_comp_2.block_interaction = true;
+	interact_comp_3.block_interaction = true;
 	wait_for_move = true;
 	return
 
@@ -141,4 +153,5 @@ func _on_interaction_component_3_interaction() -> void:
 func on_interaction_btn2_activation() -> void:
 	if btn_2_active == false:
 		change_button_activity(2, true);
+	interact_comp_2.block_interaction = !btn_2_active;
 	return

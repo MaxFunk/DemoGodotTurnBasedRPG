@@ -227,6 +227,7 @@ mesh = SubResource("PlaneMesh_s0jbs")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -3)
 interaction_type = 1
 interaction_id = 2
+interaction_text = "Go to HQ"
 
 [node name="Tower" type="StaticBody3D" parent="StaticBodiesArea1/NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1.99, -13)
@@ -404,3 +405,4 @@ transform = Transform3D(-5.9604645e-08, 0, -0.99999994, 0, 1, 0, 0.99999994, 0, 
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20)
 interaction_type = 1
 interaction_id = 3
+interaction_text = "Go to Dungeon"

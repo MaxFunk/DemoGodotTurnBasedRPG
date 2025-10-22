@@ -112,6 +112,8 @@ interact_btn2_activator = NodePath("../ButtonActivatePillar")
 
 [node name="ButtonActivatePillar" parent="." instance=ExtResource("6_ds268")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 4, 0)
+interaction_counter = 1
+interaction_text = "Activate Pillar Button"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ButtonActivatePillar"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -148,6 +150,7 @@ shape = SubResource("BoxShape3D_cq5oj")
 [node name="DeactivatorEtherWall" parent="." instance=ExtResource("6_ds268")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -19)
 interaction_counter = 1
+interaction_text = "Remove Ether Wall"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DeactivatorEtherWall"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)

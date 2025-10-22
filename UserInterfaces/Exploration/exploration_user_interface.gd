@@ -16,6 +16,7 @@ const EXPLORATION_ITEM_VIEW = preload("uid://ddjtcd5p6uyw4");
 @onready var ctrl_items := $ControlItems as Control;
 @onready var minimap := $ExplorationMinimap as Minimap;
 @onready var anim_player := $AnimationPlayer as AnimationPlayer;
+@onready var label_interaction := $LabelInteraction as Label;
 
 var current_world_scene: WorldScene = null;
 
@@ -77,6 +78,12 @@ func remove_item_view(view: ItemView) -> void:
 	
 	for i in items_displayed.size():
 		items_displayed[i].position.y = items_displayed[i].size.y * i;
+	return
+
+
+func update_interaction_text(show_text: bool, txt: String) -> void:
+	label_interaction.visible = show_text;
+	label_interaction.text = txt;
 	return
 
 

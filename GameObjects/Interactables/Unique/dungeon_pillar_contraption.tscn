@@ -59,6 +59,7 @@ script = ExtResource("1_0al14")
 
 [node name="InteractionComponent1" parent="." instance=ExtResource("2_jj3e8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+interaction_text = "Press"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionComponent1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -71,6 +72,7 @@ mesh = SubResource("BoxMesh_sutev")
 surface_material_override/0 = SubResource("ShaderMaterial_f01g0")
 
 [node name="InteractionComponent2" parent="." instance=ExtResource("2_jj3e8")]
+interaction_text = "Press"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionComponent2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -84,6 +86,7 @@ surface_material_override/0 = SubResource("ShaderMaterial_y6o8a")
 
 [node name="InteractionComponent3" parent="." instance=ExtResource("2_jj3e8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+interaction_text = "Press"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionComponent3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)

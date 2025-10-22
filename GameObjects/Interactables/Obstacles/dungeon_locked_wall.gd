@@ -9,6 +9,7 @@ extends StaticBody3D
 func _ready() -> void:
 	if interaction_comp:
 		interaction_comp.interaction.connect(on_interaction_event);
+		interaction_comp.update_text.connect(on_interaction_update_text);
 	return
 
 
@@ -24,9 +25,19 @@ func on_interaction_event() -> void:
 	return
 
 
+func on_interaction_update_text() -> void:
+	if GameData.item_keyitems[required_keyitem_id] > 0:
+		interaction_comp.interaction_text = "Unlock Door";
+	else:
+		interaction_comp.interaction_text = "Locked";
+	return
+
+
 func unlock_wall() -> void:
 	# TODO: Play opening anim
 	# disable coll shape when opened (on anim ended)
+	
+	interaction_comp.block_interaction = true;
 	
 	if mesh_instance:
 		mesh_instance.visible = false;

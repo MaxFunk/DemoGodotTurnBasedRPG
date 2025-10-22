@@ -31,6 +31,7 @@ debug_color = Color(0.633526, 0.34392712, 1, 0.41960785)
 debug_fill = false
 
 [node name="InteractionComponent" parent="." instance=ExtResource("1_ngcgk")]
+interaction_text = "Collect"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionComponent"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -39,3 +40,4 @@ debug_color = Color(0.633526, 0.34392712, 1, 0.41960785)
 debug_fill = false
 
 [connection signal="interaction" from="InteractionComponent" to="." method="_on_interaction_component_interaction"]
+[connection signal="update_text" from="InteractionComponent" to="." method="_on_interaction_component_update_text"]
