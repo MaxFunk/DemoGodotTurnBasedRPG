@@ -1,0 +1,145 @@
+[gd_resource type="VisualShader" load_steps=12 format=3 uid="uid://wax84y1jwilp"]
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_uag58"]
+parameter_name = "ButtonMode2"
+default_value_enabled = true
+default_value = Color(0.85, 0.45049998, 0.48379177, 1)
+
+[sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_sewkn"]
+default_input_values = [0, false, 1, Quaternion(1, 1, 1, 1), 2, Quaternion(0, 0, 0, 0)]
+op_type = 5
+
+[sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_8ht8r"]
+default_input_values = [0, false, 1, Quaternion(1, 1, 1, 1), 2, Quaternion(0, 0, 0, 0)]
+op_type = 5
+
+[sub_resource type="VisualShaderNodeCompare" id="VisualShaderNodeCompare_wa2v2"]
+default_input_values = [0, 0, 1, 1, 2, 1e-05]
+type = 2
+
+[sub_resource type="VisualShaderNodeCompare" id="VisualShaderNodeCompare_pirdn"]
+default_input_values = [0, 0, 1, 2, 2, 1e-05]
+type = 2
+
+[sub_resource type="VisualShaderNodeBooleanParameter" id="VisualShaderNodeBooleanParameter_uag58"]
+parameter_name = "ButtonActive"
+default_value_enabled = true
+default_value = true
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_sewkn"]
+parameter_name = "ButtonOff"
+default_value_enabled = true
+default_value = Color(0.3, 0.3, 0.3, 1)
+
+[sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_nc126"]
+default_input_values = [0, false, 1, Quaternion(1, 1, 1, 1), 2, Quaternion(0, 0, 0, 0)]
+op_type = 5
+
+[sub_resource type="VisualShaderNodeUIntParameter" id="VisualShaderNodeUIntParameter_wa2v2"]
+parameter_name = "ButtonMode"
+default_value_enabled = true
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_pxl4e"]
+parameter_name = "ButtonMode0"
+default_value_enabled = true
+default_value = Color(0.85, 0.79050004, 0.79050004, 1)
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_xcsdx"]
+parameter_name = "ButtonMode1"
+default_value_enabled = true
+default_value = Color(0.40800002, 0.67319995, 0.85, 1)
+
+[resource]
+resource_local_to_scene = true
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, depth_test_default, cull_back, diffuse_lambert, specular_schlick_ggx;
+
+uniform bool ButtonActive = true;
+uniform uint ButtonMode = 0;
+uniform vec4 ButtonMode2 : source_color = vec4(0.850000, 0.450500, 0.483792, 1.000000);
+uniform vec4 ButtonMode1 : source_color = vec4(0.408000, 0.673200, 0.850000, 1.000000);
+uniform vec4 ButtonMode0 : source_color = vec4(0.850000, 0.790500, 0.790500, 1.000000);
+uniform vec4 ButtonOff : source_color = vec4(0.300000, 0.300000, 0.300000, 1.000000);
+
+
+
+void fragment() {
+// BooleanParameter:2
+	bool n_out2p0 = ButtonActive;
+
+
+// UIntParameter:6
+	uint n_out6p0 = ButtonMode;
+
+
+// Compare:14
+	uint n_in14p1 = 2u;
+	bool n_out14p0 = n_out6p0 == n_in14p1;
+
+
+// ColorParameter:10
+	vec4 n_out10p0 = ButtonMode2;
+
+
+// Compare:13
+	uint n_in13p1 = 1u;
+	bool n_out13p0 = n_out6p0 == n_in13p1;
+
+
+// ColorParameter:9
+	vec4 n_out9p0 = ButtonMode1;
+
+
+// ColorParameter:8
+	vec4 n_out8p0 = ButtonMode0;
+
+
+	vec4 n_out11p0;
+// Switch:11
+	n_out11p0 = mix(n_out8p0, n_out9p0, float(n_out13p0));
+
+
+	vec4 n_out12p0;
+// Switch:12
+	n_out12p0 = mix(n_out11p0, n_out10p0, float(n_out14p0));
+
+
+// ColorParameter:3
+	vec4 n_out3p0 = ButtonOff;
+
+
+	vec4 n_out4p0;
+// Switch:4
+	n_out4p0 = mix(n_out3p0, n_out12p0, float(n_out2p0));
+
+
+// Output:0
+	ALBEDO = vec3(n_out4p0.xyz);
+
+
+}
+"
+nodes/fragment/0/position = Vector2(220, -700)
+nodes/fragment/2/node = SubResource("VisualShaderNodeBooleanParameter_uag58")
+nodes/fragment/2/position = Vector2(-480, -260)
+nodes/fragment/3/node = SubResource("VisualShaderNodeColorParameter_sewkn")
+nodes/fragment/3/position = Vector2(-480, 180)
+nodes/fragment/4/node = SubResource("VisualShaderNodeSwitch_nc126")
+nodes/fragment/4/position = Vector2(-80, -220)
+nodes/fragment/6/node = SubResource("VisualShaderNodeUIntParameter_wa2v2")
+nodes/fragment/6/position = Vector2(-1460, -700)
+nodes/fragment/8/node = SubResource("VisualShaderNodeColorParameter_pxl4e")
+nodes/fragment/8/position = Vector2(-1220, 240)
+nodes/fragment/9/node = SubResource("VisualShaderNodeColorParameter_xcsdx")
+nodes/fragment/9/position = Vector2(-1220, -20)
+nodes/fragment/10/node = SubResource("VisualShaderNodeColorParameter_uag58")
+nodes/fragment/10/position = Vector2(-1220, -280)
+nodes/fragment/11/node = SubResource("VisualShaderNodeSwitch_sewkn")
+nodes/fragment/11/position = Vector2(-740, 160)
+nodes/fragment/12/node = SubResource("VisualShaderNodeSwitch_8ht8r")
+nodes/fragment/12/position = Vector2(-480, -40)
+nodes/fragment/13/node = SubResource("VisualShaderNodeCompare_wa2v2")
+nodes/fragment/13/position = Vector2(-1140, -500)
+nodes/fragment/14/node = SubResource("VisualShaderNodeCompare_pirdn")
+nodes/fragment/14/position = Vector2(-1140, -700)
+nodes/fragment/connections = PackedInt32Array(2, 0, 4, 0, 3, 0, 4, 2, 4, 0, 0, 0, 6, 0, 13, 0, 6, 0, 14, 0, 13, 0, 11, 0, 9, 0, 11, 1, 8, 0, 11, 2, 10, 0, 12, 1, 14, 0, 12, 0, 12, 0, 4, 1, 11, 0, 12, 2)

@@ -8,31 +8,31 @@ extends Area3D
 @export var animation_name: StringName;
 @export var opponent_ids: Array[int] = [];
 
-var valid: bool = true;
+var anim_valid: bool = true;
 
 
 func _ready() -> void:
-	if !anim_player or !camera_3d:
-		valid = false;
-		return
-	
-	if !anim_player.has_animation(animation_name):
-		valid = false;
-		return
+	if !anim_player or !camera_3d or !anim_player.has_animation(animation_name):
+		anim_valid = false;
 	
 	body_entered.connect(on_body_entered);
-	anim_player.animation_finished.connect(on_animation_finished);
+	if anim_valid:
+		anim_player.animation_finished.connect(on_animation_finished);
 	return
 
 
 func on_body_entered(body: Node3D) -> void:
-	if valid and body is PlayerCharacter:
-		var player := body as PlayerCharacter;
-		player.move_mode = player.MOVEMODE.NONE;
-		#player.process_mode = Node.PROCESS_MODE_DISABLED; # Disable World instead?
-		camera_3d.make_current();
-		anim_player.play(animation_name);
-		GameData.main_scene.battle_finished.connect(on_battle_finished);
+	if body is PlayerCharacter:
+		if anim_valid:
+			var player := body as PlayerCharacter;
+			player.move_mode = player.MOVEMODE.NONE;
+			#player.process_mode = Node.PROCESS_MODE_DISABLED; # Disable World instead?
+			camera_3d.make_current();
+			anim_player.play(animation_name);
+			GameData.main_scene.battle_finished.connect(on_battle_finished);
+		else:
+			GameData.main_scene.battle_finished.connect(on_battle_finished);
+			on_animation_finished(animation_name);
 	return
 
 

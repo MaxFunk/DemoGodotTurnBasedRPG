@@ -21,7 +21,10 @@ const PostBattleUI := preload("res://UserInterfaces/Battle/PostBattle/post_battl
 	$SpawnMarker/HeroSpawnRight as Marker3D];
 @onready var enemy_spawnpoints: Array[Marker3D] = [
 	$SpawnMarker/EnemySpawn1 as Marker3D,
-	$SpawnMarker/EnemySpawn2 as Marker3D];
+	$SpawnMarker/EnemySpawn2 as Marker3D,
+	$SpawnMarker/EnemySpawn3 as Marker3D,
+	$SpawnMarker/EnemySpawn4 as Marker3D,
+	$SpawnMarker/EnemySpawn5 as Marker3D];
 @onready var camera_markers: Array[Marker3D] = [
 	$CameraMarker/CamMarkerAll as Marker3D,
 	$CameraMarker/CamMarkerAllHeros as Marker3D,

@@ -1,0 +1,165 @@
+[gd_scene load_steps=14 format=3 uid="uid://ck2u0wx8co16b"]
+
+[ext_resource type="Script" uid="uid://dsooyvardm1px" path="res://GameObjects/Interactables/Unique/dungeon_pillar_contraption.gd" id="1_0al14"]
+[ext_resource type="PackedScene" uid="uid://ckxw05aoy0304" path="res://GameObjects/Interactables/interaction_component.tscn" id="2_jj3e8"]
+[ext_resource type="Shader" uid="uid://wax84y1jwilp" path="res://Resources/Shader/shader_button_three_mode.tres" id="3_f01g0"]
+[ext_resource type="Material" uid="uid://bu6fuc6k5m346" path="res://Resources/GodotSettings/Materials/mat_metal.tres" id="3_sutev"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sutev"]
+size = Vector3(0.5, 1, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_sutev"]
+size = Vector3(0.3, 0.8, 0.3)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f01g0"]
+render_priority = 0
+shader = ExtResource("3_f01g0")
+shader_parameter/ButtonActive = true
+shader_parameter/ButtonMode = 0
+shader_parameter/ButtonMode2 = Color(0.85, 0.4505, 0.483792, 1)
+shader_parameter/ButtonMode1 = Color(0.408, 0.6732, 0.85, 1)
+shader_parameter/ButtonMode0 = Color(0.85, 0.7905, 0.7905, 1)
+shader_parameter/ButtonOff = Color(0.3, 0.3, 0.3, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_f01g0"]
+size = Vector3(0.3, 0.8, 0.3)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y6o8a"]
+render_priority = 0
+shader = ExtResource("3_f01g0")
+shader_parameter/ButtonActive = true
+shader_parameter/ButtonMode = 0
+shader_parameter/ButtonMode2 = Color(0.85, 0.4505, 0.483792, 1)
+shader_parameter/ButtonMode1 = Color(0.408, 0.6732, 0.85, 1)
+shader_parameter/ButtonMode0 = Color(0.85, 0.7905, 0.7905, 1)
+shader_parameter/ButtonOff = Color(0.3, 0.3, 0.3, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_y6o8a"]
+size = Vector3(0.3, 0.8, 0.3)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3w23q"]
+render_priority = 0
+shader = ExtResource("3_f01g0")
+shader_parameter/ButtonActive = true
+shader_parameter/ButtonMode = 0
+shader_parameter/ButtonMode2 = Color(0.85, 0.4505, 0.483792, 1)
+shader_parameter/ButtonMode1 = Color(0.408, 0.6732, 0.85, 1)
+shader_parameter/ButtonMode0 = Color(0.85, 0.7905, 0.7905, 1)
+shader_parameter/ButtonOff = Color(0.3, 0.3, 0.3, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jj3e8"]
+size = Vector3(1, 5, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jj3e8"]
+material = ExtResource("3_sutev")
+size = Vector3(1, 6, 1)
+
+[node name="DungeonPillarContraption" type="Node3D"]
+script = ExtResource("1_0al14")
+
+[node name="InteractionComponent1" parent="." instance=ExtResource("2_jj3e8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionComponent1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_sutev")
+debug_fill = false
+
+[node name="MeshButton1" type="MeshInstance3D" parent="InteractionComponent1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+mesh = SubResource("BoxMesh_sutev")
+surface_material_override/0 = SubResource("ShaderMaterial_f01g0")
+
+[node name="InteractionComponent2" parent="." instance=ExtResource("2_jj3e8")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionComponent2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_sutev")
+debug_fill = false
+
+[node name="MeshButton2" type="MeshInstance3D" parent="InteractionComponent2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+mesh = SubResource("BoxMesh_f01g0")
+surface_material_override/0 = SubResource("ShaderMaterial_y6o8a")
+
+[node name="InteractionComponent3" parent="." instance=ExtResource("2_jj3e8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionComponent3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_sutev")
+debug_fill = false
+
+[node name="MeshButton3" type="MeshInstance3D" parent="InteractionComponent3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+mesh = SubResource("BoxMesh_y6o8a")
+surface_material_override/0 = SubResource("ShaderMaterial_3w23q")
+
+[node name="Pillar1" type="AnimatableBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -4.9, -1)
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Pillar1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+shape = SubResource("BoxShape3D_jj3e8")
+debug_fill = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Pillar1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+mesh = SubResource("BoxMesh_jj3e8")
+
+[node name="Pillar2" type="AnimatableBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -4.9, -1)
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Pillar2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+shape = SubResource("BoxShape3D_jj3e8")
+debug_fill = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Pillar2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+mesh = SubResource("BoxMesh_jj3e8")
+
+[node name="Pillar3" type="AnimatableBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.9, -1)
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Pillar3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+shape = SubResource("BoxShape3D_jj3e8")
+debug_fill = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Pillar3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+mesh = SubResource("BoxMesh_jj3e8")
+
+[node name="Pillar4" type="AnimatableBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -4.9, -1)
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Pillar4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+shape = SubResource("BoxShape3D_jj3e8")
+debug_fill = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Pillar4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+mesh = SubResource("BoxMesh_jj3e8")
+
+[node name="Pillar5" type="AnimatableBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -4.9, -1)
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Pillar5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+shape = SubResource("BoxShape3D_jj3e8")
+debug_fill = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Pillar5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+mesh = SubResource("BoxMesh_jj3e8")
+
+[connection signal="interaction" from="InteractionComponent1" to="." method="_on_interaction_component_1_interaction"]
+[connection signal="interaction" from="InteractionComponent2" to="." method="_on_interaction_component_2_interaction"]
+[connection signal="interaction" from="InteractionComponent3" to="." method="_on_interaction_component_3_interaction"]

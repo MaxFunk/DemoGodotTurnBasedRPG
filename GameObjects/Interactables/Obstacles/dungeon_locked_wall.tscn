@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dcg0xc7corfwd"]
+
+[ext_resource type="Script" uid="uid://caijy161gicgd" path="res://GameObjects/Interactables/Obstacles/dungeon_locked_wall.gd" id="1_sra06"]
+
+[node name="DungeonLockedWall" type="StaticBody3D"]
+collision_layer = 2
+collision_mask = 256
+script = ExtResource("1_sra06")

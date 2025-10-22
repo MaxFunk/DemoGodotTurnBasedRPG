@@ -180,7 +180,6 @@ func apply_action(t_idx: int) -> void:
 			await apply_item(user, targets[t_idx], item);
 		ACTIONTYPE.ANALYZE:
 			var target := targets[t_idx];
-			target.is_analyzed = true;
 			if !GameData.analyzed_opponents.has(target.id):
 				GameData.analyzed_opponents.append(target.id);
 			battle_scene.battle_ui.prepare_after_analyze();

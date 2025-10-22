@@ -38,7 +38,6 @@ var exp_on_defeat: int = 0;
 var is_blocking: bool = false;
 var is_charged: bool = false;
 var is_defeated: bool = false;
-var is_analyzed: bool = false;
 
 
 func _init() -> void:
@@ -82,14 +81,12 @@ func load_opponent_data(load_id: int) -> void:
 		arts[i] = BattleArt.new(int(art_data[i]));
 	
 	exp_on_defeat = int(data.get("exp_on_defeat"));
-	is_analyzed = GameData.analyzed_opponents.has(load_id);
 	return
 
 
 func load_existing_chardata(char_data: CharacterData) -> void:
 	origin_data = char_data;
 	is_hero = true;
-	is_analyzed = true;
 	id = char_data.id;
 	name = char_data.name;
 	level = char_data.level;

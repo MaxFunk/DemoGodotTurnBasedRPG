@@ -1,5 +1,5 @@
 id,name,type,is_visible,description
-0,"Keyitem A",0,1,"Keyitem"
+0,"Dungeon A Key",0,1,"Opens a barrier in Dungeon A."
 1,"Keyitem B",0,1,"Keyitem"
 2,"Keyitem C",0,0,"Keyitem"
 3,"Character Shard",1,1,"Ether Shard that upgrades a Character"

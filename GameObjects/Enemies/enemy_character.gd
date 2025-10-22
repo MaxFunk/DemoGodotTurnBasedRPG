@@ -15,7 +15,7 @@ var enemy_group: EnemyGroup;
 var target_player: PlayerCharacter;
 
 var char_state := CHARSTATE.IDLE;
-var char_task := CHARTASK.WANDERING;
+var char_task := CHARTASK.GUARDING;
 
 var attack_anim_name: StringName = "BattlePhysicalArt";
 var walking_speed: float = 100.0;
@@ -89,7 +89,11 @@ func _physics_process(delta: float) -> void:
 	return
 
 
-func set_spawn_position() -> void:
+func set_spawn_position(spawn_marker: Marker3D) -> void:
+	if spawn_marker:
+		global_transform = spawn_marker.global_transform;
+	#else: set beforehhand?
+	
 	spawn_position = global_position;
 	spawn_rotation = global_rotation;
 	
@@ -147,7 +151,8 @@ func check_for_player_hit() -> void:
 		if collider is PlayerCharacter:
 			is_waiting = true;
 			if enemy_group.enemy_ids.size() > 0:
-				GameData.main_scene.instantiate_battle_scene(global_transform, enemy_group);
+				var player := collider as PlayerCharacter;
+				GameData.main_scene.instantiate_battle_scene(player.global_transform, enemy_group);
 	return
 
 

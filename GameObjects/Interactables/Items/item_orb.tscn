@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://bafr6xntviwk4"]
+
+[ext_resource type="Script" uid="uid://d14r627hvstp" path="res://GameObjects/Interactables/Items/item_orb.gd" id="1_gg5v3"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_1tv7s"]
+radius = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8jf8g"]
+albedo_color = Color(0.64, 0.86800003, 1, 1)
+emission_enabled = true
+emission = Color(0.18, 0.6993334, 1, 1)
+disable_receive_shadows = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_8jf8g"]
+material = SubResource("StandardMaterial3D_8jf8g")
+radius = 0.1
+height = 0.2
+
+[node name="ItemOrb" type="Area3D"]
+collision_layer = 8192
+collision_mask = 256
+script = ExtResource("1_gg5v3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+shape = SubResource("SphereShape3D_1tv7s")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_8jf8g")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

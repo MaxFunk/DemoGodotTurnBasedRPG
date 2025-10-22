@@ -33,7 +33,7 @@ var texture_rects: Array[TextureRect] = [];
 
 
 func load_character_data(bd: BattleData) -> void:
-	var show_data: bool = bd.is_analyzed;
+	var show_data: bool = true if bd.is_hero or GameData.analyzed_opponents.has(bd.id) else false;
 	lbl_name.text = bd.name;
 	lbl_level.text = str(bd.level);
 	

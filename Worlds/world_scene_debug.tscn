@@ -225,6 +225,8 @@ mesh = SubResource("PlaneMesh_s0jbs")
 
 [node name="DebugBlock" parent="StaticBodiesArea1/NavigationRegion3D" instance=ExtResource("5_3c4c8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -3)
+interaction_type = 1
+interaction_id = 2
 
 [node name="Tower" type="StaticBody3D" parent="StaticBodiesArea1/NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1.99, -13)
@@ -319,7 +321,7 @@ first_text_id = 3
 model_packed_scene = ExtResource("15_j2twu")
 
 [node name="SpecialBattleInitiator" type="Area3D" parent="." node_paths=PackedStringArray("anim_player", "camera_3d", "battle_marker")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 17, 0, 0)
+transform = Transform3D(1, 0, -1.0658141e-14, 0, 1, 0, 1.0658141e-14, 0, 1, 25, 6, -37)
 collision_layer = 0
 collision_mask = 256
 script = ExtResource("14_fg3dg")
@@ -327,7 +329,7 @@ anim_player = NodePath("AnimationPlayer")
 camera_3d = NodePath("Camera3D")
 battle_marker = NodePath("BattleCenterMarker")
 animation_name = &"SpecialStart"
-opponent_ids = Array[int]([2])
+opponent_ids = Array[int]([6])
 metadata/_custom_type_script = "uid://dajvjvfw1fjs8"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SpecialBattleInitiator"]
@@ -386,8 +388,19 @@ transform = Transform3D(0.8660254, 0, 0.5, 0, 1, 0, -0.5, 0, 0.8660254, -1, 0, -
 
 [node name="EnemyGroup" parent="." instance=ExtResource("17_3aesu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 8)
-enemy_ids = [null, 1]
+group_task = 1
+enemy_ids = [0, 1]
 
-[node name="EnemyGroup2" parent="." instance=ExtResource("17_3aesu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7)
-enemy_ids = [null]
+[node name="EnemyGroup2" parent="." node_paths=PackedStringArray("spawn_markers") instance=ExtResource("17_3aesu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 7)
+group_task = 2
+enemy_ids = [2]
+spawn_markers = [NodePath("SpawnMarker")]
+
+[node name="SpawnMarker" type="Marker3D" parent="EnemyGroup2"]
+transform = Transform3D(-5.9604645e-08, 0, -0.99999994, 0, 1, 0, 0.99999994, 0, -5.9604645e-08, 0, 0, 0)
+
+[node name="DebugBlockDungeon" parent="." instance=ExtResource("5_3c4c8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20)
+interaction_type = 1
+interaction_id = 3

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7ymk5rsngt5o"]
+
+[ext_resource type="Script" uid="uid://c0iwgmov16ab5" path="res://GameObjects/Interactables/Obstacles/dungeon_ether_wall.gd" id="1_8s3j3"]
+
+[node name="DungeonEtherWall" type="StaticBody3D"]
+collision_layer = 2
+collision_mask = 256
+script = ExtResource("1_8s3j3")

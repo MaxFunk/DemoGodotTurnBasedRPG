@@ -1,0 +1,345 @@
+[gd_scene load_steps=33 format=3 uid="uid://cgidx21ahbf7x"]
+
+[ext_resource type="Script" uid="uid://c7ts8ujxoerht" path="res://Worlds/world_scene.gd" id="1_ds268"]
+[ext_resource type="PackedScene" uid="uid://gjs551gpk86f" path="res://GameObjects/Player/player_character.tscn" id="2_rn4vi"]
+[ext_resource type="PackedScene" uid="uid://bafr6xntviwk4" path="res://GameObjects/Interactables/Items/item_orb.tscn" id="4_n0qo8"]
+[ext_resource type="PackedScene" uid="uid://ck2u0wx8co16b" path="res://GameObjects/Interactables/Unique/dungeon_pillar_contraption.tscn" id="5_fpsje"]
+[ext_resource type="PackedScene" uid="uid://ckxw05aoy0304" path="res://GameObjects/Interactables/interaction_component.tscn" id="6_ds268"]
+[ext_resource type="PackedScene" uid="uid://7c1wy5xn62nr" path="res://Resources/Models/Locations/Dungeons/dungeon_a.glb" id="7_cq5oj"]
+[ext_resource type="Material" uid="uid://bu6fuc6k5m346" path="res://Resources/GodotSettings/Materials/mat_metal.tres" id="7_ds268"]
+[ext_resource type="PackedScene" uid="uid://b7ymk5rsngt5o" path="res://GameObjects/Interactables/Obstacles/dungeon_ether_wall.tscn" id="8_cq5oj"]
+[ext_resource type="PackedScene" uid="uid://c7c07mkhv8qk8" path="res://GameObjects/Interactables/Debug/debug_block.tscn" id="9_asl8j"]
+[ext_resource type="PackedScene" uid="uid://ctnre5xcpb2vm" path="res://GameObjects/Interactables/Items/crystal.tscn" id="10_5v148"]
+[ext_resource type="PackedScene" uid="uid://dcg0xc7corfwd" path="res://GameObjects/Interactables/Obstacles/dungeon_locked_wall.tscn" id="11_apnp4"]
+[ext_resource type="PackedScene" uid="uid://dxe5uy6a0o5wp" path="res://GameObjects/Enemies/enemy_group.tscn" id="12_63g24"]
+[ext_resource type="Script" uid="uid://dajvjvfw1fjs8" path="res://GameObjects/General/special_battle_initiator.gd" id="13_ynto7"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_n0qo8"]
+sky_top_color = Color(0.341176, 0.768627, 0.980392, 1)
+sky_horizon_color = Color(0.341176, 0.92549, 0.980392, 1)
+ground_bottom_color = Color(0.341176, 0.92549, 0.980392, 1)
+ground_horizon_color = Color(0.341176, 0.92549, 0.980392, 1)
+
+[sub_resource type="Sky" id="Sky_fpsje"]
+sky_material = SubResource("ProceduralSkyMaterial_n0qo8")
+
+[sub_resource type="Environment" id="Environment_oim16"]
+background_mode = 2
+sky = SubResource("Sky_fpsje")
+ambient_light_color = Color(0.49747366, 0.49747366, 0.49747366, 1)
+ambient_light_sky_contribution = 0.1
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ds268"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_cq5oj"]
+material = ExtResource("7_ds268")
+size = Vector3(0.4, 0.5, 0.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ds268"]
+material = ExtResource("7_ds268")
+size = Vector3(0.2, 0.2, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cq5oj"]
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(1, 0.5, 0.6583333, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_asl8j"]
+material = SubResource("StandardMaterial3D_cq5oj")
+size = Vector2(8, 4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cq5oj"]
+size = Vector3(8, 4, 0.2)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_cq5oj"]
+material = ExtResource("7_ds268")
+radius = 0.2
+height = 1.0
+radial_segments = 16
+rings = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_asl8j"]
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(0.89162475, 0.98547035, 0.97995883, 1)
+disable_receive_shadows = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_5v148"]
+material = SubResource("StandardMaterial3D_asl8j")
+size = Vector2(8, 5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_apnp4"]
+size = Vector3(8, 5, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_apnp4"]
+material = SubResource("StandardMaterial3D_asl8j")
+size = Vector2(8, 6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_apnp4"]
+material = ExtResource("7_ds268")
+size = Vector3(8, 6, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ynto7"]
+size = Vector3(8, 6, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_63g24"]
+size = Vector3(2, 2, 2)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_63g24"]
+vertices = PackedVector3Array(8.5, 0.5, -8.5, 13.75, 0.5, -13.25, 8, 0.5, -19.25, -7.75, 0.5, -19.5, -13.5, 0.5, -13.5, -8.25, 0.5, -8.5, 3.75, 0.5, -19.5, -4.25, 10.5, -8.5, -2.25, 10.5, -8.5, -2.25, 10.5, -18.5, -8.75, 10.5, -18.5, -19, 10.5, -8, -6.5, 10.5, -6.25, 2.25, 10.5, -8.5, 2.25, 10.5, -18.5, 4.25, 10.5, -8.5, 8.75, 10.5, -18.5, 6.5, 10.5, -6.25, 19, 10.5, -8, -19.25, 0.5, -8, -19.25, 0.5, 7.75, -13.25, 0.5, 13.5, -8.25, 0.5, 8.75, 8.5, 0.5, 8.5, 13.5, 0.5, 13.5, 19.5, 0.5, 7.75, 19.5, 0.5, -7.75, -19.25, 10.5, -3, -8.5, 10.5, -2.75, -8.5, 10.5, -4.25, 19.5, 10.5, -2.25, 19.5, 10.5, -7.75, 8.5, 10.5, -4.25, 8.5, 10.5, -2.25, -19.25, 4.5, -3.5, -19.25, 4.5, 3.5, -8.5, 4.5, 3.5, -8.5, 4.5, -3.5, 8.5, 4.5, -3.5, 8.5, 4.5, 3.5, 19.5, 4.5, 3.5, 19.5, 4.5, -3.5, -19.25, 10.5, 3, -8.5, 10.5, 2.75, 8.5, 10.5, 2.25, 19.5, 10.5, 2.25, 18, 10.5, 9, 19.5, 10.5, 7.75, 8.5, 10.5, 4.25, 7, 10.5, 5.75, -19.25, 10.5, 7.75, -18.5, 10.5, 8.25, -8.5, 10.5, 4.25, -6.5, 10.5, 6.25, 6.25, 10.5, 6.5, 9, 10.5, 18, -8.25, 10.5, 18.5, -5.75, 10.5, 7, 2.25, 10.5, 19.5, 7.75, 10.5, 19.5, 4.25, 10.5, 8.5, 2.25, 10.5, 8.5, -7.5, 10.5, 19.5, -2.25, 10.5, 19.5, -2.25, 10.5, 8.5, -4.25, 10.5, 8.5, -7.5, 0.5, 19.5, 7.75, 0.5, 19.5)
+polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(4, 3, 5), PackedInt32Array(5, 3, 6), PackedInt32Array(5, 6, 2), PackedInt32Array(5, 2, 0), PackedInt32Array(9, 8, 7), PackedInt32Array(7, 12, 9), PackedInt32Array(9, 12, 10), PackedInt32Array(10, 12, 11), PackedInt32Array(9, 14, 8), PackedInt32Array(8, 14, 13), PackedInt32Array(15, 13, 14), PackedInt32Array(15, 14, 17), PackedInt32Array(17, 14, 16), PackedInt32Array(17, 16, 18), PackedInt32Array(4, 5, 19), PackedInt32Array(19, 5, 20), PackedInt32Array(20, 5, 22), PackedInt32Array(20, 22, 21), PackedInt32Array(1, 26, 0), PackedInt32Array(0, 26, 25), PackedInt32Array(0, 25, 23), PackedInt32Array(23, 25, 24), PackedInt32Array(29, 28, 27), PackedInt32Array(12, 29, 11), PackedInt32Array(11, 29, 27), PackedInt32Array(31, 30, 18), PackedInt32Array(18, 30, 32), PackedInt32Array(32, 30, 33), PackedInt32Array(32, 17, 18), PackedInt32Array(37, 36, 34), PackedInt32Array(34, 36, 35), PackedInt32Array(41, 40, 38), PackedInt32Array(38, 40, 39), PackedInt32Array(43, 42, 28), PackedInt32Array(28, 42, 27), PackedInt32Array(33, 30, 44), PackedInt32Array(44, 30, 45), PackedInt32Array(47, 46, 45), PackedInt32Array(45, 46, 48), PackedInt32Array(45, 48, 44), PackedInt32Array(46, 49, 48), PackedInt32Array(50, 42, 51), PackedInt32Array(51, 42, 52), PackedInt32Array(52, 42, 43), PackedInt32Array(52, 53, 51), PackedInt32Array(49, 46, 54), PackedInt32Array(54, 46, 55), PackedInt32Array(57, 56, 53), PackedInt32Array(53, 56, 51), PackedInt32Array(59, 58, 55), PackedInt32Array(55, 58, 60), PackedInt32Array(60, 58, 61), PackedInt32Array(60, 54, 55), PackedInt32Array(62, 56, 63), PackedInt32Array(63, 56, 65), PackedInt32Array(63, 65, 64), PackedInt32Array(65, 56, 57), PackedInt32Array(21, 22, 66), PackedInt32Array(66, 22, 67), PackedInt32Array(67, 22, 23), PackedInt32Array(67, 23, 24), PackedInt32Array(64, 61, 63), PackedInt32Array(63, 61, 58)]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2qk58"]
+size = Vector3(10, 4, 4)
+
+[node name="WorldSceneDungeonA" type="Node3D"]
+script = ExtResource("1_ds268")
+metadata/_custom_type_script = "uid://c7ts8ujxoerht"
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_oim16")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.86602354, -0.43301606, 0.25000072, 0, 0.49999818, 0.86602646, -0.5000033, 0.7499993, -0.4330102, 0, 10, 0)
+shadow_enabled = true
+
+[node name="PlayerCharacter" parent="." instance=ExtResource("2_rn4vi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 24)
+
+[node name="DungeonPillarContraption" parent="." node_paths=PackedStringArray("interact_btn2_activator") instance=ExtResource("5_fpsje")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -5)
+interact_btn2_activator = NodePath("../ButtonActivatePillar")
+
+[node name="ButtonActivatePillar" parent="." instance=ExtResource("6_ds268")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 4, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ButtonActivatePillar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_ds268")
+debug_color = Color(0.9264379, 3.8793387e-05, 0.67435724, 0.41960785)
+debug_fill = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ButtonActivatePillar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+mesh = SubResource("BoxMesh_cq5oj")
+skeleton = NodePath("")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="ButtonActivatePillar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_ds268")
+skeleton = NodePath("")
+
+[node name="DungeonEtherWall" parent="." node_paths=PackedStringArray("interaction_comp", "mesh_instance", "collision_shape") instance=ExtResource("8_cq5oj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8)
+interaction_comp = NodePath("../DeactivatorEtherWall")
+mesh_instance = NodePath("MeshInstance3D")
+collision_shape = NodePath("CollisionShape3D")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="DungeonEtherWall"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 2, 0)
+transparency = 0.5
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_asl8j")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DungeonEtherWall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("BoxShape3D_cq5oj")
+
+[node name="DeactivatorEtherWall" parent="." instance=ExtResource("6_ds268")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -19)
+interaction_counter = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DeactivatorEtherWall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_ds268")
+debug_color = Color(0.9264379, 3.8793387e-05, 0.67435724, 0.41960785)
+debug_fill = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="DeactivatorEtherWall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+mesh = SubResource("CapsuleMesh_cq5oj")
+
+[node name="Collectibles" type="Node3D" parent="."]
+
+[node name="ItemOrb1" parent="Collectibles" instance=ExtResource("4_n0qo8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 19)
+item_drops = Array[int]([4, 5])
+item_probabilities = Array[float]([0.7, 0.3])
+
+[node name="ItemOrb2" parent="Collectibles" instance=ExtResource("4_n0qo8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 4, 6)
+item_type = 2
+item_drops = Array[int]([3])
+item_probabilities = Array[float]([1.0])
+
+[node name="ItemOrb3" parent="Collectibles" instance=ExtResource("4_n0qo8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, -9)
+item_drops = Array[int]([0, 1])
+item_probabilities = Array[float]([0.5, 0.5])
+
+[node name="ItemOrb4" parent="Collectibles" instance=ExtResource("4_n0qo8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 10, 7)
+item_drops = Array[int]([0, 1])
+item_probabilities = Array[float]([0.5, 0.5])
+
+[node name="ItemOrbKeyitem" parent="Collectibles" instance=ExtResource("4_n0qo8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 19)
+item_type = 0
+item_drops = Array[int]([0])
+item_probabilities = Array[float]([1.0])
+
+[node name="Crystal10" parent="Collectibles" instance=ExtResource("10_5v148")]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 18, 4, 0)
+amount_dropped = 2
+item_drops = Array[int]([13, 14])
+item_probabilities = Array[float]([1.0, 1.0])
+crystal_id = 10
+
+[node name="Crystal11" parent="Collectibles" instance=ExtResource("10_5v148")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 10, 7)
+amount_dropped = 1
+item_drops = Array[int]([8])
+item_probabilities = Array[float]([1.0])
+crystal_id = 11
+
+[node name="DebugBlock" parent="." instance=ExtResource("9_asl8j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 26)
+interaction_type = 1
+interaction_id = 99
+
+[node name="GlowWall1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 28)
+collision_layer = 2
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GlowWall1"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 2.5, 0)
+mesh = SubResource("PlaneMesh_5v148")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GlowWall1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+shape = SubResource("BoxShape3D_apnp4")
+
+[node name="GlowWall2" type="StaticBody3D" parent="."]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 10, -38)
+collision_layer = 2
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GlowWall2"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 3, 0)
+mesh = SubResource("PlaneMesh_apnp4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GlowWall2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+shape = SubResource("BoxShape3D_apnp4")
+
+[node name="DungeonLockedWall" parent="." node_paths=PackedStringArray("interaction_comp", "mesh_instance", "collision_shape") instance=ExtResource("11_apnp4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, -21)
+required_keyitem_id = 0
+interaction_comp = NodePath("InteractionComponent")
+mesh_instance = NodePath("MeshInstance3D")
+collision_shape = NodePath("CollisionShape3D")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="DungeonLockedWall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+mesh = SubResource("BoxMesh_apnp4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DungeonLockedWall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+shape = SubResource("BoxShape3D_ynto7")
+debug_color = Color(0.90470046, 0.00013900161, 0.7507114, 0.41960785)
+debug_fill = false
+
+[node name="InteractionComponent" parent="DungeonLockedWall" instance=ExtResource("6_ds268")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DungeonLockedWall/InteractionComponent"]
+shape = SubResource("BoxShape3D_63g24")
+debug_color = Color(0.90470046, 0.00013900161, 0.7507114, 0.41960785)
+debug_fill = false
+
+[node name="EnemyGroups" type="Node3D" parent="." groups=["Actors"]]
+
+[node name="EnemyGroup1" parent="EnemyGroups" node_paths=PackedStringArray("spawn_markers") instance=ExtResource("12_63g24")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 9)
+group_task = 2
+enemy_ids = [2, 2]
+spawn_markers = [NodePath("SpawnMarker1"), NodePath("SpawnMarker2")]
+
+[node name="SpawnMarker1" type="Marker3D" parent="EnemyGroups/EnemyGroup1"]
+transform = Transform3D(-0.7071067, 0, -0.7071068, 0, 1, 0, 0.7071068, 0, -0.7071067, -4, 0, 0)
+
+[node name="SpawnMarker2" type="Marker3D" parent="EnemyGroups/EnemyGroup1"]
+transform = Transform3D(-0.7071067, 0, 0.7071068, 0, 1, 0, -0.7071068, 0, -0.7071067, 4, 0, 0)
+
+[node name="EnemyGroup2" parent="EnemyGroups" instance=ExtResource("12_63g24")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 0)
+group_task = 1
+enemy_ids = [2, 3]
+
+[node name="EnemyGroup3" parent="EnemyGroups" instance=ExtResource("12_63g24")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, 0)
+group_task = 1
+enemy_ids = [4]
+
+[node name="EnemyGroup4" parent="EnemyGroups" node_paths=PackedStringArray("spawn_markers") instance=ExtResource("12_63g24")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 10, 0)
+group_task = 2
+enemy_ids = [3, 4]
+spawn_markers = [NodePath("SpawnMarker1"), NodePath("SpawnMarker2")]
+
+[node name="SpawnMarker1" type="Marker3D" parent="EnemyGroups/EnemyGroup4"]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -5, 0, 0)
+
+[node name="SpawnMarker2" type="Marker3D" parent="EnemyGroups/EnemyGroup4"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 5, 0, 0)
+
+[node name="EnemyGroup5" parent="EnemyGroups" instance=ExtResource("12_63g24")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 10, 0)
+group_task = 1
+enemy_ids = [2, 3, 4]
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_63g24")
+
+[node name="dungeon_a" parent="NavigationRegion3D" instance=ExtResource("7_cq5oj")]
+
+[node name="NavigationObstacle1" type="NavigationObstacle3D" parent="NavigationRegion3D"]
+height = 10.0
+vertices = PackedVector3Array(8, 0, 8, 8, 0, -8, -8, 0, -8, -8, 0, 8)
+affect_navigation_mesh = true
+
+[node name="NavigationObstacle2" type="NavigationObstacle3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -30)
+height = 15.0
+vertices = PackedVector3Array(10, 0, 11, 10, 0, -8, -10, 0, -8, -10, 0, 11)
+affect_navigation_mesh = true
+
+[node name="NavigationObstacle3" type="NavigationObstacle3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 19, 0)
+height = 4.0
+vertices = PackedVector3Array(32, 0, 32, 32, 0, -32, -32, 0, -32, -32, 0, 32)
+affect_navigation_mesh = true
+
+[node name="NavigationObstacle4" type="NavigationObstacle3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 28)
+height = 15.0
+vertices = PackedVector3Array(8, 0, 8, 8, 0, -8, -8, 0, -8, -8, 0, 8)
+affect_navigation_mesh = true
+
+[node name="SpecialBattleBoss" type="Area3D" parent="." node_paths=PackedStringArray("battle_marker")]
+transform = Transform3D(1, 0, -1.0658141e-14, 0, 1, 0, 1.0658141e-14, 0, 1, 0, 10, -27)
+collision_layer = 0
+collision_mask = 256
+script = ExtResource("13_ynto7")
+battle_marker = NodePath("BattleCenterMarker")
+animation_name = &"SpecialStart"
+opponent_ids = Array[int]([5])
+metadata/_custom_type_script = "uid://dajvjvfw1fjs8"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SpecialBattleBoss"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1316282e-14, 2, 2)
+shape = SubResource("BoxShape3D_2qk58")
+
+[node name="BattleCenterMarker" type="Marker3D" parent="SpecialBattleBoss"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
