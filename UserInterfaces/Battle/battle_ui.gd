@@ -157,13 +157,13 @@ func input_arts(event: InputEvent) -> void:
 			return
 		
 		if art.is_ult:
-			var cp_cost: int = art.sp_cost;
+			var cp_cost: int = art.cost;
 			if cp_cost > cur_actor.ult_points:
 				print("Not enough CP to use Ult-Art!");
 				return
 		else:
-			var sp_cost: int = art.sp_cost * 2 if cur_actor.ailment == Ailments.EXHAUSTED else art.sp_cost;
-			if art.sp_cost > cur_actor.sp_cur:
+			var sp_cost: int = art.cost * 2 if cur_actor.ailment == Ailments.EXHAUSTED else art.cost;
+			if sp_cost > cur_actor.sp_cur:
 				print("Not enough SP to use Art!");
 				return
 		

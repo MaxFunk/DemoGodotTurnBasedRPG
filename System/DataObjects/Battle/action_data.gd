@@ -101,10 +101,10 @@ func check_user_can_cast() -> bool:
 func apply_action_cost() -> void:
 	if action_type == ACTIONTYPE.ART:
 		if art.is_ult:
-			user.change_ult_points(-art.sp_cost);
+			user.change_ult_points(-art.cost);
 		else:
 			if user.is_hero:
-				user.change_sp(-art.sp_cost);
+				user.change_sp(-art.cost);
 	elif action_type == ACTIONTYPE.ITEM:
 		if item: # unnecessary check?
 			item.delete_items(1);

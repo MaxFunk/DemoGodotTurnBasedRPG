@@ -41,7 +41,7 @@ static func get_art_weight(art: BattleArt, opponent: BattleData, target: BattleD
 		art.CATEGORY.PHYSICAL, art.CATEGORY.ETHER, art.CATEGORY.SOULPOWER:
 			if art.is_ult:
 				# Maybe turn into x2 for below attr lookup
-				return 8 if opponent.ult_points > art.sp_cost else 0
+				return 8 if opponent.ult_points > art.cost else 0
 			else:
 				var attr: float = 1.0;
 				attr *= Calculations.get_attribute_multiplier(target, art.attribute_1);

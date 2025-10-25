@@ -26,7 +26,7 @@ func fill_data(art: BattleArt) -> void:
 	icon_attr_1.texture = Attributes.get_attribute_icon(art.attribute_1);
 	icon_attr_2.texture = Attributes.get_attribute_icon(art.attribute_2);
 	lbl_name.text = art.name;
-	lbl_cost_val.text = str(art.sp_cost);
+	lbl_cost_val.text = str(art.cost);
 	lbl_cost.text = "CP" if art.is_ult else "SP";
 	
 	lbl_cost_val.visible = !art.is_passive_art();

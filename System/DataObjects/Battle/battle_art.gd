@@ -15,7 +15,7 @@ var targeting := TARGETING.NONE;
 
 var base_power: int = 0;
 var accuracy: int = 98;
-var sp_cost: int = 0;
+var cost: int = 0;
 var hit_amount: int = 0;
 
 var is_ult: bool = false;
@@ -43,7 +43,7 @@ func _init(call_id: int) -> void:
 	
 	base_power = int(data_row["base_power"]);
 	accuracy = int(data_row["accuracy"]);
-	sp_cost = int(data_row["sp_cost"]);
+	cost = int(data_row["cost"]);
 	hit_amount = int(data_row["hit_amount"]);
 	
 	is_ult = bool(int(data_row["is_ult"]));

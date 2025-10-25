@@ -1,4 +1,4 @@
-id,name,category,targeting,base_power,accuracy,sp_cost,hit_amount,is_ult,attr_1,attr_2,effects,effect_values,description,cast_path,user_custom_anim,disable_multcast
+id,name,category,targeting,base_power,accuracy,cost,hit_amount,is_ult,attr_1,attr_2,effects,effect_values,description,cast_path,user_custom_anim,disable_multcast
 0,"Strike",0,0,30,98,3,1,0,1,-1,"","","Generic weak physical attack against one opponent","","",0
 1,"Swordslash",0,0,40,98,4,1,0,0,-1,"","","Weak physical attack onto one opponent","","",0
 2,"Lance",0,0,30,98,4,1,0,2,-1,"","","Weak pierce attack","","",0

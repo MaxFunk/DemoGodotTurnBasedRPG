@@ -373,7 +373,7 @@ func load_art_details(art: BattleArt) -> void:
 		arts_strength.text = str(art.base_power);
 	arts_amounts.text = str("x", art.hit_amount);
 	arts_amounts.visible = art.hit_amount > 1;
-	arts_cost.text = "-" if art.is_passive_art() else str(art.sp_cost);
+	arts_cost.text = "-" if art.is_passive_art() else str(art.cost);
 	arts_cost_type.text = "CP" if art.is_ult else "SP";
 	arts_cost_type.visible = !art.is_passive_art();
 	arts_description.text = art.description;

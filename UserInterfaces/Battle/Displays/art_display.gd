@@ -23,12 +23,12 @@ func update(art: BattleArt, actor: BattleData) -> void:
 	icon_attr_2.texture = Attributes.get_attribute_icon(art.attribute_2);
 	lbl_name.text = art.name;
 	if actor.ailment == Ailments.EXHAUSTED:
-		lbl_cost_val.text = str(art.sp_cost * 2);
+		lbl_cost_val.text = str(art.cost * 2);
 	else:
-		lbl_cost_val.text = str(art.sp_cost);
+		lbl_cost_val.text = str(art.cost);
 	
-	var check_1: bool = art.is_ult and art.sp_cost > actor.ult_points;
-	var check_2: bool = art.is_ult == false and art.sp_cost > actor.sp_cur;
+	var check_1: bool = art.is_ult and art.cost > actor.ult_points;
+	var check_2: bool = art.is_ult == false and art.cost > actor.sp_cur;
 	var unusable: bool = check_1 or check_2;
 	if unusable:
 		lbl_name.modulate = color_unusable;
