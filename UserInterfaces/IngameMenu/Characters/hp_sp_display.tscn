@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cilx6a8ktc402"]
 
-[ext_resource type="Script" uid="uid://dudprjba6ha0n" path="res://UserInterfaces/IngameMenu/Subscenes/hp_sp_display.gd" id="1_n0rms"]
+[ext_resource type="Script" uid="uid://dudprjba6ha0n" path="res://UserInterfaces/IngameMenu/Characters/hp_sp_display.gd" id="1_n0rms"]
 [ext_resource type="Texture2D" uid="uid://0des5vba8cw7" path="res://Resources/Images/ProgressBars/progbar_default_under.png" id="1_oahtf"]
 [ext_resource type="Texture2D" uid="uid://cvbsto2hris6k" path="res://Resources/Images/ProgressBars/progbar_default_over.png" id="2_n0rms"]
 [ext_resource type="Texture2D" uid="uid://rxposxwpyucd" path="res://Resources/Images/ProgressBars/progbar_fill_health.png" id="3_oahtf"]

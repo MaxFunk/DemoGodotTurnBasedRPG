@@ -16,6 +16,7 @@ func _on_interaction_component_interaction() -> void:
 		INTERACTION.TELEPORT:
 			if interaction_id >= 0:
 				GameData.main_scene.load_world(interaction_id);
+				interact_comp.block_interaction = true;
 		INTERACTION.ITEMGET:
 			GameData.recieve_items(1, interaction_id, 1);
 	return

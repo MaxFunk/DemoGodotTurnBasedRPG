@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://bcudu8px10xng"]
 
 [ext_resource type="Script" uid="uid://vjweyu6qq2g1" path="res://UserInterfaces/Battle/ActionMenu/battle_character_inspect.gd" id="1_0wo3n"]
-[ext_resource type="PackedScene" uid="uid://cilx6a8ktc402" path="res://UserInterfaces/IngameMenu/Subscenes/hp_sp_display.tscn" id="5_dd211"]
-[ext_resource type="PackedScene" uid="uid://odg08mm7ky37" path="res://UserInterfaces/IngameMenu/Subscenes/stat_display.tscn" id="6_eoofs"]
-[ext_resource type="PackedScene" uid="uid://bywy76777k33t" path="res://UserInterfaces/IngameMenu/Subscenes/battle_art_display.tscn" id="7_6d5xl"]
+[ext_resource type="PackedScene" uid="uid://cilx6a8ktc402" path="res://UserInterfaces/IngameMenu/Characters/hp_sp_display.tscn" id="5_dd211"]
+[ext_resource type="PackedScene" uid="uid://odg08mm7ky37" path="res://UserInterfaces/IngameMenu/Characters/stat_display.tscn" id="6_eoofs"]
+[ext_resource type="PackedScene" uid="uid://bywy76777k33t" path="res://UserInterfaces/IngameMenu/Characters/battle_art_display.tscn" id="7_6d5xl"]
 
 [node name="BattleCharacterInspect" type="Control"]
 layout_mode = 3

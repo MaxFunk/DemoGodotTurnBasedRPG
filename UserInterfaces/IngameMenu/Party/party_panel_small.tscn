@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://duxdjwn5632g6"]
 
 [ext_resource type="Texture2D" uid="uid://cs31b1dphb5qg" path="res://Resources/Images/CharacterPortraits/character_portrait_hero_0.png" id="1_de0ra"]
-[ext_resource type="Script" uid="uid://co5bbvp70kvwh" path="res://UserInterfaces/IngameMenu/Subscenes/party_panel_small.gd" id="1_l4h52"]
+[ext_resource type="Script" uid="uid://co5bbvp70kvwh" path="res://UserInterfaces/IngameMenu/Party/party_panel_small.gd" id="1_l4h52"]
 [ext_resource type="Texture2D" uid="uid://0des5vba8cw7" path="res://Resources/Images/ProgressBars/progbar_default_under.png" id="2_sr2v4"]
 [ext_resource type="Texture2D" uid="uid://cvbsto2hris6k" path="res://Resources/Images/ProgressBars/progbar_default_over.png" id="3_wpisv"]
 [ext_resource type="Texture2D" uid="uid://rxposxwpyucd" path="res://Resources/Images/ProgressBars/progbar_fill_health.png" id="4_l4h52"]

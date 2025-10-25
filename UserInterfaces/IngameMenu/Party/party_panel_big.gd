@@ -1,6 +1,6 @@
 extends Control
 
-const HpSpDisplay := preload("res://UserInterfaces/IngameMenu/Subscenes/hp_sp_display.gd");
+const HpSpDisplay := preload("uid://dudprjba6ha0n");
 
 @onready var selection_panel := $SelectionPanel as Panel;
 @onready var char_icon := $CharacterIcon as TextureRect;

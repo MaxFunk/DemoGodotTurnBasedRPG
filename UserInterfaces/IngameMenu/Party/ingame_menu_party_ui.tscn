@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://dhec7sljuhkm7"]
 
-[ext_resource type="Script" uid="uid://by3qxgay8qbd7" path="res://UserInterfaces/IngameMenu/ingame_menu_party_ui.gd" id="1_4kass"]
-[ext_resource type="PackedScene" uid="uid://b3hp0vybtfbw0" path="res://UserInterfaces/IngameMenu/Subscenes/party_panel_big.tscn" id="2_smm5m"]
-[ext_resource type="PackedScene" uid="uid://duxdjwn5632g6" path="res://UserInterfaces/IngameMenu/Subscenes/party_panel_small.tscn" id="3_vuspy"]
+[ext_resource type="Script" uid="uid://by3qxgay8qbd7" path="res://UserInterfaces/IngameMenu/Party/ingame_menu_party_ui.gd" id="1_4kass"]
+[ext_resource type="PackedScene" uid="uid://b3hp0vybtfbw0" path="res://UserInterfaces/IngameMenu/Party/party_panel_big.tscn" id="2_smm5m"]
+[ext_resource type="PackedScene" uid="uid://duxdjwn5632g6" path="res://UserInterfaces/IngameMenu/Party/party_panel_small.tscn" id="3_vuspy"]
 
 [node name="IngameMenuPartyUI" type="Control"]
 layout_mode = 3
@@ -47,43 +47,77 @@ offset_bottom = 625.0
 grow_horizontal = 2
 
 [node name="PartyPanelSmall1" parent="." instance=ExtResource("3_vuspy")]
+layout_mode = 0
 offset_left = 140.0
-offset_top = 750.0
+offset_top = 700.0
 offset_right = 340.0
-offset_bottom = 1000.0
+offset_bottom = 950.0
 
 [node name="PartyPanelSmall2" parent="." instance=ExtResource("3_vuspy")]
+layout_mode = 0
 offset_left = 380.0
-offset_top = 750.0
+offset_top = 700.0
 offset_right = 580.0
-offset_bottom = 1000.0
+offset_bottom = 950.0
 
 [node name="PartyPanelSmall3" parent="." instance=ExtResource("3_vuspy")]
+layout_mode = 0
 offset_left = 620.0
-offset_top = 750.0
+offset_top = 700.0
 offset_right = 820.0
-offset_bottom = 1000.0
+offset_bottom = 950.0
 
 [node name="PartyPanelSmall4" parent="." instance=ExtResource("3_vuspy")]
+layout_mode = 0
 offset_left = 860.0
-offset_top = 750.0
+offset_top = 700.0
 offset_right = 1060.0
-offset_bottom = 1000.0
+offset_bottom = 950.0
 
 [node name="PartyPanelSmall5" parent="." instance=ExtResource("3_vuspy")]
+layout_mode = 0
 offset_left = 1100.0
-offset_top = 750.0
+offset_top = 700.0
 offset_right = 1300.0
-offset_bottom = 1000.0
+offset_bottom = 950.0
 
 [node name="PartyPanelSmall6" parent="." instance=ExtResource("3_vuspy")]
+layout_mode = 0
 offset_left = 1340.0
-offset_top = 750.0
+offset_top = 700.0
 offset_right = 1540.0
-offset_bottom = 1000.0
+offset_bottom = 950.0
 
 [node name="PartyPanelSmall7" parent="." instance=ExtResource("3_vuspy")]
+layout_mode = 0
 offset_left = 1580.0
-offset_top = 750.0
+offset_top = 700.0
 offset_right = 1780.0
-offset_bottom = 1000.0
+offset_bottom = 950.0
+
+[node name="LabelButtonX" type="Label" parent="."]
+layout_mode = 0
+offset_left = 1170.0
+offset_top = 1050.0
+offset_right = 1420.0
+offset_bottom = 1080.0
+theme_override_font_sizes/font_size = 20
+text = "X: Move to Backup"
+
+[node name="LabelButtonY" type="Label" parent="."]
+layout_mode = 0
+offset_left = 1420.0
+offset_top = 1050.0
+offset_right = 1670.0
+offset_bottom = 1080.0
+theme_override_font_sizes/font_size = 20
+text = "Y: Move to Backup"
+
+[node name="LabelButtonB" type="Label" parent="."]
+layout_mode = 0
+offset_left = 1670.0
+offset_top = 1050.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+theme_override_font_sizes/font_size = 20
+text = "B: Return"

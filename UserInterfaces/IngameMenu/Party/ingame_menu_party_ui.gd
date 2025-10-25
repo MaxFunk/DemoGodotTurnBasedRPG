@@ -1,7 +1,7 @@
 extends Control
 
-const PartyPanelBig := preload("res://UserInterfaces/IngameMenu/Subscenes/party_panel_big.gd");
-const PartyPanelSmall := preload("res://UserInterfaces/IngameMenu/Subscenes/party_panel_small.gd");
+const PartyPanelBig := preload("uid://bufc0fl4sknlm");
+const PartyPanelSmall := preload("uid://co5bbvp70kvwh");
 
 @onready var panels_big: Array[PartyPanelBig] = [
 	$PartyPanelBig1 as PartyPanelBig,
@@ -15,6 +15,9 @@ const PartyPanelSmall := preload("res://UserInterfaces/IngameMenu/Subscenes/part
 	$PartyPanelSmall5 as PartyPanelSmall,
 	$PartyPanelSmall6 as PartyPanelSmall,
 	$PartyPanelSmall7 as PartyPanelSmall];
+@onready var lbl_btn_x := $LabelButtonX as Label;
+@onready var lbl_btn_y := $LabelButtonY as Label;
+@onready var lbl_btn_b := $LabelButtonB as Label;
 
 var upper_row_index: int = 0;
 var lower_row_index: int = 0;
@@ -28,6 +31,7 @@ func input_event(event: InputEvent) -> bool:
 		else:
 			is_upper_row = true;
 			panels_small[lower_row_index].deselect();
+			update_button_info();
 			return false
 	
 	if event.is_action_pressed("Btn_X"):
@@ -39,13 +43,17 @@ func input_event(event: InputEvent) -> bool:
 		if is_upper_row:
 			is_upper_row = false;
 			panels_small[lower_row_index].select();
+			update_button_info();
 		else:
 			swap_party();
 			is_upper_row = true;
 			panels_small[lower_row_index].deselect();
-		return false
-	
-	if event.is_action_pressed("D_Pad_Left"):
+			update_button_info();
+	return false
+
+
+func _process(_delta: float) -> void:
+	if Input.is_action_just_pressed("D_Pad_Left") or Input.is_action_just_pressed("L_Stick_Left"):
 		if is_upper_row:
 			input_left_upper_row();
 		else:
@@ -53,14 +61,14 @@ func input_event(event: InputEvent) -> bool:
 			lower_row_index = maxi(lower_row_index - 1, 0);
 			panels_small[lower_row_index].select();
 	
-	if event.is_action_pressed("D_Pad_Right"):
+	if Input.is_action_just_pressed("D_Pad_Right") or Input.is_action_just_pressed("L_Stick_Right"):
 		if is_upper_row:
 			input_right_upper_row();
 		else:
 			panels_small[lower_row_index].deselect();
 			lower_row_index = mini(lower_row_index + 1, GameData.backup_party.size() - 1);
 			panels_small[lower_row_index].select();
-	return false
+	return
 
 
 func input_left_upper_row() -> void:
@@ -106,6 +114,7 @@ func prepare_view() -> void:
 	lower_row_index = 0;
 	is_upper_row = true;
 	panels_big[upper_row_index].select();
+	update_button_info();
 	return
 
 
@@ -152,4 +161,16 @@ func swap_party() -> void:
 		GameData.backup_party.append(active_index);
 		GameData.backup_party.sort();
 	prepare_view();
+	return
+
+
+func update_button_info() -> void:
+	if is_upper_row:
+		lbl_btn_x.text = "X: Move to Backup";
+		lbl_btn_y.text = "Y: Select";
+		lbl_btn_b.text = "B: Return";
+	else:
+		lbl_btn_x.text = "";
+		lbl_btn_y.text = "Y: Swap";
+		lbl_btn_b.text = "B: Cancel";
 	return

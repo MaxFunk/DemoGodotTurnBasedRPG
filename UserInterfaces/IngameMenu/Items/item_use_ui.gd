@@ -44,14 +44,20 @@ func input_event(event: InputEvent) -> int:
 		call_use_item();
 		return -1
 	
-	if event.is_action_pressed("D_Pad_Down") and !cur_consumable.used_on_all:
+	return -1
+
+
+func _process(_delta: float) -> void:
+	if cur_consumable == null or cur_consumable.used_on_all:
+		return
+	
+	if Input.is_action_just_pressed("D_Pad_Down") or Input.is_action_just_pressed("L_Stick_Down"):
 		cur_index = mini(cur_index + 1, max_index);
 		update_selection();
-	
-	if event.is_action_pressed("D_Pad_Up") and !cur_consumable.used_on_all:
+	elif Input.is_action_just_pressed("D_Pad_Up") or Input.is_action_just_pressed("L_Stick_Up"):
 		cur_index = maxi(cur_index - 1, 0);
 		update_selection();
-	return -1
+	return
 
 
 func prepare_view(consumable: ItemConsumable) -> void:

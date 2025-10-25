@@ -5,9 +5,9 @@
 [ext_resource type="Texture2D" uid="uid://0des5vba8cw7" path="res://Resources/Images/ProgressBars/progbar_default_under.png" id="3_jhnrf"]
 [ext_resource type="Texture2D" uid="uid://cvbsto2hris6k" path="res://Resources/Images/ProgressBars/progbar_default_over.png" id="4_u5aap"]
 [ext_resource type="Texture2D" uid="uid://2ymkbkwq3t24" path="res://Resources/Images/ProgressBars/progbar_fill_statsfull.png" id="5_d70ke"]
-[ext_resource type="PackedScene" uid="uid://cilx6a8ktc402" path="res://UserInterfaces/IngameMenu/Subscenes/hp_sp_display.tscn" id="6_b4n23"]
-[ext_resource type="PackedScene" uid="uid://odg08mm7ky37" path="res://UserInterfaces/IngameMenu/Subscenes/stat_display.tscn" id="7_epk03"]
-[ext_resource type="PackedScene" uid="uid://bywy76777k33t" path="res://UserInterfaces/IngameMenu/Subscenes/battle_art_display.tscn" id="8_xmji6"]
+[ext_resource type="PackedScene" uid="uid://cilx6a8ktc402" path="res://UserInterfaces/IngameMenu/Characters/hp_sp_display.tscn" id="6_b4n23"]
+[ext_resource type="PackedScene" uid="uid://odg08mm7ky37" path="res://UserInterfaces/IngameMenu/Characters/stat_display.tscn" id="7_epk03"]
+[ext_resource type="PackedScene" uid="uid://bywy76777k33t" path="res://UserInterfaces/IngameMenu/Characters/battle_art_display.tscn" id="8_xmji6"]
 
 [node name="PostBattleCharacterLevelup" type="Control"]
 layout_mode = 3

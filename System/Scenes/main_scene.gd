@@ -45,6 +45,7 @@ func load_world(id: int) -> void:
 	if id == 1:
 		loading_screen.set_active();
 	else:
+		world_scene.process_mode = Node.PROCESS_MODE_DISABLED;
 		loading_screen.start_fade_in();
 		await loading_screen.fade_finished;
 	

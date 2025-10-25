@@ -76,11 +76,50 @@ func apply_level_ups() -> void:
 	#print(name, ": ", level_up_art_ids);
 	return
 
-# TODO: Learned_ids into save data
+
 func learn_art(new_id: int, index: int) -> void:
 	if art_ids[index] >= 0:
 		learned_art_ids.append(art_ids[index]);
 	art_ids[index] = new_id;
+	return
+
+
+func swap_art_positions(index_1: int, index_2: int) -> void:
+	if index_1 < 0 or index_1 >= art_ids.size() or index_2 < 0 or index_2 >= art_ids.size():
+		return
+	if index_1 == index_2:
+		return
+	
+	var temp_id := art_ids[index_1];
+	art_ids[index_1] = art_ids[index_2];
+	art_ids[index_2] = temp_id;
+	return
+
+
+func remove_art(index: int) -> void:
+	if index < 0 or index >= art_ids.size():
+		return
+	if art_ids[index] < 0 or get_number_of_arts() <= 1:
+		return
+	
+	learned_art_ids.append(art_ids[index]);
+	art_ids.remove_at(index);
+	art_ids.append(-1);
+	return
+
+
+func relearn_art(art_index: int, learn_index: int) -> void:
+	if art_index < 0 or art_index >= art_ids.size():
+		return
+	if learn_index < 0 or learn_index >= learned_art_ids.size():
+		return
+	
+	var id_to_learn := learned_art_ids[learn_index];
+	learned_art_ids.remove_at(learn_index);
+	if art_ids[art_index] < 0:
+		learn_art(id_to_learn, get_number_of_arts());
+	else:
+		learn_art(id_to_learn, art_index);
 	return
 
 

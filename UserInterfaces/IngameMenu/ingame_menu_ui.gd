@@ -1,8 +1,9 @@
 extends Control
 
-const CharacterUI := preload("res://UserInterfaces/IngameMenu/ingame_menu_character_ui.gd");
-const PartyUI := preload("res://UserInterfaces/IngameMenu/ingame_menu_party_ui.gd");
-const ItemsUI := preload("res://UserInterfaces/IngameMenu/Items/ingame_menu_items_ui.gd");
+const CharacterUI := preload("uid://kn3kj0xbch8q");
+const PartyUI := preload("uid://by3qxgay8qbd7");
+const ItemsUI = preload("uid://dr27i5yit4hhc");
+const SavesUI = preload("uid://imlt0rs7uh15");
 
 enum MENUSTATE {MAIN, PARTY, CHARACTERS, ITEMS, MAP, QUESTS, SAVES, SETTINGS, TITELSCREEN}
 
@@ -19,9 +20,12 @@ enum MENUSTATE {MAIN, PARTY, CHARACTERS, ITEMS, MAP, QUESTS, SAVES, SETTINGS, TI
 @onready var character_ui := $IngameMenuCharacterUI as CharacterUI;
 @onready var party_ui := $IngameMenuPartyUI as PartyUI;
 @onready var items_ui := $IngameMenuItemsUI as ItemsUI;
+@onready var saves_ui := $IngameMenuSavesUI as SavesUI;
+@onready var cd_dir := $CooldownDirectional as Timer;
 
 var menu_state := MENUSTATE.MAIN;
 var main_view_index: int = 0;
+var check_process: bool = true;
 
 
 func _ready() -> void:
@@ -41,25 +45,37 @@ func _input(event: InputEvent) -> void:
 			close_sub_menu = character_ui.input_event(event);
 		MENUSTATE.ITEMS:
 			close_sub_menu = items_ui.input_event(event);
+		MENUSTATE.SAVES:
+			close_sub_menu = saves_ui.input_event(event);
 	
 	if close_sub_menu:
 		update_view_state(MENUSTATE.MAIN);
 	return
 
 
+func _process(_delta: float) -> void:
+	if check_process:
+		var just_pressed: bool = false;
+		if Input.is_action_just_pressed("D_Pad_Down") or Input.is_action_just_pressed("L_Stick_Down"):
+			update_main_index(1);
+			cd_dir.start(0.5);
+			just_pressed = true;
+		elif Input.is_action_just_pressed("D_Pad_Up") or Input.is_action_just_pressed("L_Stick_Up"):
+			update_main_index(-1);
+			cd_dir.start(0.5);
+			just_pressed = true;
+		
+		if cd_dir.is_stopped() and not just_pressed:
+			if Input.is_action_pressed("D_Pad_Down") or Input.is_action_pressed("L_Stick_Down"):
+				update_main_index(1);
+				cd_dir.start(0.1);
+			elif Input.is_action_pressed("D_Pad_Up") or Input.is_action_pressed("L_Stick_Up"):
+				update_main_index(-1);
+				cd_dir.start(0.1);
+	return
+
+
 func input_event_main(event: InputEvent) -> void:
-	if event.is_action_pressed("D_Pad_Down"):
-		main_view_btns[main_view_index].clear_hovered();
-		main_view_index = mini(main_view_index + 1, 7);
-		main_view_btns[main_view_index].set_hovered();
-		return
-	
-	if event.is_action_pressed("D_Pad_Up"):
-		main_view_btns[main_view_index].clear_hovered();
-		main_view_index = maxi(main_view_index - 1, 0);
-		main_view_btns[main_view_index].set_hovered();
-		return
-	
 	if event.is_action_pressed("Btn_X"):
 		return
 	
@@ -68,7 +84,7 @@ func input_event_main(event: InputEvent) -> void:
 			0: update_view_state(MENUSTATE.PARTY);
 			1: update_view_state(MENUSTATE.CHARACTERS);
 			2: update_view_state(MENUSTATE.ITEMS);
-			5: print("Saving File"); SaveFileManager.save_to_file(GameData.cur_savefile_slot);
+			5: update_view_state(MENUSTATE.SAVES);
 			7: GameData.return_to_titlescreen();
 		return
 	
@@ -77,11 +93,29 @@ func input_event_main(event: InputEvent) -> void:
 	return
 
 
+func update_main_index(index_change: int) -> void:
+	main_view_btns[main_view_index].clear_hovered();
+	main_view_index = main_view_index + index_change;
+	if main_view_index < 0:
+		main_view_index = 7;
+	elif main_view_index > 7:
+		main_view_index = 0;
+	main_view_btns[main_view_index].set_hovered();
+	return
+
+
 func update_view_state(new_state: MENUSTATE) -> void:
-	main_view_ctrl.visible = true if new_state == MENUSTATE.MAIN else false;
-	party_ui.visible = true if new_state == MENUSTATE.PARTY else false;
-	character_ui.visible = true if new_state == MENUSTATE.CHARACTERS else false;
-	items_ui.visible = true if new_state == MENUSTATE.ITEMS else false;
+	main_view_ctrl.visible = new_state == MENUSTATE.MAIN;
+	party_ui.visible = new_state == MENUSTATE.PARTY;
+	character_ui.visible = new_state == MENUSTATE.CHARACTERS;
+	items_ui.visible = new_state == MENUSTATE.ITEMS;
+	saves_ui.visible = new_state == MENUSTATE.SAVES;
+	
+	check_process = new_state == MENUSTATE.MAIN;
+	party_ui.process_mode = PROCESS_MODE_INHERIT if new_state == MENUSTATE.PARTY else PROCESS_MODE_DISABLED;
+	character_ui.process_mode = PROCESS_MODE_INHERIT if new_state == MENUSTATE.CHARACTERS else PROCESS_MODE_DISABLED;
+	items_ui.process_mode = PROCESS_MODE_INHERIT if new_state == MENUSTATE.ITEMS else PROCESS_MODE_DISABLED;
+	saves_ui.process_mode = PROCESS_MODE_INHERIT if new_state == MENUSTATE.SAVES else PROCESS_MODE_DISABLED;
 	
 	match new_state:
 		MENUSTATE.MAIN:
@@ -92,6 +126,8 @@ func update_view_state(new_state: MENUSTATE) -> void:
 			character_ui.prepare_view();
 		MENUSTATE.ITEMS:
 			items_ui.prepare_view();
+		MENUSTATE.SAVES:
+			saves_ui.prepare_view();
 	
 	menu_state = new_state;
 	return

@@ -143,7 +143,6 @@ hovered_color = Color(0.863, 0.078, 0.235, 1)
 metadata/_custom_type_script = "uid://do4k2b0sjshwf"
 
 [node name="CharDisplays" type="Control" parent="."]
-layout_mode = 3
 anchors_preset = 0
 offset_left = 500.0
 offset_top = 135.0
@@ -151,31 +150,39 @@ offset_right = 950.0
 offset_bottom = 775.0
 
 [node name="ItemUseEffectDisplay1" parent="CharDisplays" instance=ExtResource("3_b4jhx")]
+layout_mode = 0
 
 [node name="ItemUseEffectDisplay2" parent="CharDisplays" instance=ExtResource("3_b4jhx")]
+layout_mode = 0
 offset_top = 80.0
 offset_bottom = 160.0
 
 [node name="ItemUseEffectDisplay3" parent="CharDisplays" instance=ExtResource("3_b4jhx")]
+layout_mode = 0
 offset_top = 160.0
 offset_bottom = 240.0
 
 [node name="ItemUseEffectDisplay4" parent="CharDisplays" instance=ExtResource("3_b4jhx")]
+layout_mode = 0
 offset_top = 240.0
 offset_bottom = 320.0
 
 [node name="ItemUseEffectDisplay5" parent="CharDisplays" instance=ExtResource("3_b4jhx")]
+layout_mode = 0
 offset_top = 320.0
 offset_bottom = 400.0
 
 [node name="ItemUseEffectDisplay6" parent="CharDisplays" instance=ExtResource("3_b4jhx")]
+layout_mode = 0
 offset_top = 400.0
 offset_bottom = 480.0
 
 [node name="ItemUseEffectDisplay7" parent="CharDisplays" instance=ExtResource("3_b4jhx")]
+layout_mode = 0
 offset_top = 480.0
 offset_bottom = 560.0
 
 [node name="ItemUseEffectDisplay8" parent="CharDisplays" instance=ExtResource("3_b4jhx")]
+layout_mode = 0
 offset_top = 560.0
 offset_bottom = 640.0

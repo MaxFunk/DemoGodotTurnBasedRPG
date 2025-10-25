@@ -1,0 +1,749 @@
+[gd_scene load_steps=15 format=3 uid="uid://dwytftw04bbcg"]
+
+[ext_resource type="Script" uid="uid://kn3kj0xbch8q" path="res://UserInterfaces/IngameMenu/Characters/ingame_menu_character_ui.gd" id="1_pcmpd"]
+[ext_resource type="Script" uid="uid://do4k2b0sjshwf" path="res://UserInterfaces/Custom/label_button.gd" id="2_uljvc"]
+[ext_resource type="Texture2D" uid="uid://cs31b1dphb5qg" path="res://Resources/Images/CharacterPortraits/character_portrait_hero_0.png" id="3_lb8ux"]
+[ext_resource type="Texture2D" uid="uid://0des5vba8cw7" path="res://Resources/Images/ProgressBars/progbar_default_under.png" id="4_x0aox"]
+[ext_resource type="Texture2D" uid="uid://cvbsto2hris6k" path="res://Resources/Images/ProgressBars/progbar_default_over.png" id="5_3ok6c"]
+[ext_resource type="Texture2D" uid="uid://2ymkbkwq3t24" path="res://Resources/Images/ProgressBars/progbar_fill_statsfull.png" id="6_w5hhj"]
+[ext_resource type="PackedScene" uid="uid://cilx6a8ktc402" path="res://UserInterfaces/IngameMenu/Characters/hp_sp_display.tscn" id="7_3ok6c"]
+[ext_resource type="PackedScene" uid="uid://odg08mm7ky37" path="res://UserInterfaces/IngameMenu/Characters/stat_display.tscn" id="8_w5hhj"]
+[ext_resource type="PackedScene" uid="uid://bywy76777k33t" path="res://UserInterfaces/IngameMenu/Characters/battle_art_display.tscn" id="9_bx1jn"]
+[ext_resource type="Script" uid="uid://bwpsbotk7yxbp" path="res://UserInterfaces/Custom/scroll_controll.gd" id="10_wehji"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ogbvx"]
+bg_color = Color(0.12549, 0.12549, 0.12549, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wehji"]
+bg_color = Color(0.863, 0.078, 0.235, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ev1pr"]
+bg_color = Color(0.0627451, 0.0627451, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a8v62"]
+bg_color = Color(1, 1, 1, 1)
+
+[node name="IngameMenuCharacterUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pcmpd")
+
+[node name="TabBar" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 100.0
+
+[node name="LabelButtonTab0" type="Label" parent="TabBar"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 20.0
+offset_right = 245.0
+offset_bottom = 100.0
+theme_override_font_sizes/font_size = 36
+text = "Character"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+script = ExtResource("2_uljvc")
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="LabelButtonTab1" type="Label" parent="TabBar"]
+layout_mode = 0
+offset_left = 275.0
+offset_top = 20.0
+offset_right = 475.0
+offset_bottom = 100.0
+theme_override_font_sizes/font_size = 36
+text = "Character"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+script = ExtResource("2_uljvc")
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="LabelButtonTab2" type="Label" parent="TabBar"]
+layout_mode = 0
+offset_left = 505.0
+offset_top = 20.0
+offset_right = 705.0
+offset_bottom = 100.0
+theme_override_font_sizes/font_size = 36
+text = "Character"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+script = ExtResource("2_uljvc")
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="LabelButtonTab3" type="Label" parent="TabBar"]
+layout_mode = 0
+offset_left = 735.0
+offset_top = 20.0
+offset_right = 935.0
+offset_bottom = 100.0
+theme_override_font_sizes/font_size = 36
+text = "Character"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+script = ExtResource("2_uljvc")
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="LabelButtonTab4" type="Label" parent="TabBar"]
+layout_mode = 0
+offset_left = 965.0
+offset_top = 20.0
+offset_right = 1165.0
+offset_bottom = 100.0
+theme_override_font_sizes/font_size = 36
+text = "Character"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+script = ExtResource("2_uljvc")
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="LabelButtonTab5" type="Label" parent="TabBar"]
+layout_mode = 0
+offset_left = 1195.0
+offset_top = 20.0
+offset_right = 1395.0
+offset_bottom = 100.0
+theme_override_font_sizes/font_size = 36
+text = "Character"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+script = ExtResource("2_uljvc")
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="LabelButtonTab6" type="Label" parent="TabBar"]
+layout_mode = 0
+offset_left = 1425.0
+offset_top = 20.0
+offset_right = 1625.0
+offset_bottom = 100.0
+theme_override_font_sizes/font_size = 36
+text = "Character"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+script = ExtResource("2_uljvc")
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="LabelButtonTab7" type="Label" parent="TabBar"]
+layout_mode = 0
+offset_left = 1655.0
+offset_top = 20.0
+offset_right = 1855.0
+offset_bottom = 100.0
+theme_override_font_sizes/font_size = 36
+text = "Character"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+script = ExtResource("2_uljvc")
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="VerticalSplitter" type="ColorRect" parent="."]
+layout_mode = 1
+offset_left = 25.0
+offset_top = 100.0
+offset_right = 1895.0
+offset_bottom = 105.0
+
+[node name="MainView" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 60.0
+offset_top = 125.0
+offset_right = 1860.0
+offset_bottom = 1025.0
+
+[node name="LeftColumn" type="Control" parent="MainView"]
+anchors_preset = 0
+offset_right = 500.0
+offset_bottom = 700.0
+
+[node name="CharPortrait" type="TextureRect" parent="MainView/LeftColumn"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 25.0
+offset_right = 475.0
+offset_bottom = 475.0
+texture = ExtResource("3_lb8ux")
+expand_mode = 2
+
+[node name="LabelLevel" type="Label" parent="MainView/LeftColumn"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 500.0
+offset_right = 225.0
+offset_bottom = 550.0
+theme_override_font_sizes/font_size = 32
+text = "Level: "
+clip_text = true
+
+[node name="LabelLevelData" type="Label" parent="MainView/LeftColumn"]
+layout_mode = 0
+offset_left = 325.0
+offset_top = 500.0
+offset_right = 475.0
+offset_bottom = 550.0
+theme_override_font_sizes/font_size = 32
+text = "99"
+horizontal_alignment = 2
+clip_text = true
+
+[node name="LabelTotalExp" type="Label" parent="MainView/LeftColumn"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 550.0
+offset_right = 225.0
+offset_bottom = 600.0
+theme_override_font_sizes/font_size = 32
+text = "Total Exp: "
+clip_text = true
+
+[node name="LabelTotalExpData" type="Label" parent="MainView/LeftColumn"]
+layout_mode = 0
+offset_left = 325.0
+offset_top = 550.0
+offset_right = 475.0
+offset_bottom = 600.0
+theme_override_font_sizes/font_size = 32
+text = "99999"
+horizontal_alignment = 2
+clip_text = true
+
+[node name="LabelNextExp" type="Label" parent="MainView/LeftColumn"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 600.0
+offset_right = 225.0
+offset_bottom = 650.0
+theme_override_font_sizes/font_size = 32
+text = "Next Level: "
+clip_text = true
+
+[node name="LabelNextExpData" type="Label" parent="MainView/LeftColumn"]
+layout_mode = 0
+offset_left = 325.0
+offset_top = 600.0
+offset_right = 475.0
+offset_bottom = 650.0
+theme_override_font_sizes/font_size = 32
+text = "1000"
+horizontal_alignment = 2
+clip_text = true
+
+[node name="ExpBar" type="TextureProgressBar" parent="MainView/LeftColumn"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 650.0
+offset_right = 475.0
+offset_bottom = 670.0
+value = 50.0
+nine_patch_stretch = true
+stretch_margin_top = 2
+stretch_margin_bottom = 2
+texture_under = ExtResource("4_x0aox")
+texture_over = ExtResource("5_3ok6c")
+texture_progress = ExtResource("6_w5hhj")
+
+[node name="MiddleColumn" type="Control" parent="MainView"]
+anchors_preset = 0
+offset_left = 500.0
+offset_right = 1000.0
+offset_bottom = 700.0
+
+[node name="HpDisplay" parent="MainView/MiddleColumn" instance=ExtResource("7_3ok6c")]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 25.0
+offset_right = 475.0
+offset_bottom = 100.0
+
+[node name="SpDisplay" parent="MainView/MiddleColumn" instance=ExtResource("7_3ok6c")]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 100.0
+offset_right = 475.0
+offset_bottom = 175.0
+display_type = 1
+
+[node name="StatDisplay1" parent="MainView/MiddleColumn" instance=ExtResource("8_w5hhj")]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 225.0
+offset_right = 475.0
+offset_bottom = 300.0
+
+[node name="StatDisplay2" parent="MainView/MiddleColumn" instance=ExtResource("8_w5hhj")]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 300.0
+offset_right = 475.0
+offset_bottom = 375.0
+display_type = 1
+
+[node name="StatDisplay3" parent="MainView/MiddleColumn" instance=ExtResource("8_w5hhj")]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 375.0
+offset_right = 475.0
+offset_bottom = 450.0
+display_type = 2
+
+[node name="StatDisplay4" parent="MainView/MiddleColumn" instance=ExtResource("8_w5hhj")]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 450.0
+offset_right = 475.0
+offset_bottom = 525.0
+display_type = 3
+
+[node name="StatDisplay5" parent="MainView/MiddleColumn" instance=ExtResource("8_w5hhj")]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 525.0
+offset_right = 475.0
+offset_bottom = 600.0
+display_type = 4
+
+[node name="StatDisplay6" parent="MainView/MiddleColumn" instance=ExtResource("8_w5hhj")]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 600.0
+offset_right = 475.0
+offset_bottom = 675.0
+display_type = 5
+
+[node name="RightColumn" type="Control" parent="MainView"]
+anchors_preset = 0
+offset_left = 1000.0
+offset_right = 1800.0
+offset_bottom = 700.0
+
+[node name="LabelArts" type="Label" parent="MainView/RightColumn"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 25.0
+offset_right = 165.0
+offset_bottom = 95.0
+theme_override_font_sizes/font_size = 32
+text = "Arts:"
+clip_text = true
+
+[node name="BattleArtDisplay1" parent="MainView/RightColumn" instance=ExtResource("9_bx1jn")]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 70.0
+offset_right = 760.0
+offset_bottom = 140.0
+
+[node name="BattleArtDisplay2" parent="MainView/RightColumn" instance=ExtResource("9_bx1jn")]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 145.0
+offset_right = 760.0
+offset_bottom = 215.0
+
+[node name="BattleArtDisplay3" parent="MainView/RightColumn" instance=ExtResource("9_bx1jn")]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 220.0
+offset_right = 760.0
+offset_bottom = 290.0
+
+[node name="BattleArtDisplay4" parent="MainView/RightColumn" instance=ExtResource("9_bx1jn")]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 295.0
+offset_right = 760.0
+offset_bottom = 365.0
+
+[node name="BattleArtDisplay5" parent="MainView/RightColumn" instance=ExtResource("9_bx1jn")]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 370.0
+offset_right = 760.0
+offset_bottom = 440.0
+
+[node name="BattleArtDisplay6" parent="MainView/RightColumn" instance=ExtResource("9_bx1jn")]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 445.0
+offset_right = 760.0
+offset_bottom = 515.0
+
+[node name="BattleArtDisplay7" parent="MainView/RightColumn" instance=ExtResource("9_bx1jn")]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 520.0
+offset_right = 760.0
+offset_bottom = 590.0
+
+[node name="BattleArtDisplay8" parent="MainView/RightColumn" instance=ExtResource("9_bx1jn")]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 595.0
+offset_right = 760.0
+offset_bottom = 665.0
+
+[node name="BottomRow" type="Control" parent="MainView"]
+anchors_preset = 0
+offset_top = 700.0
+offset_right = 1800.0
+offset_bottom = 900.0
+
+[node name="LabelWeak" type="Label" parent="MainView/BottomRow"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 135.0
+offset_bottom = 65.0
+theme_override_font_sizes/font_size = 32
+text = "Weak: "
+clip_text = true
+
+[node name="LabelResist" type="Label" parent="MainView/BottomRow"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 75.0
+offset_right = 135.0
+offset_bottom = 125.0
+theme_override_font_sizes/font_size = 32
+text = "Resist: "
+clip_text = true
+
+[node name="LabelBlock" type="Label" parent="MainView/BottomRow"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 135.0
+offset_right = 135.0
+offset_bottom = 185.0
+theme_override_font_sizes/font_size = 32
+text = "Block: "
+clip_text = true
+
+[node name="MarkerIconsWeak" type="Control" parent="MainView/BottomRow"]
+anchors_preset = 0
+offset_left = 140.0
+offset_top = 15.0
+offset_right = 190.0
+offset_bottom = 65.0
+
+[node name="MarkerIconsResist" type="Control" parent="MainView/BottomRow"]
+anchors_preset = 0
+offset_left = 140.0
+offset_top = 75.0
+offset_right = 190.0
+offset_bottom = 125.0
+
+[node name="MarkerIconsBlock" type="Control" parent="MainView/BottomRow"]
+anchors_preset = 0
+offset_left = 140.0
+offset_top = 135.0
+offset_right = 190.0
+offset_bottom = 185.0
+
+[node name="ArtsView" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_left = 60.0
+offset_top = 125.0
+offset_right = 1860.0
+offset_bottom = 1025.0
+
+[node name="LeftColumn" type="Control" parent="ArtsView"]
+anchors_preset = 0
+offset_right = 800.0
+offset_bottom = 700.0
+
+[node name="LabelArts" type="Label" parent="ArtsView/LeftColumn"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 10.0
+offset_right = 165.0
+offset_bottom = 80.0
+theme_override_font_sizes/font_size = 42
+text = "Arts:"
+vertical_alignment = 1
+clip_text = true
+
+[node name="Selection" type="Panel" parent="ArtsView/LeftColumn"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 85.0
+offset_right = 725.0
+offset_bottom = 155.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ogbvx")
+
+[node name="SelectionSwap" type="Panel" parent="ArtsView/LeftColumn"]
+visible = false
+layout_mode = 0
+offset_left = 25.0
+offset_top = 85.0
+offset_right = 725.0
+offset_bottom = 155.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_wehji")
+
+[node name="BattleArtDisplay1" parent="ArtsView/LeftColumn" instance=ExtResource("9_bx1jn")]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 85.0
+offset_right = 725.0
+offset_bottom = 155.0
+
+[node name="BattleArtDisplay2" parent="ArtsView/LeftColumn" instance=ExtResource("9_bx1jn")]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 160.0
+offset_right = 725.0
+offset_bottom = 230.0
+
+[node name="BattleArtDisplay3" parent="ArtsView/LeftColumn" instance=ExtResource("9_bx1jn")]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 235.0
+offset_right = 725.0
+offset_bottom = 305.0
+
+[node name="BattleArtDisplay4" parent="ArtsView/LeftColumn" instance=ExtResource("9_bx1jn")]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 310.0
+offset_right = 725.0
+offset_bottom = 380.0
+
+[node name="BattleArtDisplay5" parent="ArtsView/LeftColumn" instance=ExtResource("9_bx1jn")]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 385.0
+offset_right = 725.0
+offset_bottom = 455.0
+
+[node name="BattleArtDisplay6" parent="ArtsView/LeftColumn" instance=ExtResource("9_bx1jn")]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 460.0
+offset_right = 725.0
+offset_bottom = 530.0
+
+[node name="BattleArtDisplay7" parent="ArtsView/LeftColumn" instance=ExtResource("9_bx1jn")]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 535.0
+offset_right = 725.0
+offset_bottom = 605.0
+
+[node name="BattleArtDisplay8" parent="ArtsView/LeftColumn" instance=ExtResource("9_bx1jn")]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 610.0
+offset_right = 725.0
+offset_bottom = 680.0
+
+[node name="DetailControl" type="Control" parent="ArtsView"]
+anchors_preset = 0
+offset_top = 700.0
+offset_right = 1800.0
+offset_bottom = 900.0
+
+[node name="ArtName" type="Label" parent="ArtsView/DetailControl"]
+layout_mode = 1
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 470.0
+offset_bottom = 70.0
+theme_override_font_sizes/font_size = 36
+text = "Art Name"
+clip_text = true
+
+[node name="ArtCategory" type="Label" parent="ArtsView/DetailControl"]
+layout_mode = 1
+offset_left = 20.0
+offset_top = 75.0
+offset_right = 220.0
+offset_bottom = 125.0
+theme_override_font_sizes/font_size = 32
+text = "Category"
+clip_text = true
+
+[node name="IconCategory" type="TextureRect" parent="ArtsView/DetailControl"]
+layout_mode = 0
+offset_left = 245.0
+offset_top = 75.0
+offset_right = 295.0
+offset_bottom = 125.0
+expand_mode = 2
+
+[node name="ArtAttributes" type="Label" parent="ArtsView/DetailControl"]
+layout_mode = 1
+offset_left = 20.0
+offset_top = 130.0
+offset_right = 220.0
+offset_bottom = 180.0
+theme_override_font_sizes/font_size = 32
+text = "Attributes:"
+clip_text = true
+
+[node name="IconAttribute1" type="TextureRect" parent="ArtsView/DetailControl"]
+layout_mode = 0
+offset_left = 220.0
+offset_top = 130.0
+offset_right = 270.0
+offset_bottom = 180.0
+expand_mode = 2
+
+[node name="IconAttribute2" type="TextureRect" parent="ArtsView/DetailControl"]
+layout_mode = 0
+offset_left = 270.0
+offset_top = 130.0
+offset_right = 320.0
+offset_bottom = 180.0
+expand_mode = 2
+
+[node name="ArtStrength" type="Label" parent="ArtsView/DetailControl"]
+layout_mode = 1
+offset_left = 400.0
+offset_top = 75.0
+offset_right = 650.0
+offset_bottom = 125.0
+theme_override_font_sizes/font_size = 32
+text = "Base Power:"
+clip_text = true
+
+[node name="ArtStrengthValue" type="Label" parent="ArtsView/DetailControl"]
+layout_mode = 1
+offset_left = 650.0
+offset_top = 75.0
+offset_right = 715.0
+offset_bottom = 125.0
+theme_override_font_sizes/font_size = 32
+text = "999"
+horizontal_alignment = 2
+clip_text = true
+
+[node name="ArtStrengthAmount" type="Label" parent="ArtsView/DetailControl"]
+layout_mode = 1
+offset_left = 725.0
+offset_top = 85.0
+offset_right = 790.0
+offset_bottom = 119.0
+theme_override_font_sizes/font_size = 24
+text = "x9"
+clip_text = true
+
+[node name="ArtCost" type="Label" parent="ArtsView/DetailControl"]
+layout_mode = 1
+offset_left = 400.0
+offset_top = 130.0
+offset_right = 600.0
+offset_bottom = 180.0
+theme_override_font_sizes/font_size = 32
+text = "Art Cost:"
+clip_text = true
+
+[node name="ArtCostValue" type="Label" parent="ArtsView/DetailControl"]
+layout_mode = 1
+offset_left = 650.0
+offset_top = 130.0
+offset_right = 715.0
+offset_bottom = 180.0
+theme_override_font_sizes/font_size = 32
+text = "999"
+horizontal_alignment = 2
+clip_text = true
+
+[node name="ArtCostType" type="Label" parent="ArtsView/DetailControl"]
+layout_mode = 1
+offset_left = 725.0
+offset_top = 140.0
+offset_right = 790.0
+offset_bottom = 174.0
+theme_override_font_sizes/font_size = 24
+text = "SP"
+clip_text = true
+
+[node name="Description" type="Label" parent="ArtsView/DetailControl"]
+layout_mode = 1
+offset_left = 920.0
+offset_top = 20.0
+offset_right = 1780.0
+offset_bottom = 180.0
+theme_override_font_sizes/font_size = 32
+text = "Description"
+autowrap_mode = 2
+clip_text = true
+max_lines_visible = 3
+
+[node name="RightColumn" type="Control" parent="ArtsView"]
+visible = false
+anchors_preset = 0
+offset_left = 1000.0
+offset_right = 1800.0
+offset_bottom = 700.0
+
+[node name="LabelArts" type="Label" parent="ArtsView/RightColumn"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 10.0
+offset_right = 375.0
+offset_bottom = 80.0
+theme_override_font_sizes/font_size = 42
+text = "Learned Arts:"
+vertical_alignment = 1
+clip_text = true
+
+[node name="Selection" type="Panel" parent="ArtsView/RightColumn"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 85.0
+offset_right = 725.0
+offset_bottom = 155.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ogbvx")
+
+[node name="ScrollControl" type="Control" parent="ArtsView/RightColumn" node_paths=PackedStringArray("scrollbar")]
+clip_contents = true
+anchors_preset = 0
+offset_left = 25.0
+offset_top = 85.0
+offset_right = 725.0
+offset_bottom = 685.0
+script = ExtResource("10_wehji")
+max_displayed_elements = 8
+element_size = Vector2(700, 75)
+scrollbar = NodePath("../VScrollBar")
+metadata/_custom_type_script = "uid://bwpsbotk7yxbp"
+
+[node name="VScrollBar" type="VScrollBar" parent="ArtsView/RightColumn"]
+layout_mode = 0
+offset_left = 750.0
+offset_top = 85.0
+offset_right = 760.0
+offset_bottom = 685.0
+theme_override_styles/scroll = SubResource("StyleBoxFlat_ev1pr")
+theme_override_styles/scroll_focus = SubResource("StyleBoxFlat_ev1pr")
+theme_override_styles/grabber = SubResource("StyleBoxFlat_a8v62")
+theme_override_styles/grabber_highlight = SubResource("StyleBoxFlat_a8v62")
+theme_override_styles/grabber_pressed = SubResource("StyleBoxFlat_a8v62")
+max_value = 10.0
+step = 1.0
+page = 5.0
+
+[node name="AbilityView" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 60.0
+offset_top = 125.0
+offset_right = 1860.0
+offset_bottom = 1025.0
+
+[node name="CooldownDirectional" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true

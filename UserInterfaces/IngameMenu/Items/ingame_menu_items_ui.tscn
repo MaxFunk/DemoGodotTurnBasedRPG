@@ -235,3 +235,7 @@ offset_left = 870.0
 offset_top = 150.0
 offset_right = 1870.0
 offset_bottom = 950.0
+
+[node name="CooldownDirectional" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true

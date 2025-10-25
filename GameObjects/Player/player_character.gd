@@ -171,14 +171,11 @@ func process_swimming(delta: float) -> void:
 
 
 func check_interaction(interact: bool) -> void:
-	if is_jumping:
-		return
-	
 	var explore_ui := GameData.main_scene.world_scene.exploration_ui;
 	var show_interaction: bool = false;
 	var interaction_text: String = ""
 	
-	if interact_cast.is_colliding():
+	if interact_cast.is_colliding() and not is_jumping:
 		var collider := interact_cast.get_collider();
 		if collider is InteractionComponent:
 			var interact_comp := (collider as InteractionComponent);

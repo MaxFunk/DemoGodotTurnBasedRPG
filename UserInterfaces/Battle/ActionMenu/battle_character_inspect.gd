@@ -1,8 +1,8 @@
 extends Control
 
-const HpSpDisplay := preload("res://UserInterfaces/IngameMenu/Subscenes/hp_sp_display.gd");
-const StatDisplay := preload("res://UserInterfaces/IngameMenu/Subscenes/stat_display.gd");
-const ArtDisplay := preload("res://UserInterfaces/IngameMenu/Subscenes/battle_art_display.gd");
+const HpSpDisplay := preload("uid://dudprjba6ha0n");
+const StatDisplay := preload("uid://ct3qrk8k2otmi");
+const ArtDisplay := preload("uid://dfs2yk165bs6o");
 
 @onready var lbl_name := $UpperRow/LabelName as Label;
 @onready var lbl_level := $UpperRow/LabelLevelData as Label;

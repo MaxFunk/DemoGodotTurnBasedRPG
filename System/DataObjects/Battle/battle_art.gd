@@ -67,7 +67,7 @@ func init_default_art() -> void:
 	description = "Default Attack";
 	category = CATEGORY.PHYSICAL;
 	targeting = TARGETING.SINGLE_OPPONENT;
-	base_power = 10;
+	base_power = 20;
 	hit_amount = 1;
 	return
 
@@ -90,3 +90,26 @@ func set_from_item(item: ItemConsumable) -> void:
 
 func is_passive_art() -> bool:
 	return category == CATEGORY.PASSIVE
+
+
+func has_no_basepower() -> bool:
+	match category:
+		CATEGORY.PHYSICAL, CATEGORY.ETHER, CATEGORY.HEAL, CATEGORY.SOULPOWER: return false
+		_: return true
+
+
+func is_valid_art() -> bool:
+	return category != CATEGORY.NONE
+
+
+func get_category_name() -> StringName:
+	match category:
+		CATEGORY.PHYSICAL: return "Physical"
+		CATEGORY.ETHER: return "Ether"
+		CATEGORY.HEAL: return "Heal"
+		CATEGORY.STRATEGY: return "Strategy"
+		CATEGORY.AILMENT: return "Ailment"
+		CATEGORY.FIELD: return "Field"
+		CATEGORY.SOULPOWER: return "Soul"
+		CATEGORY.PASSIVE: return "Passive"
+		_: return ""

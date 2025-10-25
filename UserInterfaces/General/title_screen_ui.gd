@@ -9,6 +9,7 @@ const SaveFileDisplay := preload("res://UserInterfaces/Custom/save_file_display.
 @onready var lblbtn_quit := $ScreenMain/LabelButtonQuit as LabelButton;
 @onready var main_btns: Array[LabelButton] = [lblbtn_load, lblbtn_settings, lblbtn_credits, lblbtn_quit];
 
+@onready var cd_dir := $CooldownDirectional as Timer;
 @onready var screen_load := $ScreenLoad as Control;
 @onready var save_file_displays: Array[SaveFileDisplay] = [
 	$ScreenLoad/SaveFileDisplay1 as SaveFileDisplay,
@@ -34,20 +35,33 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("D_Pad_Down"):
-		direction_down_event();
-		return
-	
-	if event.is_action_pressed("D_Pad_Up"):
-		direction_up_event();
-		return
-	
 	if event.is_action_pressed("Btn_Y") or event.is_action_pressed("Btn_A"):
 		confirm_event();
 		return
 	
 	if event.is_action_pressed("Btn_B"):
 		cancel_event();
+	return
+
+
+func _process(_delta: float) -> void:
+	var just_pressed: bool = false;
+	if Input.is_action_just_pressed("D_Pad_Down") or Input.is_action_just_pressed("L_Stick_Down"):
+		direction_down_event();
+		cd_dir.start(0.5);
+		just_pressed = true;
+	elif Input.is_action_just_pressed("D_Pad_Up") or Input.is_action_just_pressed("L_Stick_Up"):
+		direction_up_event();
+		cd_dir.start(0.5);
+		just_pressed = true;
+	
+	if cd_dir.is_stopped() and not just_pressed:
+		if Input.is_action_pressed("D_Pad_Down") or Input.is_action_pressed("L_Stick_Down"):
+			direction_down_event();
+			cd_dir.start(0.1);
+		elif Input.is_action_pressed("D_Pad_Up") or Input.is_action_pressed("L_Stick_Up"):
+			direction_up_event();
+			cd_dir.start(0.1);
 	return
 
 

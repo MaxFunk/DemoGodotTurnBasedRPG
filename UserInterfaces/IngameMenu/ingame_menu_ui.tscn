@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://d16pkbqpersew"]
+[gd_scene load_steps=7 format=3 uid="uid://d16pkbqpersew"]
 
 [ext_resource type="Script" uid="uid://4oepjbiimh85" path="res://UserInterfaces/IngameMenu/ingame_menu_ui.gd" id="1_eedix"]
 [ext_resource type="Script" uid="uid://do4k2b0sjshwf" path="res://UserInterfaces/Custom/label_button.gd" id="2_84ga2"]
-[ext_resource type="PackedScene" uid="uid://dhec7sljuhkm7" path="res://UserInterfaces/IngameMenu/ingame_menu_party_ui.tscn" id="3_01gib"]
-[ext_resource type="PackedScene" uid="uid://dwytftw04bbcg" path="res://UserInterfaces/IngameMenu/ingame_menu_character_ui.tscn" id="3_ppmte"]
+[ext_resource type="PackedScene" uid="uid://dhec7sljuhkm7" path="res://UserInterfaces/IngameMenu/Party/ingame_menu_party_ui.tscn" id="3_01gib"]
+[ext_resource type="PackedScene" uid="uid://dwytftw04bbcg" path="res://UserInterfaces/IngameMenu/Characters/ingame_menu_character_ui.tscn" id="3_ppmte"]
 [ext_resource type="PackedScene" uid="uid://ctrvmoh7ajptu" path="res://UserInterfaces/IngameMenu/Items/ingame_menu_items_ui.tscn" id="5_whast"]
+[ext_resource type="PackedScene" uid="uid://djxhjmy2cufhv" path="res://UserInterfaces/IngameMenu/Saves/ingame_menu_saves_ui.tscn" id="6_nvmgv"]
 
 [node name="IngameMenuUI" type="Control"]
 layout_mode = 3
@@ -137,13 +138,25 @@ script = ExtResource("2_84ga2")
 metadata/_custom_type_script = "uid://do4k2b0sjshwf"
 
 [node name="IngameMenuPartyUI" parent="." instance=ExtResource("3_01gib")]
+process_mode = 4
 visible = false
 layout_mode = 1
 
 [node name="IngameMenuCharacterUI" parent="." instance=ExtResource("3_ppmte")]
+process_mode = 4
 visible = false
 layout_mode = 1
 
 [node name="IngameMenuItemsUI" parent="." instance=ExtResource("5_whast")]
+process_mode = 4
 visible = false
 layout_mode = 1
+
+[node name="IngameMenuSavesUI" parent="." instance=ExtResource("6_nvmgv")]
+process_mode = 4
+visible = false
+layout_mode = 1
+
+[node name="CooldownDirectional" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true

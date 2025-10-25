@@ -25,6 +25,7 @@ enum MENUSTATE {DEFAULT, DETAIL, DELETE, USE}
 
 @onready var delete_ui := $ItemDeleteUI as DeleteUI;
 @onready var use_ui := $ItemUseUI as UseUI;
+@onready var cd_dir := $CooldownDirectional as Timer;
 
 var consumables: Array[ItemConsumable] = [];
 var materials: Array[ItemMaterial] = [];
@@ -68,26 +69,12 @@ func input_event_default(event: InputEvent) -> bool:
 		set_header_labels();
 		load_item_lis();
 		load_detail_ui();
-		return false
 	
 	if event.is_action_pressed("R") and item_type_idx < 3:
 		item_type_idx += 1;
 		set_header_labels();
 		load_item_lis();
 		load_detail_ui();
-		return false
-	
-	if event.is_action_pressed("D_Pad_Down") and scroll_ctrl.elements.size() > 0:
-		(scroll_ctrl.get_current_element() as ItemLI).set_selected(false);
-		scroll_ctrl.change_index(1);
-		load_detail_ui();
-		(scroll_ctrl.get_current_element() as ItemLI).set_selected(true);
-	
-	if event.is_action_pressed("D_Pad_Up") and scroll_ctrl.elements.size() > 0:
-		(scroll_ctrl.get_current_element() as ItemLI).set_selected(false);
-		scroll_ctrl.change_index(-1);
-		load_detail_ui();
-		(scroll_ctrl.get_current_element() as ItemLI).set_selected(true);
 	return false
 
 
@@ -101,18 +88,41 @@ func input_event_detail(event: InputEvent) -> bool:
 				switch_to_use();
 		else:
 			switch_to_delete();
-		return false;
-	
-	if event.is_action_pressed("D_Pad_Down") and idx_detail == 0:
-		idx_detail = 1;
-		lblbtn_use.clear_hovered();
-		lblbtn_delete.set_hovered();
-	
-	if event.is_action_pressed("D_Pad_Up") and idx_detail != 0:
-		idx_detail = 0;
-		lblbtn_use.set_hovered();
-		lblbtn_delete.clear_hovered();
 	return false
+
+
+func _process(_delta: float) -> void:
+	if menu_state == MENUSTATE.DEFAULT:
+		var just_pressed: bool = false;
+		if Input.is_action_just_pressed("D_Pad_Down") or Input.is_action_just_pressed("L_Stick_Down"):
+			update_scroll_view(1);
+			cd_dir.start(0.5);
+			just_pressed = true;
+		elif Input.is_action_just_pressed("D_Pad_Up") or Input.is_action_just_pressed("L_Stick_Up"):
+			update_scroll_view(-1);
+			cd_dir.start(0.5);
+			just_pressed = true;
+		
+		if cd_dir.is_stopped() and not just_pressed:
+			if Input.is_action_pressed("D_Pad_Down") or Input.is_action_pressed("L_Stick_Down"):
+				update_scroll_view(1);
+				cd_dir.start(0.1);
+			elif Input.is_action_pressed("D_Pad_Up") or Input.is_action_pressed("L_Stick_Up"):
+				update_scroll_view(-1);
+				cd_dir.start(0.1);
+	
+	if menu_state == MENUSTATE.DETAIL:
+		var btn_down := Input.is_action_just_pressed("D_Pad_Down") or Input.is_action_just_pressed("L_Stick_Down");
+		var btn_up := Input.is_action_just_pressed("D_Pad_Up") or Input.is_action_just_pressed("L_Stick_Up");
+		if idx_detail == 0 and btn_down:
+			idx_detail = 1;
+			lblbtn_use.clear_hovered();
+			lblbtn_delete.set_hovered();
+		if idx_detail != 0 and btn_up:
+			idx_detail = 0;
+			lblbtn_use.set_hovered();
+			lblbtn_delete.clear_hovered();
+	return
 
 
 func prepare_view() -> void:
@@ -121,6 +131,14 @@ func prepare_view() -> void:
 	set_header_labels();
 	load_item_lis();
 	load_detail_ui();
+	return
+
+
+func update_scroll_view(index_change: int) -> void:
+	(scroll_ctrl.get_current_element() as ItemLI).set_selected(false);
+	scroll_ctrl.change_index(index_change);
+	load_detail_ui();
+	(scroll_ctrl.get_current_element() as ItemLI).set_selected(true);
 	return
 
 

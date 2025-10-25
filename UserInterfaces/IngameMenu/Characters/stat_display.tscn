@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://odg08mm7ky37"]
 
-[ext_resource type="Script" uid="uid://ct3qrk8k2otmi" path="res://UserInterfaces/IngameMenu/Subscenes/stat_display.gd" id="1_311dk"]
+[ext_resource type="Script" uid="uid://ct3qrk8k2otmi" path="res://UserInterfaces/IngameMenu/Characters/stat_display.gd" id="1_311dk"]
 [ext_resource type="Texture2D" uid="uid://0des5vba8cw7" path="res://Resources/Images/ProgressBars/progbar_default_under.png" id="1_f41pi"]
 [ext_resource type="Texture2D" uid="uid://cvbsto2hris6k" path="res://Resources/Images/ProgressBars/progbar_default_over.png" id="2_311dk"]
 [ext_resource type="Texture2D" uid="uid://btasyb3a8o1yn" path="res://Resources/Images/ProgressBars/progbar_fill_stats.png" id="4_311dk"]

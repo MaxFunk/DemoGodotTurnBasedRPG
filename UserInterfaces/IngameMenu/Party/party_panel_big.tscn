@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://b3hp0vybtfbw0"]
 
-[ext_resource type="Script" uid="uid://bufc0fl4sknlm" path="res://UserInterfaces/IngameMenu/Subscenes/party_panel_big.gd" id="1_1vtsm"]
+[ext_resource type="Script" uid="uid://bufc0fl4sknlm" path="res://UserInterfaces/IngameMenu/Party/party_panel_big.gd" id="1_1vtsm"]
 [ext_resource type="Texture2D" uid="uid://cs31b1dphb5qg" path="res://Resources/Images/CharacterPortraits/character_portrait_hero_0.png" id="1_ffw0f"]
-[ext_resource type="PackedScene" uid="uid://cilx6a8ktc402" path="res://UserInterfaces/IngameMenu/Subscenes/hp_sp_display.tscn" id="2_pch1q"]
+[ext_resource type="PackedScene" uid="uid://cilx6a8ktc402" path="res://UserInterfaces/IngameMenu/Characters/hp_sp_display.tscn" id="2_pch1q"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pch1q"]
 bg_color = Color(0.12549, 0.12549, 0.12549, 0.498039)
