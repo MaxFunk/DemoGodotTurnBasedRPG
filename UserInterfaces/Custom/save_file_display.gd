@@ -25,6 +25,8 @@ func update_data_display(data: String, slot: int) -> void:
 	lbl_loc.text = str("{Location: ", data_array[0], "}");
 	lbl_date.text = ResourceManager.dates_table.records[int(data_array[1])]["as_string"];
 	lbl_time.text = playtime_to_string(float(data_array[2]));
+	lbl_newgame.visible = false;
+	ctrl_exists.visible = true;
 	return
 
 

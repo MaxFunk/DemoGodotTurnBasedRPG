@@ -232,7 +232,8 @@ func input_tactics(event: InputEvent) -> void:
 				change_menu_state(MENUSTATE.TARGETING);
 			3:
 				for hero in battle_scene.active_heros:
-					hero.write_back_character_data();
+					if hero:
+						hero.write_back_character_data();
 				GameData.main_scene.end_battle_scene();
 			_:
 				print("TODO")

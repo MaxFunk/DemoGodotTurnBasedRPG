@@ -1,6 +1,8 @@
 extends Control
 
 const SaveFileDisplay := preload("res://UserInterfaces/Custom/save_file_display.gd");
+const color_active := Color(1.0, 1.0, 1.0, 1.0);
+const color_inactive := Color(0.36, 0.36, 0.36, 1.0);
 
 @onready var screen_main := $ScreenMain as Control;
 @onready var lblbtn_load := $ScreenMain/LabelButtonLoad as LabelButton;
@@ -21,12 +23,16 @@ const SaveFileDisplay := preload("res://UserInterfaces/Custom/save_file_display.
 	$ScreenLoad/SaveFileDisplay7 as SaveFileDisplay,
 	$ScreenLoad/SaveFileDisplay8 as SaveFileDisplay,
 ];
+@onready var popup_delete := $ScreenLoad/PopupDelete as Control;
+@onready var popup_yes := $ScreenLoad/PopupDelete/LabelYes as Label;
+@onready var popup_no := $ScreenLoad/PopupDelete/LabelNo as Label;
 
-enum SCREENSTATE {MAIN, LOAD, SETTINGS, CREDITS}
+enum SCREENSTATE {MAIN, LOAD, SETTINGS, CREDITS, DELETEFILE}
 
 var screen_state := SCREENSTATE.MAIN;
 var main_index: int = 0;
 var load_index: int = 0;
+var popup_index: int = 0;
 
 
 func _ready() -> void:
@@ -41,6 +47,10 @@ func _input(event: InputEvent) -> void:
 	
 	if event.is_action_pressed("Btn_B"):
 		cancel_event();
+		return
+	
+	if event.is_action_pressed("Btn_X"):
+		special_event();
 	return
 
 
@@ -48,12 +58,19 @@ func _process(_delta: float) -> void:
 	var just_pressed: bool = false;
 	if Input.is_action_just_pressed("D_Pad_Down") or Input.is_action_just_pressed("L_Stick_Down"):
 		direction_down_event();
-		cd_dir.start(0.5);
 		just_pressed = true;
 	elif Input.is_action_just_pressed("D_Pad_Up") or Input.is_action_just_pressed("L_Stick_Up"):
 		direction_up_event();
-		cd_dir.start(0.5);
 		just_pressed = true;
+	elif Input.is_action_just_pressed("D_Pad_Left") or Input.is_action_just_pressed("L_Stick_Left"):
+		direction_left_event();
+		just_pressed = true;
+	elif Input.is_action_just_pressed("D_Pad_Right") or Input.is_action_just_pressed("L_Stick_Right"):
+		direction_right_event();
+		just_pressed = true;
+	
+	if just_pressed:
+		cd_dir.start(0.5);
 	
 	if cd_dir.is_stopped() and not just_pressed:
 		if Input.is_action_pressed("D_Pad_Down") or Input.is_action_pressed("L_Stick_Down"):
@@ -91,6 +108,20 @@ func direction_up_event() -> void:
 	return
 
 
+func direction_left_event() -> void:
+	if screen_state == SCREENSTATE.DELETEFILE:
+		popup_index = 0;
+		update_popup_delete(true);
+	return
+
+
+func direction_right_event() -> void:
+	if screen_state == SCREENSTATE.DELETEFILE:
+		popup_index = 1;
+		update_popup_delete(true);
+	return
+
+
 func confirm_event() -> void:
 	match screen_state:
 		SCREENSTATE.MAIN:
@@ -101,6 +132,10 @@ func confirm_event() -> void:
 				3: get_tree().quit();
 		SCREENSTATE.LOAD:
 			SaveFileManager.load_from_file(load_index);
+		SCREENSTATE.DELETEFILE:
+			if popup_index == 0:
+				print("DELETE FILE");
+			update_screen(SCREENSTATE.LOAD);
 		_:
 			print("TODO")
 	return
@@ -110,26 +145,39 @@ func cancel_event() -> void:
 	match screen_state:
 		SCREENSTATE.LOAD, SCREENSTATE.SETTINGS, SCREENSTATE.CREDITS:
 			update_screen(SCREENSTATE.MAIN);
+		SCREENSTATE.DELETEFILE:
+			update_screen(SCREENSTATE.LOAD);
+	return
+
+
+func special_event() -> void:
+	match screen_state:
+		SCREENSTATE.LOAD:
+			update_screen(SCREENSTATE.DELETEFILE);
 	return
 
 
 func update_screen(new_state: SCREENSTATE) -> void:
+	screen_main.visible = new_state == SCREENSTATE.MAIN;
+	screen_load.visible = new_state == SCREENSTATE.LOAD or new_state == SCREENSTATE.DELETEFILE;
+	popup_delete.visible = new_state == SCREENSTATE.DELETEFILE;
+	
 	match new_state:
 		SCREENSTATE.MAIN:
-			screen_main.visible = true;
-			screen_load.visible = false;
+			pass
 		SCREENSTATE.LOAD:
-			screen_main.visible = false;
-			screen_load.visible = true;
+			if screen_state != SCREENSTATE.DELETEFILE:
+				load_index = 0;
+			update_popup_delete(false);
 			update_save_file_displays();
-			load_index = 0;
 			save_file_displays[load_index].toggle_hovered();
 		SCREENSTATE.SETTINGS:
-			screen_main.visible = false;
-			screen_load.visible = false;
+			pass
 		SCREENSTATE.CREDITS:
-			screen_main.visible = false;
-			screen_load.visible = false;
+			pass
+		SCREENSTATE.DELETEFILE:
+			popup_index = 0;
+			update_popup_delete(true);
 	screen_state = new_state;
 	return
 
@@ -139,4 +187,12 @@ func update_save_file_displays() -> void:
 		var data := SaveFileManager.manager_dict.get(str("slot_", i), "") as String;
 		save_file_displays[i].update_data_display(data, i);
 		save_file_displays[i].unhover();
+	return
+
+
+func update_popup_delete(visibility: bool) -> void:
+	popup_delete.visible = visibility;
+	if visibility:
+		popup_yes.add_theme_color_override("font_color", color_active if popup_index == 0 else color_inactive);
+		popup_no.add_theme_color_override("font_color", color_active if popup_index == 1 else color_inactive);
 	return
