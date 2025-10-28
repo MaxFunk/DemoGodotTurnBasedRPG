@@ -34,7 +34,7 @@ func _on_interaction_component_interaction() -> void:
 			chosen_item_amounts.append(1);
 	
 	for i in chosen_item.size():
-		GameData.recieve_items(1, chosen_item[i], chosen_item_amounts[i]);
+		GameData.recieve_items_without_category(chosen_item[i], chosen_item_amounts[i]);
 	return
 
 

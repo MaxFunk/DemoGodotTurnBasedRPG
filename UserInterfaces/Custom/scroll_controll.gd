@@ -20,7 +20,8 @@ func _ready() -> void:
 func reset() -> void:
 	elem_container.position.y = 0;
 	idx_selected = 0;
-	scrollbar.value = 0;
+	if scrollbar:
+		scrollbar.value = 0;
 	clear_elements();
 	return
 
@@ -30,12 +31,13 @@ func add_element(elem: Control) -> void:
 	elem.position.y = element_size.y * elements.size();
 	elements.append(elem);
 	
-	if elements.size() <= max_displayed_elements:
-		scrollbar.visible = false;
-	else:
-		scrollbar.visible = true;
-		scrollbar.max_value = elements.size() - 1;
-		scrollbar.page = max_displayed_elements - 1;
+	if scrollbar:
+		if elements.size() <= max_displayed_elements:
+			scrollbar.visible = false;
+		else:
+			scrollbar.visible = true;
+			scrollbar.max_value = elements.size() - 1;
+			scrollbar.page = max_displayed_elements - 1;
 	
 	if idx_selected >= elements.size():
 		idx_selected = elements.size() - 1;

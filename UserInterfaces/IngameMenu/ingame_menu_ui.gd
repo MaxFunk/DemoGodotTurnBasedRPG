@@ -3,6 +3,7 @@ extends Control
 const CharacterUI := preload("uid://kn3kj0xbch8q");
 const PartyUI := preload("uid://by3qxgay8qbd7");
 const ItemsUI = preload("uid://dr27i5yit4hhc");
+const QuestsUI = preload("uid://bf2l225emcn");
 const SavesUI = preload("uid://imlt0rs7uh15");
 
 enum MENUSTATE {MAIN, PARTY, CHARACTERS, ITEMS, MAP, QUESTS, SAVES, SETTINGS, TITELSCREEN}
@@ -20,6 +21,7 @@ enum MENUSTATE {MAIN, PARTY, CHARACTERS, ITEMS, MAP, QUESTS, SAVES, SETTINGS, TI
 @onready var character_ui := $IngameMenuCharacterUI as CharacterUI;
 @onready var party_ui := $IngameMenuPartyUI as PartyUI;
 @onready var items_ui := $IngameMenuItemsUI as ItemsUI;
+@onready var quests_ui := $IngameMenuQuestsUI as QuestsUI;
 @onready var saves_ui := $IngameMenuSavesUI as SavesUI;
 @onready var cd_dir := $CooldownDirectional as Timer;
 
@@ -45,6 +47,8 @@ func _input(event: InputEvent) -> void:
 			close_sub_menu = character_ui.input_event(event);
 		MENUSTATE.ITEMS:
 			close_sub_menu = items_ui.input_event(event);
+		MENUSTATE.QUESTS:
+			close_sub_menu = quests_ui.input_event(event);
 		MENUSTATE.SAVES:
 			close_sub_menu = saves_ui.input_event(event);
 	
@@ -84,6 +88,7 @@ func input_event_main(event: InputEvent) -> void:
 			0: update_view_state(MENUSTATE.PARTY);
 			1: update_view_state(MENUSTATE.CHARACTERS);
 			2: update_view_state(MENUSTATE.ITEMS);
+			4: update_view_state(MENUSTATE.QUESTS);
 			5: update_view_state(MENUSTATE.SAVES);
 			7: GameData.return_to_titlescreen();
 		return
@@ -109,12 +114,14 @@ func update_view_state(new_state: MENUSTATE) -> void:
 	party_ui.visible = new_state == MENUSTATE.PARTY;
 	character_ui.visible = new_state == MENUSTATE.CHARACTERS;
 	items_ui.visible = new_state == MENUSTATE.ITEMS;
+	quests_ui.visible = new_state == MENUSTATE.QUESTS;
 	saves_ui.visible = new_state == MENUSTATE.SAVES;
 	
 	check_process = new_state == MENUSTATE.MAIN;
 	party_ui.process_mode = PROCESS_MODE_INHERIT if new_state == MENUSTATE.PARTY else PROCESS_MODE_DISABLED;
 	character_ui.process_mode = PROCESS_MODE_INHERIT if new_state == MENUSTATE.CHARACTERS else PROCESS_MODE_DISABLED;
 	items_ui.process_mode = PROCESS_MODE_INHERIT if new_state == MENUSTATE.ITEMS else PROCESS_MODE_DISABLED;
+	quests_ui.process_mode = PROCESS_MODE_INHERIT if new_state == MENUSTATE.QUESTS else PROCESS_MODE_DISABLED;
 	saves_ui.process_mode = PROCESS_MODE_INHERIT if new_state == MENUSTATE.SAVES else PROCESS_MODE_DISABLED;
 	
 	match new_state:
@@ -126,6 +133,8 @@ func update_view_state(new_state: MENUSTATE) -> void:
 			character_ui.prepare_view();
 		MENUSTATE.ITEMS:
 			items_ui.prepare_view();
+		MENUSTATE.QUESTS:
+			quests_ui.prepare_view();
 		MENUSTATE.SAVES:
 			saves_ui.prepare_view();
 	

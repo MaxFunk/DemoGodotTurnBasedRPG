@@ -22,10 +22,12 @@ var item_consumables: PackedInt32Array = [];
 var item_materials: PackedInt32Array = [];
 var item_ingredients: PackedInt32Array = [];
 
-
+var quest_manager: QuestManager;
 
 
 func _ready() -> void:
+	quest_manager = QuestManager.new();
+	
 	#for i in range(3):
 	#	add_new_chardata(i);
 	
@@ -61,6 +63,8 @@ func game_instance_reset() -> void:
 	collected_crystals.clear();
 	analyzed_opponents.clear();
 	reset_item_data();
+	
+	quest_manager.clear_data();
 	return
 
 
@@ -96,6 +100,8 @@ func save_game_data() -> Dictionary[String, Variant]:
 		"items_consumables": item_consumables,
 		"items_materials": item_materials,
 		"items_ingredients": item_ingredients,
+		
+		"quest_manager": quest_manager.save_data()
 	};
 	return save_dict
 
@@ -141,6 +147,8 @@ func load_existing_game_data(data: Dictionary, save_slot: int) -> void:
 	var item_data_i := data["items_ingredients"] as Array;
 	for i in item_data_i.size():
 		item_ingredients[i] = int(item_data_i[i]);
+	
+	quest_manager.load_data(data["quest_manager"] as Dictionary);
 	
 	cur_savefile_slot = save_slot;
 	game_running = true;
@@ -202,6 +210,14 @@ func get_first_free_party_slot() -> int:
 	return -1
 
 
+func recieve_items_without_category(id: int, amount: int) -> void:
+	var category: int = floori(id / 1000.0);
+	if category >= 0 and category < 4:
+		var item_id := id - category * 1000;
+		recieve_items(category, item_id, amount);
+	return
+
+
 func recieve_items(category: int, id: int, amount: int) -> void:
 	if id < 0:
 		return
@@ -212,18 +228,22 @@ func recieve_items(category: int, id: int, amount: int) -> void:
 			if id < item_keyitems.size():
 				item_keyitems[id] += amount;
 				new_item = ItemKeyitem.new(id, amount);
+				quest_manager.event_check(QuestManager.EVENTTYPE.COLLECT, id, amount);
 		1:
 			if id < item_consumables.size():
 				item_consumables[id] += amount;
 				new_item = ItemConsumable.new(id, amount);
+				quest_manager.event_check(QuestManager.EVENTTYPE.COLLECT, id + 1000, amount);
 		2:
 			if id < item_materials.size():
 				item_materials[id] += amount;
 				new_item = ItemMaterial.new(id, amount);
+				quest_manager.event_check(QuestManager.EVENTTYPE.COLLECT, id + 2000, amount);
 		3:
 			if id < item_ingredients.size():
 				item_ingredients[id] += amount;
 				new_item = ItemIngredient.new(id, amount);
+				quest_manager.event_check(QuestManager.EVENTTYPE.COLLECT, id + 3000, amount);
 	
 	if new_item and main_scene.world_scene.exploration_ui:
 		main_scene.world_scene.exploration_ui.queue_new_item(new_item);

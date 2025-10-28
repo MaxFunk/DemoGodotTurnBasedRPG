@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://d16pkbqpersew"]
+[gd_scene load_steps=8 format=3 uid="uid://d16pkbqpersew"]
 
 [ext_resource type="Script" uid="uid://4oepjbiimh85" path="res://UserInterfaces/IngameMenu/ingame_menu_ui.gd" id="1_eedix"]
 [ext_resource type="Script" uid="uid://do4k2b0sjshwf" path="res://UserInterfaces/Custom/label_button.gd" id="2_84ga2"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dwytftw04bbcg" path="res://UserInterfaces/IngameMenu/Characters/ingame_menu_character_ui.tscn" id="3_ppmte"]
 [ext_resource type="PackedScene" uid="uid://ctrvmoh7ajptu" path="res://UserInterfaces/IngameMenu/Items/ingame_menu_items_ui.tscn" id="5_whast"]
 [ext_resource type="PackedScene" uid="uid://djxhjmy2cufhv" path="res://UserInterfaces/IngameMenu/Saves/ingame_menu_saves_ui.tscn" id="6_nvmgv"]
+[ext_resource type="PackedScene" uid="uid://dc7vroc7w7526" path="res://UserInterfaces/IngameMenu/Quests/ingame_menu_quests_ui.tscn" id="6_yp60c"]
 
 [node name="IngameMenuUI" type="Control"]
 layout_mode = 3
@@ -44,6 +45,7 @@ text = "Party"
 autowrap_mode = 3
 clip_text = true
 script = ExtResource("2_84ga2")
+hovered_color = Color(0.863, 0.078, 0.235, 1)
 metadata/_custom_type_script = "uid://do4k2b0sjshwf"
 
 [node name="LabelButton2" type="Label" parent="MainView"]
@@ -57,6 +59,7 @@ text = "Characters"
 autowrap_mode = 3
 clip_text = true
 script = ExtResource("2_84ga2")
+hovered_color = Color(0.863, 0.078, 0.235, 1)
 metadata/_custom_type_script = "uid://do4k2b0sjshwf"
 
 [node name="LabelButton3" type="Label" parent="MainView"]
@@ -70,6 +73,7 @@ text = "Items"
 autowrap_mode = 3
 clip_text = true
 script = ExtResource("2_84ga2")
+hovered_color = Color(0.863, 0.078, 0.235, 1)
 metadata/_custom_type_script = "uid://do4k2b0sjshwf"
 
 [node name="LabelButton4" type="Label" parent="MainView"]
@@ -83,6 +87,7 @@ text = "Map"
 autowrap_mode = 3
 clip_text = true
 script = ExtResource("2_84ga2")
+hovered_color = Color(0.863, 0.078, 0.235, 1)
 metadata/_custom_type_script = "uid://do4k2b0sjshwf"
 
 [node name="LabelButton5" type="Label" parent="MainView"]
@@ -96,6 +101,7 @@ text = "Quests"
 autowrap_mode = 3
 clip_text = true
 script = ExtResource("2_84ga2")
+hovered_color = Color(0.863, 0.078, 0.235, 1)
 metadata/_custom_type_script = "uid://do4k2b0sjshwf"
 
 [node name="LabelButton6" type="Label" parent="MainView"]
@@ -109,6 +115,7 @@ text = "Saves"
 autowrap_mode = 3
 clip_text = true
 script = ExtResource("2_84ga2")
+hovered_color = Color(0.863, 0.078, 0.235, 1)
 metadata/_custom_type_script = "uid://do4k2b0sjshwf"
 
 [node name="LabelButton7" type="Label" parent="MainView"]
@@ -122,6 +129,7 @@ text = "Settings"
 autowrap_mode = 3
 clip_text = true
 script = ExtResource("2_84ga2")
+hovered_color = Color(0.863, 0.078, 0.235, 1)
 metadata/_custom_type_script = "uid://do4k2b0sjshwf"
 
 [node name="LabelButton8" type="Label" parent="MainView"]
@@ -135,6 +143,7 @@ text = "Titlescreen"
 autowrap_mode = 3
 clip_text = true
 script = ExtResource("2_84ga2")
+hovered_color = Color(0.863, 0.078, 0.235, 1)
 metadata/_custom_type_script = "uid://do4k2b0sjshwf"
 
 [node name="IngameMenuPartyUI" parent="." instance=ExtResource("3_01gib")]
@@ -148,6 +157,11 @@ visible = false
 layout_mode = 1
 
 [node name="IngameMenuItemsUI" parent="." instance=ExtResource("5_whast")]
+process_mode = 4
+visible = false
+layout_mode = 1
+
+[node name="IngameMenuQuestsUI" parent="." instance=ExtResource("6_yp60c")]
 process_mode = 4
 visible = false
 layout_mode = 1

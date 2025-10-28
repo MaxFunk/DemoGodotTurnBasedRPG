@@ -194,14 +194,14 @@ item_probabilities = Array[float]([1.0])
 [node name="Crystal10" parent="Collectibles" instance=ExtResource("10_5v148")]
 transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 18, 4, 0)
 amount_dropped = 2
-item_drops = Array[int]([13, 14])
+item_drops = Array[int]([1013, 1014])
 item_probabilities = Array[float]([1.0, 1.0])
 crystal_id = 10
 
 [node name="Crystal11" parent="Collectibles" instance=ExtResource("10_5v148")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 10, 7)
 amount_dropped = 1
-item_drops = Array[int]([8])
+item_drops = Array[int]([1008])
 item_probabilities = Array[float]([1.0])
 crystal_id = 11
 

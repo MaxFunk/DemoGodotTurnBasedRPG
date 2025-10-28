@@ -1,0 +1,11 @@
+id,short_description,description
+0,"First Step","First step of the first Quest: Interact with middle Debug Cube"
+1,"Second Step","Second step of the first Quest: Obtain the Keyitem 'Quest Keyitem'"
+2,"","First Quest was completed"
+3,"Step One","1st step of the 2nd Quest"
+4,"Step Two","2nd step of the 2nd Quest"
+5,"Step Three","3rd step of the 2nd Quest"
+6,"","Second quest was completed"
+7,"Collect 1","Collect 1 Item"
+8,"","Collected one item and finished Quest"
+9,"Filler","Filler Quest"

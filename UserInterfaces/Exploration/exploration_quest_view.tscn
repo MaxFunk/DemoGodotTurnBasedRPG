@@ -1,0 +1,73 @@
+[gd_scene load_steps=2 format=3 uid="uid://bm0p0roqmxvam"]
+
+[ext_resource type="Script" uid="uid://dnj8127vyphh2" path="res://UserInterfaces/Exploration/exploration_quest_view.gd" id="1_p1ptf"]
+
+[node name="ExplorationQuestView" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 350.0
+offset_bottom = 80.0
+script = ExtResource("1_p1ptf")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.12549, 0.12549, 0.12549, 0.752941)
+
+[node name="LabelName" type="Label" parent="."]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 345.0
+offset_bottom = 40.0
+theme_override_font_sizes/font_size = 24
+text = "Quest Name"
+clip_text = true
+
+[node name="LabelShortDescription" type="Label" parent="."]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 40.0
+offset_right = 265.0
+offset_bottom = 75.0
+theme_override_font_sizes/font_size = 20
+text = "Item Name"
+vertical_alignment = 1
+clip_text = true
+
+[node name="LabelQuestValue" type="Label" parent="."]
+layout_mode = 0
+offset_left = 270.0
+offset_top = 40.0
+offset_right = 300.0
+offset_bottom = 75.0
+theme_override_font_sizes/font_size = 20
+text = "99"
+vertical_alignment = 1
+clip_text = true
+
+[node name="LabelQuestSplitter" type="Label" parent="."]
+layout_mode = 0
+offset_left = 300.0
+offset_top = 40.0
+offset_right = 315.0
+offset_bottom = 75.0
+theme_override_font_sizes/font_size = 20
+text = "/"
+vertical_alignment = 1
+clip_text = true
+
+[node name="LabelQuestGoal" type="Label" parent="."]
+layout_mode = 0
+offset_left = 315.0
+offset_top = 40.0
+offset_right = 345.0
+offset_bottom = 75.0
+theme_override_font_sizes/font_size = 20
+text = "99"
+vertical_alignment = 1
+clip_text = true

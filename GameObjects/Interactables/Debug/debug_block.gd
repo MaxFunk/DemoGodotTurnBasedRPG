@@ -1,6 +1,6 @@
 extends StaticBody3D
 # TODO: FULL HEAL INTERACTION!!!!
-enum INTERACTION {TEXT, TELEPORT, ITEMGET}
+enum INTERACTION {TEXT, TELEPORT, ITEMGET, GIVEQUEST, EVENT}
 
 @onready var interact_comp := $InteractionComponent as InteractionComponent;
 
@@ -18,7 +18,14 @@ func _on_interaction_component_interaction() -> void:
 				GameData.main_scene.load_world(interaction_id);
 				interact_comp.block_interaction = true;
 		INTERACTION.ITEMGET:
-			GameData.recieve_items(1, interaction_id, 1);
+			var category: int = floori(interaction_id / 1000.0);
+			if category >= 0 and category < 4:
+				var item_id := interaction_id - category * 1000;
+				GameData.recieve_items(category, item_id, 1);
+		INTERACTION.GIVEQUEST:
+			GameData.quest_manager.add_new_quest(interaction_id);
+		INTERACTION.EVENT:
+			GameData.quest_manager.event_check(QuestManager.EVENTTYPE.INTERACT, interaction_id, 1);
 	return
 
 

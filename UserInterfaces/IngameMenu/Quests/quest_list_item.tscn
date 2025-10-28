@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://cio74qmj1uhfr"]
+
+[ext_resource type="Script" uid="uid://kqu8cpqeuywc" path="res://UserInterfaces/IngameMenu/Quests/quest_list_item.gd" id="1_n0oi6"]
+
+[node name="QuestListItem" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 850.0
+offset_bottom = 100.0
+script = ExtResource("1_n0oi6")
+
+[node name="LabelName" type="Label" parent="."]
+layout_mode = 0
+offset_right = 800.0
+offset_bottom = 75.0
+theme_override_font_sizes/font_size = 48
+text = "Quest Name"
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="IconMarked" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 800.0
+offset_top = 10.0
+offset_right = 850.0
+offset_bottom = 60.0

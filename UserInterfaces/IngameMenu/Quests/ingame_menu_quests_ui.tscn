@@ -1,0 +1,151 @@
+[gd_scene load_steps=3 format=3 uid="uid://dc7vroc7w7526"]
+
+[ext_resource type="Script" uid="uid://bf2l225emcn" path="res://UserInterfaces/IngameMenu/Quests/ingame_menu_quests_ui.gd" id="1_tthcr"]
+[ext_resource type="Script" uid="uid://bwpsbotk7yxbp" path="res://UserInterfaces/Custom/scroll_controll.gd" id="2_ksdki"]
+
+[node name="IngameMenuQuestsUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_tthcr")
+
+[node name="TabControl" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 50.0
+offset_top = 50.0
+offset_right = 1850.0
+offset_bottom = 150.0
+
+[node name="LabelStory" type="Label" parent="TabControl"]
+layout_mode = 0
+offset_right = 300.0
+offset_bottom = 100.0
+theme_override_font_sizes/font_size = 64
+text = "Story"
+horizontal_alignment = 1
+
+[node name="LabelQuests" type="Label" parent="TabControl"]
+layout_mode = 0
+offset_left = 300.0
+offset_right = 600.0
+offset_bottom = 100.0
+theme_override_font_sizes/font_size = 64
+text = "Quests"
+horizontal_alignment = 1
+
+[node name="LabelTasks" type="Label" parent="TabControl"]
+layout_mode = 0
+offset_left = 600.0
+offset_right = 900.0
+offset_bottom = 100.0
+theme_override_font_sizes/font_size = 64
+text = "Tasks"
+horizontal_alignment = 1
+
+[node name="Seperator" type="ColorRect" parent="TabControl"]
+layout_mode = 0
+offset_top = 95.0
+offset_right = 1800.0
+offset_bottom = 100.0
+
+[node name="QuestsControl" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 50.0
+offset_top = 200.0
+offset_right = 1850.0
+offset_bottom = 1000.0
+
+[node name="ScrollControl" type="Control" parent="QuestsControl" node_paths=PackedStringArray("scrollbar")]
+clip_contents = true
+anchors_preset = 0
+offset_right = 900.0
+offset_bottom = 800.0
+script = ExtResource("2_ksdki")
+max_displayed_elements = 8
+element_size = Vector2(850, 100)
+scrollbar = NodePath("VScrollBar")
+metadata/_custom_type_script = "uid://bwpsbotk7yxbp"
+
+[node name="VScrollBar" type="VScrollBar" parent="QuestsControl/ScrollControl"]
+layout_mode = 0
+offset_left = 890.0
+offset_right = 900.0
+offset_bottom = 800.0
+
+[node name="DetailControl" type="Control" parent="QuestsControl"]
+anchors_preset = 0
+offset_left = 950.0
+offset_right = 1800.0
+offset_bottom = 800.0
+
+[node name="LabelQuestName" type="Label" parent="QuestsControl/DetailControl"]
+layout_mode = 0
+offset_right = 800.0
+offset_bottom = 70.0
+theme_override_font_sizes/font_size = 48
+text = "Quest Name"
+
+[node name="LabelStepNumber" type="Label" parent="QuestsControl/DetailControl"]
+layout_mode = 0
+offset_top = 100.0
+offset_right = 400.0
+offset_bottom = 150.0
+theme_override_font_sizes/font_size = 32
+text = "Step x of y"
+
+[node name="LabelStepDescription" type="Label" parent="QuestsControl/DetailControl"]
+layout_mode = 0
+offset_top = 200.0
+offset_right = 800.0
+offset_bottom = 600.0
+theme_override_font_sizes/font_size = 32
+text = "Description of Quest Step"
+autowrap_mode = 2
+clip_text = true
+max_lines_visible = 8
+
+[node name="ControlStepData" type="Control" parent="QuestsControl/DetailControl"]
+anchors_preset = 0
+offset_top = 650.0
+offset_right = 400.0
+offset_bottom = 700.0
+
+[node name="LabelStepCategory" type="Label" parent="QuestsControl/DetailControl/ControlStepData"]
+layout_mode = 0
+offset_right = 250.0
+offset_bottom = 50.0
+theme_override_font_sizes/font_size = 32
+text = "Category"
+
+[node name="LabelStepValue" type="Label" parent="QuestsControl/DetailControl/ControlStepData"]
+layout_mode = 0
+offset_left = 250.0
+offset_right = 300.0
+offset_bottom = 50.0
+theme_override_font_sizes/font_size = 32
+text = "0"
+horizontal_alignment = 2
+
+[node name="LabelStepSeparator" type="Label" parent="QuestsControl/DetailControl/ControlStepData"]
+layout_mode = 0
+offset_left = 300.0
+offset_right = 350.0
+offset_bottom = 50.0
+theme_override_font_sizes/font_size = 32
+text = "of"
+horizontal_alignment = 2
+
+[node name="LabelStepTarget" type="Label" parent="QuestsControl/DetailControl/ControlStepData"]
+layout_mode = 0
+offset_left = 350.0
+offset_right = 400.0
+offset_bottom = 50.0
+theme_override_font_sizes/font_size = 32
+text = "99"
+horizontal_alignment = 2
+
+[node name="CooldownDirectional" type="Timer" parent="."]
+one_shot = true

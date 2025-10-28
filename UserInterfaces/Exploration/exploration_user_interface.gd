@@ -1,7 +1,8 @@
 class_name ExplorationUI extends Control
 
 const ExplorationHeroOverview = preload("uid://me80g7f5ttfm");
-const ItemView = preload("uid://con5ugiscqvps")
+const ItemView = preload("uid://con5ugiscqvps");
+const QuestView = preload("uid://dnj8127vyphh2");
 const Minimap = preload("uid://hrq8hdjwddus");
 const EXPLORATION_ITEM_VIEW = preload("uid://ddjtcd5p6uyw4");
 
@@ -13,14 +14,24 @@ const EXPLORATION_ITEM_VIEW = preload("uid://ddjtcd5p6uyw4");
 @onready var hero_overview_1 := $ControlHeros/ExplorationHeroOverview1 as ExplorationHeroOverview;
 @onready var hero_overview_2 := $ControlHeros/ExplorationHeroOverview2 as ExplorationHeroOverview;
 @onready var hero_overview_3 := $ControlHeros/ExplorationHeroOverview3 as ExplorationHeroOverview;
+@onready var quest_view_1 := $ControlQuests/ExplorationQuestView1 as QuestView;
+@onready var quest_view_2 := $ControlQuests/ExplorationQuestView2 as QuestView;
+@onready var quest_view_3 := $ControlQuests/ExplorationQuestView3 as QuestView;
+
 @onready var ctrl_items := $ControlItems as Control;
 @onready var minimap := $ExplorationMinimap as Minimap;
 @onready var anim_player := $AnimationPlayer as AnimationPlayer;
 @onready var label_interaction := $LabelInteraction as Label;
 
+@onready var quest_update_ctrl := $ControlQuestUpdate as Control;
+@onready var quest_update_header := $ControlQuestUpdate/LabelQuestHeader as Label;
+@onready var quest_update_name := $ControlQuestUpdate/LabelQuestName as Label;
+@onready var quest_update_timer := $ControlQuestUpdate/QuestUpdateTimer as Timer;
+
 var current_world_scene: WorldScene = null;
 
 var item_queue: Array[Item] = [];
+var quest_queue: Array[Quest] = [];
 var items_displayed: Array[ItemView] = [];
 var max_items_displayable: int = 5;
 var show_item_view_for: float = 5.0;
@@ -49,6 +60,15 @@ func update_data() -> void:
 	hero_overview_1.update_data(GameData.get_active_party_member(0));
 	hero_overview_2.update_data(GameData.get_active_party_member(1));
 	hero_overview_3.update_data(GameData.get_active_party_member(2));
+	
+	update_quest_view();
+	return
+
+
+func update_quest_view() -> void:
+	quest_view_1.write_data(GameData.quest_manager.get_marked_quest(0));
+	quest_view_2.write_data(GameData.quest_manager.get_marked_quest(1));
+	quest_view_3.write_data(GameData.quest_manager.get_marked_quest(2));
 	return
 
 
@@ -109,7 +129,37 @@ func detail_fade_out() -> void:
 	return
 
 
+func add_quest_to_queue(quest: Quest) -> void:
+	if quest == null:
+		return
+	
+	quest_queue.append(quest);
+	fetch_quest_update();
+	return
+
+
+func fetch_quest_update() -> void:
+	if quest_update_timer.is_stopped():
+		if quest_queue.size() <= 0:
+			return
+		
+		var fetched_quest := quest_queue[0];
+		quest_queue.remove_at(0);
+		if fetched_quest:
+			quest_update_header.text = "Quest Completed!" if fetched_quest.completed else "New Quest!";
+			quest_update_name.text = fetched_quest.quest_name;
+			quest_update_ctrl.visible = true;
+			quest_update_timer.start();
+	return
+
+
 func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 	fading_in = false;
 	fading_out = false;
+	return
+
+
+func _on_quest_update_timer_timeout() -> void:
+	quest_update_ctrl.visible = false;
+	fetch_quest_update();
 	return
