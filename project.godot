@@ -23,6 +23,7 @@ boot_splash/minimum_display_time=50
 GameData="*res://System/Manager/game_data.gd"
 ResourceManager="*res://System/Manager/resource_manager.gd"
 SaveFileManager="*res://System/Manager/save_file_manager.gd"
+AudioManager="*res://System/Manager/audio_manager.gd"
 
 [debug]
 

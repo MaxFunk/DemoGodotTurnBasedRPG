@@ -79,7 +79,7 @@ func load_step() -> void:
 		load_description(step_description_id);
 	else:
 		valid = false;
-	print(step_data_array);
+	# print(step_data_array);
 	return
 
 

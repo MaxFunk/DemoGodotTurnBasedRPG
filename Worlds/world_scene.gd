@@ -2,6 +2,7 @@ class_name WorldScene
 extends Node3D
 
 @export var load_exploration_ui: bool = true;
+@export var area_music_id: int = -1;
 
 var cutscene_node: GameCutscene = null;
 var exploration_ui: ExplorationUI = null;
@@ -14,7 +15,8 @@ func _ready() -> void:
 		add_child(exploration_ui);
 		exploration_ui.current_world_scene = self;
 		exploration_ui.update_data();
-		
+	
+	AudioManager.play_area_music(area_music_id);
 	return
 
 

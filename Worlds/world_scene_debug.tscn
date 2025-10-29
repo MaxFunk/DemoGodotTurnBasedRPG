@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://lxjhkb3kmld1"]
+[gd_scene load_steps=43 format=3 uid="uid://lxjhkb3kmld1"]
 
 [ext_resource type="Script" uid="uid://c7ts8ujxoerht" path="res://Worlds/world_scene.gd" id="1_7d5j5"]
 [ext_resource type="Environment" uid="uid://0jdwxffgebho" path="res://Resources/GodotSettings/Environments/environment_clear_sky.tres" id="2_0mjw5"]
@@ -9,10 +9,12 @@
 [ext_resource type="Script" uid="uid://bcxrao8p216gm" path="res://GameObjects/General/water_3d.gd" id="8_6mlrr"]
 [ext_resource type="Material" uid="uid://b6y16g8vkbsoh" path="res://Resources/GodotSettings/Materials/mat_ground.tres" id="9_b7qix"]
 [ext_resource type="PackedScene" uid="uid://ctnre5xcpb2vm" path="res://GameObjects/Interactables/Items/crystal.tscn" id="9_j2twu"]
+[ext_resource type="PackedScene" uid="uid://2kd12uxvj28u" path="res://Resources/Models/Objects/waterfall.glb" id="10_i3m1a"]
 [ext_resource type="PackedScene" uid="uid://dox854i12fr0j" path="res://GameObjects/Interactables/Movement/ladder.tscn" id="10_tfas3"]
 [ext_resource type="Script" uid="uid://dajvjvfw1fjs8" path="res://GameObjects/General/special_battle_initiator.gd" id="14_fg3dg"]
 [ext_resource type="PackedScene" uid="uid://dd8q5fg3b203r" path="res://Resources/Models/NPCs/char_base.glb" id="15_j2twu"]
 [ext_resource type="Material" uid="uid://oduup7or85sj" path="res://Resources/GodotSettings/Materials/mat_dirt.tres" id="16_8oqjx"]
+[ext_resource type="AudioStream" uid="uid://53o202rybua8" path="res://Resources/Audio/Ambient/audio_ambient_waterfall.mp3" id="16_i3m1a"]
 [ext_resource type="PackedScene" uid="uid://dxe5uy6a0o5wp" path="res://GameObjects/Enemies/enemy_group.tscn" id="17_3aesu"]
 [ext_resource type="PackedScene" uid="uid://hk6wiqxqgq2l" path="res://GameObjects/Activators/game_cutscene_activator.tscn" id="17_i3m1a"]
 
@@ -197,6 +199,7 @@ size = Vector3(4, 4, 2)
 
 [node name="WorldSceneDebug" type="Node3D"]
 script = ExtResource("1_7d5j5")
+area_music_id = 1
 metadata/_custom_type_script = "uid://c7ts8ujxoerht"
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
@@ -311,6 +314,9 @@ item_drops = Array[int]([1011, 1014, 1015])
 item_probabilities = Array[float]([0.2, 0.4, 0.4])
 crystal_id = 1
 
+[node name="waterfall" parent="StaticBodiesArea1" instance=ExtResource("10_i3m1a")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 30)
+
 [node name="NPCGenericTalking" parent="." instance=ExtResource("6_hx6yu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -6)
 first_text_id = 0
@@ -401,32 +407,43 @@ spawn_markers = [NodePath("SpawnMarker")]
 [node name="SpawnMarker" type="Marker3D" parent="EnemyGroup2"]
 transform = Transform3D(-5.9604645e-08, 0, -0.99999994, 0, 1, 0, 0.99999994, 0, -5.9604645e-08, 0, 0, 0)
 
-[node name="DebugBlockDungeon" parent="." instance=ExtResource("5_3c4c8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20)
+[node name="DebugBlocksForTesting" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -13)
+
+[node name="DebugBlockDungeon" parent="DebugBlocksForTesting" instance=ExtResource("5_3c4c8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
 interaction_type = 1
 interaction_id = 3
 interaction_text = "Go to Dungeon"
 
-[node name="DebugBlockQuestGiver1" parent="." instance=ExtResource("5_3c4c8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+[node name="DebugBlockQuestGiver1" parent="DebugBlocksForTesting" instance=ExtResource("5_3c4c8")]
 interaction_type = 3
 interaction_id = 0
 interaction_text = "Give Quest 0"
 
-[node name="DebugBlockQuestGiver2" parent="." instance=ExtResource("5_3c4c8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -13)
+[node name="DebugBlockQuestGiver2" parent="DebugBlocksForTesting" instance=ExtResource("5_3c4c8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
 interaction_type = 3
 interaction_id = 1
 interaction_text = "Give Quest 1"
 
-[node name="DebugBlockQuestEvent" parent="." instance=ExtResource("5_3c4c8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -10)
+[node name="DebugBlockQuestEvent" parent="DebugBlocksForTesting" instance=ExtResource("5_3c4c8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
 interaction_type = 4
 interaction_id = 100
 interaction_text = "Event for Quest"
 
-[node name="DebugBlockQuestItem" parent="." instance=ExtResource("5_3c4c8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -10)
+[node name="DebugBlockQuestItem" parent="DebugBlocksForTesting" instance=ExtResource("5_3c4c8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
 interaction_type = 2
 interaction_id = 1
 interaction_text = "Item for Quest"
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 5, 32)
+stream = ExtResource("16_i3m1a")
+volume_db = -10.0
+unit_size = 50.0
+autoplay = true
+max_distance = 20.0
+bus = &"Environment"

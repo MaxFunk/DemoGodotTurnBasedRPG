@@ -10,6 +10,7 @@ enum MOVEMODE {WALKING = 0, SWIMMING = 1, CAM_ONLY = 2, NONE = 9}
 @onready var water_checker := $WaterChecker as Area3D;
 @onready var timer_coyote := $TimerCoyote as Timer;
 @onready var timer_stillstanding := $TimerStillStanding as Timer;
+@onready var audio_listener := $AudioListener3D as AudioListener3D
 
 const move_speed: float = 150.0;
 const jump_strength: float = 320.0;
@@ -35,6 +36,7 @@ func _ready() -> void:
 	
 	GameData.main_scene.player_char = self;
 	set_process_input(true);
+	audio_listener.make_current();
 	return
 
 

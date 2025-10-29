@@ -100,6 +100,7 @@ func instantiate_ingame_menu() -> void:
 		add_child(ingame_menu_node);
 		world_scene.set_exploration_ui_visibility(false);
 		world_scene.process_mode = Node.PROCESS_MODE_DISABLED;
+		AudioManager.weaken_area_music();
 	return
 
 
@@ -110,6 +111,7 @@ func close_ingame_menu() -> void:
 		world_scene.set_exploration_ui_visibility(true);
 		player_char.load_hero_model();
 		enable_world_processing = true;
+		AudioManager.resume_area_music();
 	return
 
 
@@ -146,6 +148,8 @@ func instantiate_battle_scene(scene_transform: Transform3D, enemy_group: EnemyGr
 		
 		battle_scene.global_transform = scene_transform;
 		battle_scene.initiate_field(enemy_group.enemy_ids);
+		
+		AudioManager.play_battle_music(2);
 	return
 
 
@@ -156,6 +160,7 @@ func end_battle_scene() -> void:
 		world_scene.change_all_actors_visibility(true);
 		battle_scene.queue_free();
 		battle_finished.emit();
+		AudioManager.resume_area_music();
 	return
 
 
