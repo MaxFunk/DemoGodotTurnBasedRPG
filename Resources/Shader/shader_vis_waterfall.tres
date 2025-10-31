@@ -43,7 +43,7 @@ default_input_values = [0, 0.0, 1, 1.0]
 operator = 2
 
 [sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_8qr8f"]
-default_input_values = [0, 0.0, 1, 0.25]
+default_input_values = [0, 0.0, 1, 0.1]
 operator = 2
 
 [sub_resource type="VisualShaderNodeVaryingSetter" id="VisualShaderNodeVaryingSetter_gewdp"]
@@ -112,7 +112,7 @@ void fragment() {
 
 
 // FloatOp:9
-	float n_in9p1 = 0.25000;
+	float n_in9p1 = 0.10000;
 	float n_out9p0 = n_out5p0 * n_in9p1;
 
 

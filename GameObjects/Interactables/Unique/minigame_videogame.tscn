@@ -1,0 +1,51 @@
+[gd_scene load_steps=9 format=3 uid="uid://bqhnemswuq7yv"]
+
+[ext_resource type="PackedScene" uid="uid://ckxw05aoy0304" path="res://GameObjects/Interactables/interaction_component.tscn" id="1_3i8u8"]
+[ext_resource type="Script" uid="uid://1qqqcucrr42d" path="res://GameObjects/Interactables/Unique/minigame_videogame.gd" id="1_lqiyw"]
+[ext_resource type="PackedScene" uid="uid://cqc7fqlyn5pvm" path="res://GameObjects/Minigames/Videogame2D/game_2d.tscn" id="3_sxrmr"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_623lc"]
+size = Vector2(2, 1)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_lqiyw"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sxrmr"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_lqiyw")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lqiyw"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_lqiyw"]
+
+[node name="MinigameVideogame" type="Node3D"]
+script = ExtResource("1_lqiyw")
+
+[node name="GameQuad" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("QuadMesh_623lc")
+surface_material_override/0 = SubResource("StandardMaterial3D_sxrmr")
+
+[node name="ViewCamera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0.8)
+
+[node name="InteractionComponent" parent="." instance=ExtResource("1_3i8u8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 2)
+interaction_text = "Start Game"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionComponent"]
+shape = SubResource("BoxShape3D_lqiyw")
+debug_fill = false
+
+[node name="Mesh" type="MeshInstance3D" parent="InteractionComponent"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, -0.495, 0)
+mesh = SubResource("QuadMesh_lqiyw")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+size = Vector2i(1000, 500)
+
+[node name="Game2D" parent="SubViewport" instance=ExtResource("3_sxrmr")]
+
+[connection signal="interaction" from="InteractionComponent" to="." method="_on_interaction_component_interaction"]

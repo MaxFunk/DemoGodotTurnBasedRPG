@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://cqc7fqlyn5pvm"]
+
+[ext_resource type="Script" uid="uid://dahhqwglxqpo7" path="res://GameObjects/Minigames/Videogame2D/game_2d.gd" id="1_2nn43"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lqiyw"]
+size = Vector2(20, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sxrmr"]
+size = Vector2(500, 20)
+
+[node name="Game2D" type="Node2D"]
+script = ExtResource("1_2nn43")
+
+[node name="PlayerChar2D" type="CharacterBody2D" parent="."]
+position = Vector2(20, 480)
+collision_layer = 16
+collision_mask = 33
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerChar2D"]
+position = Vector2(0, -20)
+shape = SubResource("RectangleShape2D_lqiyw")
+
+[node name="ColorRect" type="ColorRect" parent="PlayerChar2D"]
+offset_left = -10.0
+offset_top = -40.0
+offset_right = 10.0
+
+[node name="Floor2D" type="StaticBody2D" parent="."]
+position = Vector2(250, 500)
+collision_mask = 49
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor2D"]
+position = Vector2(0, -10)
+shape = SubResource("RectangleShape2D_sxrmr")
+
+[node name="ColorRect" type="ColorRect" parent="Floor2D"]
+offset_left = -250.0
+offset_top = -20.0
+offset_right = 250.0
+color = Color(0.65, 0.5395, 0.5395, 1)

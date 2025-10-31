@@ -173,10 +173,13 @@ ZR={
 
 [layer_names]
 
+2d_physics/layer_1="Ground"
 3d_physics/layer_1="Floor"
 3d_physics/layer_2="Wall"
 3d_physics/layer_3="InvisWall"
 3d_physics/layer_4="Water"
+2d_physics/layer_5="Player"
+2d_physics/layer_6="Enemy"
 3d_physics/layer_9="Player"
 3d_physics/layer_10="NPC"
 3d_physics/layer_11="Enemy"

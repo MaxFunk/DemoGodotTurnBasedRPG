@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bybqbqlp28b4k"]
+[gd_scene load_steps=9 format=3 uid="uid://bybqbqlp28b4k"]
 
 [ext_resource type="Script" uid="uid://c7ts8ujxoerht" path="res://Worlds/world_scene.gd" id="1_eoefi"]
 [ext_resource type="Environment" uid="uid://0jdwxffgebho" path="res://Resources/GodotSettings/Environments/environment_clear_sky.tres" id="2_4nr38"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://c0vqb1ed8wih7" path="res://GameObjects/NPCs/npc_generic.tscn" id="5_2dqj0"]
 [ext_resource type="PackedScene" uid="uid://do32qv2d0p24h" path="res://Resources/Models/Heros/hero_e.glb" id="6_mplpf"]
 [ext_resource type="PackedScene" uid="uid://c7c07mkhv8qk8" path="res://GameObjects/Interactables/Debug/debug_block.tscn" id="7_tfpf6"]
+[ext_resource type="PackedScene" uid="uid://bqhnemswuq7yv" path="res://GameObjects/Interactables/Unique/minigame_videogame.tscn" id="8_iyt2h"]
 
 [node name="WorldSceneHeadQuarter" type="Node3D"]
 script = ExtResource("1_eoefi")
@@ -35,3 +36,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0, -6)
 interaction_type = 1
 interaction_id = 999
 interaction_text = "Debug World"
+
+[node name="MinigameVideogame" parent="." instance=ExtResource("8_iyt2h")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 17, 0, 9)
