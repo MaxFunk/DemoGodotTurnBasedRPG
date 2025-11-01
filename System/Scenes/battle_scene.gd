@@ -34,9 +34,7 @@ var active_heros: Array[BattleData] = [];
 var opponents: Array[BattleData] = [];
 
 var battle_chars: Array[BattleCharacter] = [];
-var battle_field_global: BattleField = null;
-var battle_field_heros: BattleField = null;
-var battle_field_oppos: BattleField = null;
+var battle_fields: Array[BattleField] = [null, null, null]; # global, hero, oppo
 
 var turn_order: Array[BattleData] = [];
 var next_round: Array[BattleData] = [];
@@ -312,36 +310,33 @@ func create_field(art: BattleArt, caster: BattleData) -> void:
 			return
 		
 		if field.field_type == field.FIELDTYPE.GLOBAL:
-			if battle_field_global:
-				remove_field(battle_field_global);
+			if battle_fields[0]:
+				remove_field(battle_fields[0]);
 			add_child(field);
-			battle_field_global = field;
+			battle_fields[0] = field;
 		
 		elif (field.field_type == field.FIELDTYPE.ALLIED and cast_by_hero) or \
 		(field.field_type == field.FIELDTYPE.OPPOSITE and !cast_by_hero):
-			if battle_field_heros:
-				remove_field(battle_field_heros);
+			if battle_fields[1]:
+				remove_field(battle_fields[1]);
 			add_child(field);
 			field.global_position = hero_spawnpoints[0].global_position;
-			battle_field_heros = field;
+			battle_fields[1] = field;
 		
 		elif (field.field_type == field.FIELDTYPE.ALLIED and !cast_by_hero) or \
 		(field.field_type == field.FIELDTYPE.OPPOSITE and cast_by_hero):
-			if battle_field_oppos:
-				remove_field(battle_field_oppos);
+			if battle_fields[2]:
+				remove_field(battle_fields[2]);
 			add_child(field);
 			field.global_position = enemy_spawnpoints[0].global_position;
-			battle_field_oppos = field;
+			battle_fields[2] = field;
 	return
 
 
 func remove_field(field: BattleField) -> void:
-	if battle_field_global == field:
-		battle_field_global = null;
-	elif battle_field_heros == field:
-		battle_field_global = null;
-	elif battle_field_oppos == field:
-		battle_field_global = null;
+	for field_entry in battle_fields:
+		if field_entry == field:
+			field_entry = null;
 	
 	remove_child(field);
 	field.queue_free();
@@ -349,15 +344,8 @@ func remove_field(field: BattleField) -> void:
 
 
 func check_fields(actor: BattleData) -> void:
-	if battle_field_global and battle_field_global.caster == actor:
-		if battle_field_global.increas_turn_timer():
-			remove_field(battle_field_global);
-	
-	if battle_field_heros and battle_field_heros.caster == actor:
-		if battle_field_heros.increas_turn_timer():
-			remove_field(battle_field_heros);
-	
-	if battle_field_oppos and battle_field_oppos.caster == actor:
-		if battle_field_oppos.increas_turn_timer():
-			remove_field(battle_field_oppos);
+	for field in battle_fields:
+		if field and field.caster == actor:
+			if field.increas_turn_timer():
+				remove_field(field);
 	return

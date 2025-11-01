@@ -55,7 +55,7 @@ static func get_art_weight(art: BattleArt, opponent: BattleData, target: BattleD
 				return 5
 		art.CATEGORY.HEAL:
 			var hp_percent: float = target.hp_cur / float(target.hp_max);
-			return 3 if hp_percent else 0
+			return 3 if hp_percent < 0.35 else 0
 		art.CATEGORY.AILMENT:
 			return 5 if target.ailment == 0 else 0;
 		art.CATEGORY.STRATEGY:

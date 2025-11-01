@@ -190,7 +190,7 @@ func apply_action(t_idx: int) -> void:
 func apply_art(u: BattleData, t: BattleData, a: BattleArt) -> void:
 	match a.category:
 		a.CATEGORY.PHYSICAL, a.CATEGORY.ETHER, a.CATEGORY.SOULPOWER:
-			var action_res := Calculations.calc_damage(u, t, a);
+			var action_res := Calculations.calc_damage(battle_scene, u, t, a);
 			battle_scene.battle_ui.create_damage_number(action_res, t, a);
 			if !action_res.is_missed:
 				apply_ult_points(u, t, action_res);

@@ -31,39 +31,35 @@ static func get_exp_to_next_level(cur_level: int) -> int:
 	return level * 19 + 4 * floori(level / 3.0);
 
 
-static func calc_damage(user: BattleData, target: BattleData, art: BattleArt) -> ActionResult:
+static func calc_damage(scene: BattleScene, user: BattleData, target: BattleData, art: BattleArt) -> ActionResult:
 	var is_crit: bool = false;
 	var missed: bool = false;
 	var attr: float = 1.0;
-	var offense_val: float = get_offense_val(user, art);
-	var defense_val: float = get_defense_val(target, art);
-	
-	if user.ailment == Ailments.BURNED:
-		offense_val *= 0.7;
-	if target.ailment == Ailments.FROZEN:
-		defense_val *= 0.7;
+	var offense_val: float = get_offense_val(user, art) * get_modifier(user.modifier[0]);
+	var defense_val: float = get_defense_val(target, art) * get_modifier(target.modifier[1]);
 	
 	var damage: float = user.level * art.base_power * sqrt(offense_val / defense_val) / 20.0;
 	damage += (100.0 - user.level) * art.base_power / 200.0; # Low Level Correction
-	damage *= get_modifier(user.modifier[0]) / get_modifier(target.modifier[1]);
 	
 	attr *= get_attribute_multiplier(target, art.attribute_1);
 	attr *= get_attribute_multiplier(target, art.attribute_2);
 	damage *= attr;
+	damage *= BattleFieldHandler.field_modifier_damage(scene, user);
+	damage *= EffectApply.damage_modifier_ailment(user, target, art);
 	
 	var accuracy: float = get_accuracy_val(user, target, art);
 	var crit_chance: float = get_crit_chance(user, target, art);
 	if randf() > accuracy:
 		missed = true;
-	if randf() < crit_chance:
+	if randf() < crit_chance and not missed:
 		is_crit = true;
-		damage *= 2.0;
+		damage *= 1.5;
 	if target.is_blocking: damage *= 0.5;
 	if user.is_charged: damage *= 2.0;
 	
 	damage *= randf_range(0.9, 1.1);
 	var final_damage: int = clampi(roundi(damage), 1, 99999);
-	if attr == 0.0:
+	if is_zero_approx(attr):
 		final_damage = 0;
 	
 	var action_res := ActionResult.new();
@@ -80,7 +76,7 @@ static func calc_healing(user: BattleData, art: BattleArt) -> ActionResult:
 	healing *= randf_range(0.9, 1.1);
 	
 	var action_res := ActionResult.new();
-	action_res.healing = clampi(roundi(healing), 1, 99999);
+	action_res.healing = clampi(roundi(healing), 1, 99999) if art.base_power > 0 else 0;
 	return action_res
 
 
@@ -91,9 +87,11 @@ static func get_offense_val(chd: BattleData, art: BattleArt) -> float:
 		art.CATEGORY.ETHER, art.CATEGORY.HEAL: value = chd.stats[2];
 		art.CATEGORY.SOULPOWER: value = chd.stats[0] + chd.stats[2];
 	
-	if chd.ailment == Ailments.CORRUPTED:
+	if chd.ailment == Ailments.BURNED:
+		value *= 0.7;
+	elif chd.ailment == Ailments.CORRUPTED:
 		value *= 1.5;
-	if chd.ailment == Ailments.BLESSED:
+	elif chd.ailment == Ailments.BLESSED:
 		value *= 0.5;
 	
 	return maxf(value, 1.0);
@@ -106,9 +104,11 @@ static func get_defense_val(chd: BattleData, art: BattleArt) -> float:
 		art.CATEGORY.ETHER: value = chd.stats[3];
 		art.CATEGORY.SOULPOWER: value = floori(chd.stats[1] * 0.5 + chd.stats[3] * 0.5);
 	
-	if chd.ailment == Ailments.CORRUPTED:
+	if chd.ailment == Ailments.FROZEN:
+		value *= 0.7;
+	elif chd.ailment == Ailments.CORRUPTED:
 		value *= 0.5;
-	if chd.ailment == Ailments.BLESSED:
+	elif chd.ailment == Ailments.BLESSED:
 		value *= 1.5;
 	
 	return maxf(value, 1.0);

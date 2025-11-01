@@ -55,6 +55,7 @@ static func apply_ailment_art(user: BattleData, target: BattleData, art: BattleA
 		if art.effects[i] == EffectIDs.APPLY_AILMENT_ART:
 			var ailment_idx: int = art.effect_values[i];
 			var chance: float = art.accuracy * sqrt(user.stats[4] / float(target.stats[4])) / 100.0;
+			chance *= effect_modifier(ailment_idx + EffectIDs.APPLY_AILMENT_ART, user);
 			if randf() > chance or target.ailment != 0:
 				action_res.is_missed = true;
 				return action_res
@@ -70,3 +71,35 @@ static func heal_ailment(target: BattleData) -> void:
 	print(target.name, " was healed from ailment");
 	target.update_display.emit();
 	return
+
+
+static func damage_modifier_ailment(_user: BattleData, target: BattleData, art: BattleArt) -> float:
+	if target.ailment == Ailments.NONE:
+		return 1.0
+	
+	var modifier_percent: float = 0.0;
+	for i in art.effects.size():
+		if art.effects[i] < EffectIDs.BOOST_ON_BURNED or art.effects[i] > EffectIDs.BOOST_ON_BLESSED:
+			continue
+		var ailemt_id := art.effects[i] - EffectIDs.BOOST_ON_BURNED + 1;
+		if ailemt_id == target.ailment:
+			modifier_percent += art.effect_values[i] / 100.0;
+	
+	return 1.0 + modifier_percent
+
+
+static func effect_modifier(effect_id: int, user: BattleData) -> float:
+	var modifier_percent: float = 0.0;
+	
+	for art in user.arts:
+		if art and art.is_passive_art():
+			for i in art.effects.size():
+				if art.effect_values[i] == effect_id:
+					if art.effects[i] == EffectIDs.EFFECT_BOOST_25:
+						modifier_percent += 0.25;
+					elif art.effects[i] == EffectIDs.EFFECT_BOOST_50:
+						modifier_percent += 0.5;
+					elif art.effects[i] == EffectIDs.EFFECT_BOOST_100:
+						modifier_percent += 1.0;
+	
+	return 1.0 + modifier_percent
