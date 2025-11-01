@@ -10,7 +10,8 @@ enum MOVEMODE {WALKING = 0, SWIMMING = 1, CAM_ONLY = 2, NONE = 9}
 @onready var water_checker := $WaterChecker as Area3D;
 @onready var timer_coyote := $TimerCoyote as Timer;
 @onready var timer_stillstanding := $TimerStillStanding as Timer;
-@onready var audio_listener := $AudioListener3D as AudioListener3D
+@onready var audio_listener := $AudioListener3D as AudioListener3D;
+@onready var hitshape_attack := $HitshapeAttack as Area3D;
 
 const move_speed: float = 150.0;
 const jump_strength: float = 320.0;
@@ -47,20 +48,24 @@ func _input(event: InputEvent) -> void:
 
 
 func _process(_delta: float) -> void:
-	check_interaction(Input.is_action_just_pressed("Btn_Y"));
+	if Input.is_action_just_pressed("Btn_Y"):
+		check_attack();
+		return
+	
+	check_interaction(Input.is_action_just_pressed("Btn_A"));
 	return
 
 
 func _physics_process(delta: float) -> void:
-	if current_water:
-		if move_mode != MOVEMODE.SWIMMING:
-			if water_checker.global_position.y <= current_water.surface_height:
-				move_mode = MOVEMODE.SWIMMING;
-				motion_mode = CharacterBody3D.MOTION_MODE_FLOATING;
-		else:
-			if water_checker.global_position.y > current_water.surface_height:
-				move_mode = MOVEMODE.WALKING;
-				motion_mode = CharacterBody3D.MOTION_MODE_GROUNDED;
+	#if current_water:
+	#	if move_mode != MOVEMODE.SWIMMING:
+	#		if water_checker.global_position.y <= current_water.surface_height:
+	#			move_mode = MOVEMODE.SWIMMING;
+	#			motion_mode = CharacterBody3D.MOTION_MODE_FLOATING;
+	#	else:
+	#		if water_checker.global_position.y > current_water.surface_height:
+	#			move_mode = MOVEMODE.WALKING;
+	#			motion_mode = CharacterBody3D.MOTION_MODE_GROUNDED;
 	
 	velocity.y += get_gravity().y * delta;
 	
@@ -78,6 +83,7 @@ func _physics_process(delta: float) -> void:
 			_: velocity.y = 0; model_3d.play_animation("Idle", true);
 	
 	camera_pivot.global_position = global_position + Vector3.UP;
+	check_walking_into_enemy();
 	return
 
 
@@ -187,14 +193,31 @@ func check_interaction(interact: bool) -> void:
 				else:
 					show_interaction = true;
 					interaction_text = interact_comp.get_interaction_text();
-		
-		if collider is EnemyCharacter and interact:
-			var enemy_group := (collider as EnemyCharacter).enemy_group;
-			if enemy_group.enemy_ids.size() > 0:
-				GameData.main_scene.instantiate_battle_scene(global_transform, enemy_group);
 	
 	if explore_ui:
 		explore_ui.update_interaction_text(show_interaction, interaction_text);
+	return
+
+
+func check_attack() -> void:
+	if is_jumping or !hitshape_attack.has_overlapping_bodies():
+		return
+	
+	for body in hitshape_attack.get_overlapping_bodies():
+		if body is EnemyCharacter:
+			var enemy_group := (body as EnemyCharacter).enemy_group;
+			if enemy_group.enemy_ids.size() > 0:
+				GameData.main_scene.instantiate_battle_scene(global_transform, enemy_group, 1);
+	return
+
+
+func check_walking_into_enemy() -> void:
+	var last_collision := get_last_slide_collision();
+	if last_collision:
+		if last_collision.get_collider() is EnemyCharacter:
+			var enemy_group := (last_collision.get_collider() as EnemyCharacter).enemy_group;
+			if enemy_group.enemy_ids.size() > 0:
+				GameData.main_scene.instantiate_battle_scene(global_transform, enemy_group, 0);
 	return
 
 

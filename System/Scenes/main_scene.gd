@@ -134,7 +134,7 @@ func clear_talking_ui() -> void:
 	return
 
 
-func instantiate_battle_scene(scene_transform: Transform3D, enemy_group: EnemyGroup) -> void:
+func instantiate_battle_scene(scene_transform: Transform3D, enemy_group: EnemyGroup, advantage: int) -> void:
 	if enemy_group == null:
 		return
 	
@@ -147,7 +147,7 @@ func instantiate_battle_scene(scene_transform: Transform3D, enemy_group: EnemyGr
 		world_scene.change_all_actors_visibility(false);
 		
 		battle_scene.global_transform = scene_transform;
-		battle_scene.initiate_field(enemy_group.enemy_ids);
+		battle_scene.initiate_battle(enemy_group.enemy_ids, advantage);
 		
 		AudioManager.play_battle_music(2);
 	return

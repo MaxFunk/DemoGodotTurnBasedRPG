@@ -7,8 +7,8 @@ enum CHARTASK {IDLE, WANDERING, GUARDING}
 @onready var nav_agent := $NavigationAgent3D as NavigationAgent3D;
 @onready var view_area := $ViewArea as Area3D;
 @onready var view_colshape := $ViewArea/ViewAreaColShape as CollisionShape3D;
-@onready var raycast_attack := $RayCastAttack as RayCast3D;
 @onready var timer_path_fetch := $TimerPathFetch as Timer;
+@onready var hitshape_attack := $HitshapeAttack as Area3D;
 
 var model_3d: Model3D;
 var enemy_group: EnemyGroup;
@@ -43,7 +43,7 @@ func _ready() -> void:
 	view_colshape.shape = box_shape;
 	view_colshape.position.z -= view_range / 2.0;
 	
-	raycast_attack.target_position.z = -attack_range;
+	#raycast_attack.target_position.z = -attack_range;
 	
 	sqr_max_walk_range = max_walk_range * max_walk_range;
 	return
@@ -140,19 +140,21 @@ func new_following_target() -> void:
 
 func start_attack() -> void:
 	char_state = CHARSTATE.ATTACKING;
-	timer_path_fetch.start(1.0); # attack after x seconds
+	timer_path_fetch.start(0.75); # attack after x seconds
 	model_3d.play_animation(attack_anim_name, true);
 	return
 
 
 func check_for_player_hit() -> void:
-	if raycast_attack.is_colliding():
-		var collider := raycast_attack.get_collider();
-		if collider is PlayerCharacter:
+	if !hitshape_attack.has_overlapping_bodies():
+		return
+	
+	for body in hitshape_attack.get_overlapping_bodies():
+		if body is PlayerCharacter:
 			is_waiting = true;
 			if enemy_group.enemy_ids.size() > 0:
-				var player := collider as PlayerCharacter;
-				GameData.main_scene.instantiate_battle_scene(player.global_transform, enemy_group);
+				var player := body as PlayerCharacter;
+				GameData.main_scene.instantiate_battle_scene(player.global_transform, enemy_group, -1);
 	return
 
 
@@ -181,8 +183,8 @@ func _on_timer_path_fetch_timeout() -> void:
 		CHARSTATE.RETURNING:
 			new_returning_target();
 		CHARSTATE.ATTACKING:
-			timer_path_fetch.stop();
 			check_for_player_hit();
+			timer_path_fetch.start(0.1);
 		_:
 			timer_path_fetch.stop();
 			model_3d.play_animation("Idle");
@@ -207,5 +209,6 @@ func _on_navigation_agent_3d_navigation_finished() -> void:
 
 func on_model_3d_animation_finished(anim_name: String) -> void:
 	if anim_name == attack_anim_name and char_state == CHARSTATE.ATTACKING:
+		timer_path_fetch.stop();
 		new_following_target();
 	return

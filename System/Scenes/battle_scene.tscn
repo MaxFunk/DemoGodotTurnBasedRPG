@@ -90,6 +90,20 @@ tracks/6/keys = {
 "update": 0,
 "values": [Vector3(0, 0, 0), Vector3(0, 1, 3)]
 }
+tracks/7/type = "method"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("BattleUI")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0],
+"method": &"write_advantage"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_bh76i"]
 resource_name = "BattleWon"
@@ -325,7 +339,7 @@ anchor_bottom = 1.0
 offset_left = -960.0
 offset_top = -540.0
 offset_right = 960.0
-offset_bottom = -0.00036621094
+offset_bottom = -0.0009765625
 grow_horizontal = 2
 grow_vertical = 0
 color = Color(0, 0, 0, 1)

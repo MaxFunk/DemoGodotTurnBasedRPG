@@ -39,6 +39,7 @@ enum MENUSTATE {OFF, MAIN, ARTS, ITEMS, TACTICS, TARGETING, INSPECT}
 @onready var lbl_description := $LabelDescription as Label;
 @onready var lbl_action_name := $LabelActionName as Label;
 @onready var dmg_numbers := $DamageNumbers as Control;
+@onready var lbl_advantage := $LabelAdvantage as Label;
 
 var battle_scene: BattleScene;
 var cur_action: ActionData = null;
@@ -424,4 +425,14 @@ func create_damage_number(action_result: ActionResult, target: BattleData, art: 
 	get_viewport().get_camera_3d()
 	dmg_numbers.add_child(number_node);
 	number_node.set_text_data(action_result, screen_pos, art);
+	return
+
+
+func write_advantage(value: int) -> void:
+	if value == 0:
+		lbl_advantage.text = "";
+		lbl_advantage.visible = false;
+	else:
+		lbl_advantage.text = "HERO ADVANTAGE" if value > 0 else "ENEMY ADVANTAGE";
+		lbl_advantage.visible = true;
 	return

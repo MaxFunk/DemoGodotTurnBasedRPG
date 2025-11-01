@@ -60,13 +60,17 @@ func _process(_delta: float) -> void:
 	return
 
 
-func initiate_field(enemy_ids: PackedInt32Array) -> void:
+func initiate_battle(enemy_ids: PackedInt32Array, advantage: int) -> void:
 	assert(enemy_ids.size() > 0, "No ids for opponents");
 	
 	initiate_battle_data_objects(enemy_ids);
 	spawn_battle_chars();
-	determine_turn_order();
+	determine_initial_turn_order(advantage);
 	battle_ui.init_battle_ui(self);
+	battle_ui.write_advantage(advantage);
+	
+	for data in turn_order:
+		print(data.name, " ", data.stats[5]);
 	
 	camera.make_current();
 	battle_transitions.play("BattleEntrance");
@@ -120,15 +124,32 @@ func spawn_battle_chars() -> void:
 	return
 
 
-func determine_turn_order() -> void:
+func determine_initial_turn_order(advantage: int) -> void:
+	var turn_order_heros: Array[BattleData] = [];
+	var turn_order_enemies: Array[BattleData] = [];
+	turn_order.clear();
+	
 	for hero in active_heros:
 		if hero != null:
-			turn_order.append(hero);
+			turn_order_heros.append(hero);
 	for oppo in opponents:
 		if oppo != null:
-			turn_order.append(oppo);
+			turn_order_enemies.append(oppo);
 	
-	turn_order.sort_custom(sort_agility);
+	if advantage < 0:
+		turn_order_heros.sort_custom(sort_agility);
+		turn_order_enemies.sort_custom(sort_agility);
+		turn_order.append_array(turn_order_enemies);
+		turn_order.append_array(turn_order_heros);
+	elif advantage > 0:
+		turn_order_heros.sort_custom(sort_agility);
+		turn_order_enemies.sort_custom(sort_agility);
+		turn_order.append_array(turn_order_heros);
+		turn_order.append_array(turn_order_enemies);
+	else:
+		turn_order.append_array(turn_order_heros);
+		turn_order.append_array(turn_order_enemies);
+		turn_order.sort_custom(sort_agility);
 	return
 
 ## Does everything that happen when a new turn begins

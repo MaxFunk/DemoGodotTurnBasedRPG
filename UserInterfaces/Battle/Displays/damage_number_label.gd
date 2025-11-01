@@ -44,6 +44,11 @@ func set_text_data(action_result: ActionResult, screen_pos: Vector2, art: Battle
 	else:
 		text = str(action_result.damage);
 	
+	if action_result.attribute_multiplier > 1.0:
+		text += "+";
+	elif action_result.attribute_multiplier < 1.0:
+		text += "-";
+	
 	if action_result.is_crit:
 		text += "!";
 	return

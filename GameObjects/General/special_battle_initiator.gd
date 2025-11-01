@@ -43,9 +43,9 @@ func on_animation_finished(anim_name: StringName) -> void:
 		var enemy_group := EnemyGroup.new();
 		enemy_group.enemy_ids = opponent_ids;
 		if battle_marker:
-			GameData.main_scene.instantiate_battle_scene(battle_marker.global_transform, enemy_group);
+			GameData.main_scene.instantiate_battle_scene(battle_marker.global_transform, enemy_group, 0);
 		else:
-			GameData.main_scene.instantiate_battle_scene(global_transform, enemy_group);
+			GameData.main_scene.instantiate_battle_scene(global_transform, enemy_group, 0);
 	return
 
 
