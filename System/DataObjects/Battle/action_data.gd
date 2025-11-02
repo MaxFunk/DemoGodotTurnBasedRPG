@@ -123,25 +123,20 @@ func cast_action() -> void:
 		for i in targets.size():
 			var action_cast: ActionCast = action_cast_scene.instantiate();
 			battle_scene.add_child(action_cast);
-			if action_cast.has_own_camera:
-				action_cast.camera.make_current();
 			action_cast.start_cast_animation(self, i);
 			action_casts.append(action_cast);
 	else:
 		var action_cast: ActionCast = action_cast_scene.instantiate();
 		battle_scene.add_child(action_cast);
-		if action_cast.has_own_camera:
-			action_cast.camera.make_current();
 		action_cast.start_cast_animation(self, 0);
 		action_casts.append(action_cast);
 	
-	if action_casts.size() > 1:
-		# TODO: idk lol
-		if action_casts[0].has_own_camera:
-			action_casts[0].camera.make_current();
-	elif action_casts.size() == 1:
-		if action_casts[0].has_own_camera:
-			action_casts[0].camera.make_current();
+	action_casts[0].write_camera_marker(battle_scene);
+	#if action_casts.size() > 1:
+	#	# TODO: idk lol
+	#	action_casts[0].write_camera_marker(battle_scene);
+	#elif action_casts.size() == 1:
+	#	action_casts[0].write_camera_marker(battle_scene);
 	
 	check_casts = true;
 	return

@@ -7,7 +7,7 @@ enum CASTTYPE {TOWARDS_TARGET, ON_TARGET, GLOBAL}
 
 @export var cast_steps: int = 1;
 @export var anim_player: AnimationPlayer;
-@export var camera: Camera3D;
+@export var marker_camera: Marker3D;
 @export var cast_type := CASTTYPE.TOWARDS_TARGET;
 
 var action: ActionData;
@@ -15,7 +15,6 @@ var cast_step: int = 1;
 var target_idx: int = 0;
 
 var is_invalid: bool = false;
-var has_own_camera: bool = false;
 var is_finished: bool = false;
 var wait_cast_hit: bool = false;
 
@@ -25,8 +24,14 @@ func _ready() -> void:
 		anim_player.animation_finished.connect(on_animation_finished);
 	else:
 		is_invalid = true;
-	
-	has_own_camera = camera != null;
+	return
+
+
+func write_camera_marker(battle_scene: BattleScene) -> void:
+	if marker_camera:
+		battle_scene.update_camera_marker(marker_camera, false);
+	else:
+		battle_scene.update_camera_marker(self, true);
 	return
 
 

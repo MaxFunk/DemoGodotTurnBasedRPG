@@ -81,7 +81,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("CameraPivot:position")
+tracks/6/path = NodePath("PivotTargeting:position")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -182,7 +182,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("CameraPivot:position")
+tracks/6/path = NodePath("PivotTargeting:position")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -194,7 +194,7 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("CameraPivot:rotation")
+tracks/7/path = NodePath("PivotTargeting:rotation")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
@@ -281,7 +281,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("CameraPivot:position")
+tracks/6/path = NodePath("PivotTargeting:position")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -293,7 +293,7 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("CameraPivot:rotation")
+tracks/7/path = NodePath("PivotTargeting:rotation")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
@@ -339,7 +339,7 @@ anchor_bottom = 1.0
 offset_left = -960.0
 offset_top = -540.0
 offset_right = 960.0
-offset_bottom = -0.0009765625
+offset_bottom = -0.0013427734
 grow_horizontal = 2
 grow_vertical = 0
 color = Color(0, 0, 0, 1)
@@ -347,18 +347,13 @@ color = Color(0, 0, 0, 1)
 [node name="PostBattleMenu" parent="." instance=ExtResource("3_qg5a5")]
 visible = false
 
-[node name="CameraPivot" type="Marker3D" parent="."]
+[node name="PivotTargeting" type="Marker3D" parent="."]
 
-[node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot"]
+[node name="SpringArm3D" type="SpringArm3D" parent="PivotTargeting"]
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 1, 0)
 spring_length = 3.5
 
-[node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]
-
-[node name="Camera2Pivot" type="Marker3D" parent="."]
-
-[node name="Camera2" type="Camera3D" parent="Camera2Pivot"]
-transform = Transform3D(1, -9.1951e-16, 3.43166e-15, 0, 0.965926, 0.258819, -3.55271e-15, -0.258819, 0.965926, 0.4, 1.6, 0.8)
+[node name="MarkerTargeting" type="Marker3D" parent="PivotTargeting/SpringArm3D"]
 
 [node name="SpawnMarker" type="Node3D" parent="."]
 
@@ -404,3 +399,11 @@ transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 
 
 [node name="CamMarkerAllOppos" type="Marker3D" parent="CameraMarker"]
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, -3)
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(1, -9.195088e-16, 3.4316547e-15, 0, 0.9659259, 0.25881898, -3.55271e-15, -0.25881898, 0.9659259, 0.4, 1.6, 0.8)
+
+[node name="PivotDecision" type="Marker3D" parent="."]
+
+[node name="MarkerDecision" type="Marker3D" parent="PivotDecision"]
+transform = Transform3D(0.17364822, -0.17101006, 0.96984625, 0, 0.9848077, 0.17364818, -0.9848077, -0.030153697, 0.1710101, 0.765, 1.35, -0.25)

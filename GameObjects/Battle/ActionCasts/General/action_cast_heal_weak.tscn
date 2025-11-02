@@ -66,10 +66,10 @@ _data = {
 &"RESET": SubResource("Animation_a507o")
 }
 
-[node name="ActionCastHealWeak" type="Node3D" node_paths=PackedStringArray("anim_player", "camera")]
+[node name="ActionCastHealWeak" type="Node3D" node_paths=PackedStringArray("anim_player", "marker_camera")]
 script = ExtResource("1_rv2d6")
 anim_player = NodePath("AnimationPlayer")
-camera = NodePath("Camera3D")
+marker_camera = NodePath("MarkerCamera")
 cast_type = 1
 metadata/_custom_type_script = "uid://cxjapwq4ou0in"
 
@@ -82,7 +82,7 @@ emission_shape = 1
 emission_sphere_radius = 1.0
 gravity = Vector3(0, 9.8, 0)
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="MarkerCamera" type="Marker3D" parent="."]
 transform = Transform3D(-1, 4.37114e-08, -7.57103e-08, 0, 0.866025, 0.5, 8.74228e-08, 0.5, -0.866025, 0, 3, -3)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

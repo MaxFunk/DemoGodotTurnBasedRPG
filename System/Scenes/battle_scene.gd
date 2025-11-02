@@ -7,13 +7,12 @@ const PostBattleUI := preload("res://UserInterfaces/Battle/PostBattle/post_battl
 @onready var post_battle_ui := $PostBattleMenu as PostBattleUI;
 @onready var battle_transitions := $BattleTransitions as AnimationPlayer;
 
-# Targeting Camera
-@onready var cam_pivot := $CameraPivot as Marker3D;
-@onready var cam_arm := $CameraPivot/SpringArm3D as SpringArm3D;
-@onready var camera := $CameraPivot/SpringArm3D/Camera3D as Camera3D;
-# Behind Camera
-@onready var cam_2_pivot := $Camera2Pivot as Marker3D;
-@onready var camera_2 := $Camera2Pivot/Camera2 as Camera3D;
+# Camera Markers
+@onready var camera := $Camera as Camera3D;
+@onready var pivot_targeting := $PivotTargeting as Marker3D;
+@onready var marker_targeting := $PivotTargeting/SpringArm3D/MarkerTargeting as Marker3D;
+@onready var pivot_decision := $PivotDecision as Marker3D;
+@onready var marker_decision := $PivotDecision/MarkerDecision as Marker3D;
 
 @onready var hero_spawnpoints: Array[Marker3D] = [
 	$SpawnMarker/HeroSpawnMiddle as Marker3D,
@@ -41,6 +40,10 @@ var next_round: Array[BattleData] = [];
 var cur_actor: BattleData = null;
 var cur_action: ActionData = null;
 
+var cam_marker: Node3D = null;
+var cam_interpolate: bool = false;
+var cam_interp_value: float = 0.0;
+
 var exp_cashout: int = 0;
 var battle_ending: bool = false;
 
@@ -52,9 +55,19 @@ func _ready() -> void:
 	return
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if cur_action:
 		cur_action.process();
+	
+	if cam_marker and cam_marker.is_inside_tree():
+		if cam_interpolate:
+			camera.global_transform = camera.global_transform.interpolate_with(cam_marker.global_transform, cam_interp_value);
+			cam_interp_value += delta * 2.0;
+			if cam_interp_value > 1.0:
+				cam_interpolate = false;
+		else:
+			camera.global_position = cam_marker.global_position;
+			camera.global_rotation = cam_marker.global_rotation;
 	return
 
 
@@ -160,7 +173,11 @@ func on_begin_turn() -> void:
 	turn_order.remove_at(0);
 	cur_actor.on_turn_begin();
 	
-	update_camera_2_positioning();
+	if cur_actor.is_hero:
+		pivot_decision.global_transform = hero_spawnpoints[cur_actor.position].global_transform;
+	else:
+		pivot_decision.global_transform = enemy_spawnpoints[cur_actor.position - 3].global_transform;
+	update_camera_marker(marker_decision, false);
 	
 	print("Begin turn: ", cur_actor.name);
 	if cur_actor.is_hero:
@@ -207,39 +224,48 @@ func opponent_turn_decision() -> void:
 
 
 func update_camera_targeting(action: ActionData) -> void:
-	if !action:
-		update_camera_2_positioning();
+	if action == null:
+		update_camera_marker(marker_decision, true);
 		return
 	
-	camera.make_current();
 	match action.target_type:
 		action.TARGETTYPE.SINGLE_OPPONENT:
-			cam_pivot.transform = opponents[action.index_target].battle_char.transform;
-			#cam_pivot.rotate_y(PI);
+			pivot_targeting.transform = opponents[action.index_target].battle_char.transform;
+			pivot_targeting.rotate_y(PI);
 		action.TARGETTYPE.SINGLE_ALLY, action.TARGETTYPE.SELF_ONLY:
-			cam_pivot.transform = active_heros[action.index_target].battle_char.transform;
+			pivot_targeting.transform = active_heros[action.index_target].battle_char.transform;
+			pivot_targeting.rotate_y(PI);
 		action.TARGETTYPE.ALL_OPPONENTS:
-			cam_pivot.transform = camera_markers[2].transform;
+			pivot_targeting.transform = camera_markers[2].transform;
 		action.TARGETTYPE.ALL_ALLIES:
-			cam_pivot.transform = camera_markers[1].transform;
+			pivot_targeting.transform = camera_markers[1].transform;
 		action.TARGETTYPE.ALL:
-			cam_pivot.transform = camera_markers[0].transform;
+			pivot_targeting.transform = camera_markers[0].transform;
 		action.TARGETTYPE.SINGLE_EVERYONE:
 			if action.index_target < 3:
-				cam_pivot.transform = active_heros[action.index_target].battle_char.transform;
+				pivot_targeting.transform = active_heros[action.index_target].battle_char.transform;
 			else:
-				cam_pivot.transform = opponents[action.index_target - 3].battle_char.transform;
+				pivot_targeting.transform = opponents[action.index_target - 3].battle_char.transform;
+			pivot_targeting.rotate_y(PI);
 		_:
 			pass
+	
+	update_camera_marker(marker_targeting, true);
 	return
 
 
-func update_camera_2_positioning() -> void:
-	camera_2.make_current();
-	if cur_actor.is_hero:
-		cam_2_pivot.global_transform = hero_spawnpoints[cur_actor.position].global_transform;
+func update_camera_marker(node: Node3D, with_interpolation: bool) -> void:
+	if node == null:
+		return
+	
+	cam_marker = node;
+	if with_interpolation:
+		cam_interpolate = true;
+		cam_interp_value = 0.0;
 	else:
-		cam_2_pivot.global_transform = enemy_spawnpoints[cur_actor.position - 3].global_transform;
+		camera.global_position = node.global_position;
+		camera.global_rotation = node.global_rotation;
+	camera.make_current();
 	return
 
 
@@ -275,8 +301,8 @@ func on_character_defeated(chd: BattleData) -> void:
 		for oppo in opponents:
 			if oppo != null: return
 		
-		camera.make_current();
 		battle_transitions.play("BattleWon");
+		update_camera_marker(marker_targeting, false);
 		await battle_transitions.animation_finished;
 		
 		battle_ending = true;

@@ -297,7 +297,8 @@ func change_menu_state(new_state: MENUSTATE) -> void:
 	prev_menu_state = menu_state;
 	if prev_menu_state == MENUSTATE.TARGETING and new_state != MENUSTATE.INSPECT:
 		reset_display_selection();
-		battle_scene.update_camera_targeting(null);
+		if new_state != MENUSTATE.OFF:
+			battle_scene.update_camera_targeting(null);
 	
 	menu_state = new_state;
 	battle_menu_main.visible = menu_state == MENUSTATE.MAIN;
@@ -316,7 +317,7 @@ func change_menu_state(new_state: MENUSTATE) -> void:
 			reset_display_selection();
 		MENUSTATE.MAIN:
 			cur_action = null;
-			battle_scene.update_camera_targeting(null);
+			#battle_scene.update_camera_targeting(null);
 			update_description(battle_menu_main.get_description_text(index_main));
 		MENUSTATE.ARTS:
 			battle_menu_arts.update_ui(battle_scene.cur_actor);

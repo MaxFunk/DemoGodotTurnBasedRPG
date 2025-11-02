@@ -7,7 +7,7 @@ resource_name = "Cast1"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Camera3D:position")
+tracks/0/path = NodePath("MarkerCamera:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -19,7 +19,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Camera3D:rotation")
+tracks/1/path = NodePath("MarkerCamera:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -48,7 +48,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Camera3D:position")
+tracks/0/path = NodePath("MarkerCamera:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -60,7 +60,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Camera3D:rotation")
+tracks/1/path = NodePath("MarkerCamera:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -76,10 +76,10 @@ _data = {
 &"RESET": SubResource("Animation_6ax5p")
 }
 
-[node name="ActionCastBlock" type="Node3D" node_paths=PackedStringArray("anim_player", "camera")]
+[node name="ActionCastBlock" type="Node3D" node_paths=PackedStringArray("anim_player", "marker_camera")]
 script = ExtResource("1_2jgqp")
 anim_player = NodePath("AnimationPlayer")
-camera = NodePath("Camera3D")
+marker_camera = NodePath("MarkerCamera")
 cast_type = 1
 metadata/_custom_type_script = "uid://cxjapwq4ou0in"
 
@@ -88,5 +88,5 @@ libraries = {
 &"": SubResource("AnimationLibrary_6ax5p")
 }
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="MarkerCamera" type="Marker3D" parent="."]
 transform = Transform3D(-0.8660254, 0, 0.50000006, 0, 1, 0, -0.50000006, 0, -0.8660254, 2, 1, -3)
