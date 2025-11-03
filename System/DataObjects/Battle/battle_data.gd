@@ -33,6 +33,8 @@ var arts: Array[BattleArt] = [null, null, null, null, null, null, null, null];
 var default_attack: BattleArt;
 var ult_points: int = 50;
 
+var actions_done: int = 0;
+var max_actions: int = 1;
 var exp_on_defeat: int = 0;
 
 var is_blocking: bool = false;
@@ -50,37 +52,39 @@ func load_opponent_data(load_id: int) -> void:
 	var data := ResourceManager.get_opponent_data(load_id);
 	id = load_id;
 	
-	name = data.get("name");
-	level = int(data.get("level"));
-	hp_max = int(data.get("health"));
+	# actions +++ str(..) to make it "SAFE"
+	name = str(data.get("name"));
+	level = int(str(data.get("level")));
+	max_actions = int(str(data.get("actions")));
+	hp_max = int(str(data.get("health")));
 	hp_cur = hp_max;
 	
-	var stat_data := (data.get("stats") as String).split(",");
+	var stat_data := str(data.get("stats")).split(",");
 	for i in range(6):
 		stats[i] = int(stat_data[i]);
 	
 	
-	var attr_weak_data := (data.get("attr_weak") as String).split(",");
+	var attr_weak_data := str(data.get("attr_weak")).split(",");
 	if attr_weak_data.get(0) != "":
 		for i in range(attr_weak_data.size()):
 			attribute_weak.append(int(attr_weak_data[i]));
 		
-	var attr_res_data := (data.get("attr_resist") as String).split(",");
+	var attr_res_data := str(data.get("attr_resist")).split(",");
 	if attr_res_data.get(0) != "":
 		for i in range(attr_res_data.size()):
 			attribute_resist.append(int(attr_res_data[i]));
 		
-	var attr_block_data := (data.get("attr_block") as String).split(",");
+	var attr_block_data := str(data.get("attr_block")).split(",");
 	if attr_block_data.get(0) != "":
 		for i in range(attr_block_data.size()):
 			attribute_block.append(int(attr_block_data[i]));
 	
 	
-	var art_data := (data.get("art_ids") as String).split(",");
+	var art_data := str(data.get("art_ids")).split(",");
 	for i in range(min(8, art_data.size())):
 		arts[i] = BattleArt.new(int(art_data[i]));
 	
-	exp_on_defeat = int(data.get("exp_on_defeat"));
+	exp_on_defeat = int(str(data.get("exp_on_defeat")));
 	return
 
 
@@ -118,6 +122,8 @@ func write_back_character_data() -> void:
 
 
 func on_turn_begin() -> void:
+	actions_done = 0;
+	
 	if is_blocking:
 		is_blocking = false;
 	

@@ -7,6 +7,7 @@ extends Area3D
 
 @export var animation_name: StringName;
 @export var opponent_ids: Array[int] = [];
+@export var music_id: int = 10;
 
 var anim_valid: bool = true;
 
@@ -42,6 +43,7 @@ func on_animation_finished(anim_name: StringName) -> void:
 		player.move_mode = player.MOVEMODE.WALKING;
 		var enemy_group := EnemyGroup.new();
 		enemy_group.enemy_ids = opponent_ids;
+		enemy_group.music_id = music_id;
 		if battle_marker:
 			GameData.main_scene.instantiate_battle_scene(battle_marker.global_transform, enemy_group, 0);
 		else:

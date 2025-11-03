@@ -1,7 +1,7 @@
 class_name PlayerCharacter
 extends CharacterBody3D
 
-enum MOVEMODE {WALKING = 0, SWIMMING = 1, CAM_ONLY = 2, NONE = 9}
+enum MOVEMODE {WALKING = 0, SWIMMING = 1, BATTLEARMOR = 2, CAM_ONLY = 3, NONE = 9}
 
 @onready var camera_pivot := $CameraPivot as Marker3D;
 @onready var spring_arm := $CameraPivot/SpringArm as SpringArm3D;
@@ -80,10 +80,15 @@ func _physics_process(delta: float) -> void:
 		match move_mode:
 			MOVEMODE.WALKING: process_walking(delta);
 			MOVEMODE.SWIMMING: process_swimming(delta);
+			MOVEMODE.BATTLEARMOR: process_battlearmor(delta);
 			_: velocity.y = 0; model_3d.play_animation("Idle", true);
 	
 	camera_pivot.global_position = global_position + Vector3.UP;
 	check_walking_into_enemy();
+	
+	# Minimap update
+	if GameData.main_scene.world_scene.exploration_ui:
+		GameData.main_scene.world_scene.exploration_ui.minimap_update(self);
 	return
 
 
@@ -143,10 +148,6 @@ func process_walking(delta: float) -> void:
 	if !on_floor and !is_jumping and !is_falling and !is_coyote_time:
 		is_coyote_time = true;
 		timer_coyote.start();
-	
-	# Minimap update
-	if GameData.main_scene.world_scene.exploration_ui:
-		GameData.main_scene.world_scene.exploration_ui.minimap_update(self);
 	return
 
 
@@ -175,6 +176,21 @@ func process_swimming(delta: float) -> void:
 			model_3d.play_animation("Run", true, 2.0 * input_speed);
 		else:
 			model_3d.play_animation("Walk", true, 1.7 * input_speed);
+	return
+
+
+func process_battlearmor(delta: float) -> void:
+	var horizontal_input := Input.get_vector("L_Stick_Left", "L_Stick_Right", "L_Stick_Up", "L_Stick_Down");
+	var vertical_input := Input.get_axis("ZL", "ZR");
+	var boost_mult: float = 6.0 if Input.is_action_pressed("Btn_B") else 3.0;
+	
+	var movement_dir := camera_pivot.transform.basis * Vector3(horizontal_input.x, 0, horizontal_input.y);
+	velocity.x = movement_dir.x * move_speed * delta * boost_mult;
+	velocity.z = movement_dir.z * move_speed * delta * boost_mult;
+	velocity.y = vertical_input * move_speed * delta * 2.0;
+	if movement_dir.length_squared() > 0.0:
+		look_at(global_position + movement_dir);
+	move_and_slide();
 	return
 
 
@@ -213,11 +229,27 @@ func check_attack() -> void:
 
 func check_walking_into_enemy() -> void:
 	var last_collision := get_last_slide_collision();
-	if last_collision:
-		if last_collision.get_collider() is EnemyCharacter:
-			var enemy_group := (last_collision.get_collider() as EnemyCharacter).enemy_group;
+	if last_collision == null:
+		return
+	for i in last_collision.get_collision_count():
+		if last_collision.get_collider(i) is EnemyCharacter:
+			var enemy_group := (last_collision.get_collider(i) as EnemyCharacter).enemy_group;
 			if enemy_group.enemy_ids.size() > 0:
 				GameData.main_scene.instantiate_battle_scene(global_transform, enemy_group, 0);
+				break;
+	return
+
+
+func toggle_battlearmor() -> void:
+	if move_mode == MOVEMODE.WALKING and not is_jumping:
+		#motion_mode = CharacterBody3D.MOTION_MODE_FLOATING;
+		move_mode = MOVEMODE.BATTLEARMOR;
+		floor_stop_on_slope = false;
+		model_3d.play_animation("Fall", true);
+	elif move_mode == MOVEMODE.BATTLEARMOR:
+		#motion_mode = CharacterBody3D.MOTION_MODE_GROUNDED;
+		move_mode = MOVEMODE.WALKING;
+		floor_stop_on_slope = true;
 	return
 
 

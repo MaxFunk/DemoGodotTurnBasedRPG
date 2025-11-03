@@ -149,7 +149,7 @@ func instantiate_battle_scene(scene_transform: Transform3D, enemy_group: EnemyGr
 		battle_scene.global_transform = scene_transform;
 		battle_scene.initiate_battle(enemy_group.enemy_ids, advantage);
 		
-		AudioManager.play_battle_music(2);
+		AudioManager.play_battle_music(enemy_group.music_id);
 	return
 
 

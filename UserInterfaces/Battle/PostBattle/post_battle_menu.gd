@@ -62,7 +62,7 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("Btn_B"):
 		if !is_gameover and is_learning_art and allow_art_selection:
 			allow_art_selection = false;
-			lvlup_ui.update_newart(newart_id, allow_art_selection);
+			lvlup_ui.update_new_art(newart_id, allow_art_selection);
 			GameData.characters[idx_lvlup].learned_art_ids.append(newart_id);
 			lvlup_ui.update_view(idx_lvlup, true);
 			is_learning_art = false;
@@ -82,7 +82,7 @@ func _input(event: InputEvent) -> void:
 			idx_gameover = mini(idx_gameover + 1, 2);
 			gameover_lbls_selection();
 		elif allow_art_selection:
-			idx_art_learn = mini(idx_art_learn + 1, 6);
+			idx_art_learn = mini(idx_art_learn + 1, 7);
 			lvlup_ui.update_selection_position(idx_art_learn);
 	return
 
@@ -102,24 +102,26 @@ func input_confirm_overview() -> void:
 
 
 func input_confirm_levelup() -> void:
+	var character := GameData.characters[idx_lvlup];
+	
 	if is_learning_art:
 		allow_art_selection = false;
-		lvlup_ui.update_newart(newart_id, allow_art_selection);
-		GameData.characters[idx_lvlup].learn_art(newart_id, idx_art_learn);
+		lvlup_ui.update_new_art(newart_id, allow_art_selection);
+		character.learn_art(newart_id, idx_art_learn);
 		lvlup_ui.update_view(idx_lvlup, true);
 		is_learning_art = false;
 		return
 	
-	if GameData.characters[idx_lvlup].level_up_art_ids.size() > 0:
-		newart_id = GameData.characters[idx_lvlup].level_up_art_ids[0];
-		GameData.characters[idx_lvlup].level_up_art_ids.remove_at(0);
+	if character.level_up_art_ids.size() > 0:
+		newart_id = character.level_up_art_ids[0];
+		character.level_up_art_ids.remove_at(0);
 		
 		is_learning_art = true;
-		var num_arts: int = GameData.characters[idx_lvlup].get_number_of_arts();
-		allow_art_selection = num_arts >= 7;
+		var num_arts: int = character.get_number_of_arts();
+		allow_art_selection = num_arts >= character.art_ids.size();
 		idx_art_learn = 0 if allow_art_selection else num_arts;
 		
-		lvlup_ui.update_newart(newart_id, allow_art_selection);
+		lvlup_ui.update_new_art(newart_id, allow_art_selection);
 		return
 	
 	if get_next_levelup_char() == false:

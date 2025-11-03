@@ -337,6 +337,7 @@ camera_3d = NodePath("Camera3D")
 battle_marker = NodePath("BattleCenterMarker")
 animation_name = &"SpecialStart"
 opponent_ids = Array[int]([6])
+music_id = 12
 metadata/_custom_type_script = "uid://dajvjvfw1fjs8"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SpecialBattleInitiator"]

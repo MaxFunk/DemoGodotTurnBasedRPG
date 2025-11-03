@@ -207,6 +207,12 @@ func commit_action(action: ActionData) -> void:
 
 ## Does everything that happen when current turn ends
 func on_end_turn() -> void:
+	if cur_actor.is_hero == false:
+		cur_actor.actions_done += 1;
+		if cur_actor.actions_done < cur_actor.max_actions:
+			opponent_turn_decision();
+			return
+	
 	cur_actor.on_turn_end();
 	check_fields(cur_actor);
 	next_round.append(cur_actor);

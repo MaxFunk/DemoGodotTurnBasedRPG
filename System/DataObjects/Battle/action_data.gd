@@ -58,22 +58,22 @@ func commit_targets() -> void:
 		TARGETTYPE.ALL_OPPONENTS:
 			if user.is_hero:
 				for oppo in battle_scene.opponents:
-					if oppo != null: targets.append(oppo);
+					if oppo != null and !oppo.is_defeated: targets.append(oppo);
 			else:
 				for hero in battle_scene.active_heros:
-					if hero != null: targets.append(hero);
+					if hero != null and !hero.is_defeated: targets.append(hero);
 		TARGETTYPE.ALL_ALLIES:
 			if user.is_hero:
 				for hero in battle_scene.active_heros:
-					if hero != null: targets.append(hero);
+					if hero != null and !hero.is_defeated: targets.append(hero);
 			else:
 				for oppo in battle_scene.opponents:
-					if oppo != null: targets.append(oppo);
+					if oppo != null and !oppo.is_defeated: targets.append(oppo);
 		TARGETTYPE.ALL:
 			for hero in battle_scene.active_heros:
-				if hero != null: targets.append(hero);
+				if hero != null and !hero.is_defeated: targets.append(hero);
 			for oppo in battle_scene.opponents:
-				if oppo != null: targets.append(oppo);
+				if oppo != null and !oppo.is_defeated: targets.append(oppo);
 		TARGETTYPE.SINGLE_EVERYONE:
 			if index_target < 3:
 				targets.append(battle_scene.active_heros[index_target]);

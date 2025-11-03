@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://c8cnnsy35sqlf"]
+
+[ext_resource type="Script" uid="uid://bublkxu5w7bs2" path="res://GameObjects/Interactables/Debug/debug_battle_armor_toggler.gd" id="1_nslqh"]
+[ext_resource type="PackedScene" uid="uid://ckxw05aoy0304" path="res://GameObjects/Interactables/interaction_component.tscn" id="2_dor7x"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_nslqh"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_nslqh"]
+radius = 0.2
+height = 0.4
+
+[node name="DebugBattleArmorToggler" type="Node3D"]
+script = ExtResource("1_nslqh")
+
+[node name="InteractionComponent" parent="." instance=ExtResource("2_dor7x")]
+interaction_text = "Toggle Battle Armor"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionComponent"]
+shape = SubResource("SphereShape3D_nslqh")
+debug_color = Color(0.73369837, 0.39332077, 0.67328703, 0.41960785)
+debug_fill = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="InteractionComponent"]
+mesh = SubResource("SphereMesh_nslqh")
+
+[connection signal="interaction" from="InteractionComponent" to="." method="_on_interaction_component_interaction"]

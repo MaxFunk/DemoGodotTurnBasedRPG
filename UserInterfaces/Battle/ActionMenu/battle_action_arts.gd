@@ -21,6 +21,6 @@ func update_ui(chd: BattleData) -> void:
 
 
 func update_selector(index: int) -> void:
-	var idx: int = clampi(index, 0, 6);
+	var idx: int = clampi(index, 0, 7);
 	selector.position.y = art_disps[idx].position.y;
 	return

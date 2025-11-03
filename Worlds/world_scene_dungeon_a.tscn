@@ -338,6 +338,7 @@ script = ExtResource("13_ynto7")
 battle_marker = NodePath("BattleCenterMarker")
 animation_name = &"SpecialStart"
 opponent_ids = Array[int]([5])
+music_id = 11
 metadata/_custom_type_script = "uid://dajvjvfw1fjs8"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SpecialBattleBoss"]

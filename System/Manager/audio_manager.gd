@@ -73,9 +73,12 @@ func play_battle_music(file_id: int) -> void:
 	return
 
 
-func get_music_file(file_id: int) -> AudioStreamMP3:
+func get_music_file(file_id: int) -> AudioStream:
 	match file_id:
 		0: return preload("res://Resources/Audio/titlescreen.mp3")
 		1: return preload("res://Resources/Audio/debugworld.mp3")
 		2: return preload("res://Resources/Audio/temp_battle.mp3")
+		10: return preload("res://Resources/Audio/Battle/smtvv_battle_vengence.ogg")
+		11: return preload("res://Resources/Audio/Battle/smtvv_battle_gliding.ogg")
+		12: return preload("res://Resources/Audio/Battle/smtvv_battle_bounce_and_roll.ogg")
 		_: return null

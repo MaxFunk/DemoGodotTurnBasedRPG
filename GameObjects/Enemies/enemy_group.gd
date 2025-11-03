@@ -5,6 +5,7 @@ enum TASK {IDLE, WANDERING, GUARDING}
 @export var group_task := TASK.IDLE;
 @export var enemy_ids: PackedInt32Array = [];
 @export var spawn_markers: Array[Marker3D] = [];
+@export var music_id: int = 10;
 
 var enemy_chars: Array[EnemyCharacter] = [];
 

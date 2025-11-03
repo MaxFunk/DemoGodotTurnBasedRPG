@@ -81,7 +81,7 @@ func update_view(index: int, show_stat_ups: bool) -> void:
 	return
 
 
-func update_newart(id: int, selection_visible: bool) -> void:
+func update_new_art(id: int, selection_visible: bool) -> void:
 	if id < 0:
 		cur_displayed_newart = null;
 		new_art_disp.visible = false;
