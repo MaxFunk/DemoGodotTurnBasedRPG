@@ -22,6 +22,7 @@ var action_casts: Array[ActionCast] = [];
 
 var check_casts: bool = false;
 var ult_points_adjusted: bool = false;
+var affected_by_ailment: bool = false;
 
 
 func _init(act_type: ACTIONTYPE, scene: BattleScene) -> void:
@@ -85,16 +86,15 @@ func commit_targets() -> void:
 
 
 func check_user_can_cast() -> bool:
-	if user.ailment == Ailments.STUNNED and randf() < 0.33:
-		print(user.name, " is stunned ...");
+	if user.ailment == Ailments.STUNNED and randf() < 0.333:
 		return false
 	
-	if user.ailment == Ailments.CONFUSED and randf() < 0.5:
+	if user.ailment == Ailments.CONFUSED and randf() < 0.333:
 		action_type = ACTIONTYPE.ATTACK;
 		target_type = TARGETTYPE.SINGLE_OPPONENT;
 		targets.clear();
 		targets = [battle_scene.get_random_opponent()];
-		print(user.name, " is confused ...");
+		affected_by_ailment = true;
 	return true
 
 
@@ -294,7 +294,7 @@ func init_target_index() -> void:
 		TARGETTYPE.SINGLE_OPPONENT:
 			index_target = 0;
 			for oppo in battle_scene.opponents:
-				if oppo != null:
+				if oppo != null and !oppo.is_defeated:
 					index_target = oppo.position - 3;
 					return
 		TARGETTYPE.SINGLE_ALLY, TARGETTYPE.SELF_ONLY:
@@ -308,7 +308,7 @@ func init_target_index() -> void:
 		TARGETTYPE.SINGLE_EVERYONE:
 			index_target = 0; # 0-2 = heros, 3-7 = opponents;
 			for oppo in battle_scene.opponents:
-				if oppo != null:
+				if oppo != null and !oppo.is_defeated:
 					index_target = oppo.position - 3;
 					return
 		_:
@@ -325,7 +325,8 @@ func next_target_index(dir: int) -> void:
 					index_target = 4;
 				if index_target >= 5:
 					index_target = 0;
-				if battle_scene.opponents[index_target] != null:
+				var oppo := battle_scene.opponents[index_target];
+				if oppo != null and !oppo.is_defeated:
 					break;
 		
 		TARGETTYPE.SINGLE_ALLY:
@@ -335,7 +336,8 @@ func next_target_index(dir: int) -> void:
 					index_target = 2;
 				if index_target >= 3:
 					index_target = 0;
-				if battle_scene.active_heros[index_target] != null:
+				var hero := battle_scene.active_heros[index_target];
+				if hero != null and !hero.is_defeated:
 					break;
 		
 		TARGETTYPE.SINGLE_EVERYONE:
@@ -346,10 +348,12 @@ func next_target_index(dir: int) -> void:
 				if index_target >= 8:
 					index_target = 0;
 				if index_target < 3:
-					if battle_scene.active_heros[index_target] != null:
+					var hero := battle_scene.active_heros[index_target];
+					if hero != null and !hero.is_defeated:
 						break;
 				else:
-					if battle_scene.opponents[index_target - 3] != null:
+					var oppo := battle_scene.opponents[index_target - 3];
+					if oppo != null and !oppo.is_defeated:
 						break;
 		
 		TARGETTYPE.SELF_ONLY, TARGETTYPE.ALL_OPPONENTS, TARGETTYPE.ALL_ALLIES, TARGETTYPE.ALL:
@@ -426,6 +430,9 @@ func get_multcast_allowed() -> bool:
 
 
 func get_action_name() -> String:
+	if user.ailment == Ailments.CONFUSED and affected_by_ailment:
+		return "Confused Attack"
+	
 	match action_type:
 		ACTIONTYPE.ATTACK: return "Attack";
 		ACTIONTYPE.ART: return art.name;

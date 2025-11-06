@@ -43,7 +43,7 @@ static func get_clear_chance(turns: int) -> float:
 
 static func get_ailment_text(id: int) -> StringName:
 	match id:
-		NONE: return ""
+		NONE: return "CLEARED"
 		BURNED: return "BURNED"
 		STUNNED: return "STUNNED"
 		FROZEN: return "FROZEN"

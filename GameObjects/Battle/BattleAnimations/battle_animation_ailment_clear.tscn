@@ -1,0 +1,75 @@
+[gd_scene load_steps=6 format=3 uid="uid://drnfknppwr2kg"]
+
+[ext_resource type="Script" uid="uid://mapcfvwwfxjo" path="res://GameObjects/Battle/BattleAnimations/battle_anim.gd" id="1_carrq"]
+
+[sub_resource type="Animation" id="Animation_carrq"]
+resource_name = "BattleAnimationAilmentClear"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LabelCleared:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_dflgq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LabelCleared:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dflgq"]
+_data = {
+&"BattleAnimationAilmentClear": SubResource("Animation_carrq"),
+&"RESET": SubResource("Animation_dflgq")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_carrq"]
+bg_color = Color(0.12549, 0.12549, 0.12549, 0.752941)
+
+[node name="BattleAnimationAilmentClear" type="Node3D" node_paths=PackedStringArray("animation_player", "marker_camera")]
+script = ExtResource("1_carrq")
+animation_player = NodePath("AnimationPlayer")
+animation_name = &"BattleAnimationAilmentClear"
+marker_camera = NodePath("MarkerCamera")
+metadata/_custom_type_script = "uid://mapcfvwwfxjo"
+
+[node name="MarkerCamera" type="Marker3D" parent="."]
+transform = Transform3D(-1, -2.2626676e-08, 8.444391e-08, 0, 0.9659257, 0.258819, -8.742278e-08, 0.258819, -0.9659257, 0, 2, -1.5)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_dflgq")
+}
+
+[node name="LabelCleared" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -225.0
+offset_top = -37.5
+offset_right = 225.0
+offset_bottom = 37.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxFlat_carrq")
+text = "Cleared Ailement"
+horizontal_alignment = 1
+vertical_alignment = 1

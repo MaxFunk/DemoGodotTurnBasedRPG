@@ -16,8 +16,8 @@ const PostBattleUI := preload("res://UserInterfaces/Battle/PostBattle/post_battl
 
 @onready var hero_spawnpoints: Array[Marker3D] = [
 	$SpawnMarker/HeroSpawnMiddle as Marker3D,
-	$SpawnMarker/HeroSpawnLeft as Marker3D,
-	$SpawnMarker/HeroSpawnRight as Marker3D];
+	$SpawnMarker/HeroSpawnRight as Marker3D,
+	$SpawnMarker/HeroSpawnLeft as Marker3D];
 @onready var enemy_spawnpoints: Array[Marker3D] = [
 	$SpawnMarker/EnemySpawn1 as Marker3D,
 	$SpawnMarker/EnemySpawn2 as Marker3D,
@@ -171,7 +171,7 @@ func on_begin_turn() -> void:
 	
 	cur_actor = turn_order[0];
 	turn_order.remove_at(0);
-	cur_actor.on_turn_begin();
+	await cur_actor.on_turn_begin(self);
 	
 	if cur_actor.is_hero:
 		pivot_decision.global_transform = hero_spawnpoints[cur_actor.position].global_transform;
@@ -193,13 +193,16 @@ func commit_action(action: ActionData) -> void:
 	
 	cur_action = action;
 	cur_action.commit_targets();
+	
 	if cur_action.check_user_can_cast():
 		cur_action.apply_action_cost();
 		cur_action.cast_action();
 		await cur_action.finished_casting;
 		cur_action.clean_up_casts();
-	cur_action = null;
+	else: # currently just stunned
+		await battle_anim_stunned();
 	
+	cur_action = null;
 	if !battle_ending:
 		on_end_turn();
 	return
@@ -213,12 +216,12 @@ func on_end_turn() -> void:
 			opponent_turn_decision();
 			return
 	
-	cur_actor.on_turn_end();
+	await cur_actor.on_turn_end(self);
 	check_fields(cur_actor);
+	
 	next_round.append(cur_actor);
 	next_round.sort_custom(sort_agility);
 	cur_actor = null;
-	
 	on_begin_turn();
 	return
 
@@ -380,4 +383,38 @@ func check_fields(actor: BattleData) -> void:
 		if field and field.caster == actor:
 			if field.increas_turn_timer():
 				remove_field(field);
+	return
+
+
+func battle_anim_stunned() -> void:
+	var battle_anim := preload("uid://qb7vsfm044cj").instantiate() as BattleAnimation;
+	add_child(battle_anim);
+	battle_anim.global_transform = cur_actor.battle_char.global_transform;
+	battle_anim.write_camera_marker(self);
+	battle_anim.play_animation();
+	await battle_anim.animation_finished;
+	remove_child(battle_anim);
+	return
+
+
+func battle_anim_poisoned(poison_damage: int) -> void:
+	var battle_anim := preload("uid://clgcihtekddfc").instantiate() as BattleAnimation;
+	add_child(battle_anim);
+	battle_anim.global_transform = cur_actor.battle_char.global_transform;
+	battle_anim.write_camera_marker(self);
+	battle_ui.create_damage_number_from_int(poison_damage, cur_actor);
+	battle_anim.play_animation();
+	await battle_anim.animation_finished;
+	remove_child(battle_anim);
+	return
+
+
+func battle_anim_ailemt_clear() -> void:
+	var battle_anim := preload("uid://drnfknppwr2kg").instantiate() as BattleAnimation;
+	add_child(battle_anim);
+	battle_anim.global_transform = cur_actor.battle_char.global_transform;
+	battle_anim.write_camera_marker(self);
+	battle_anim.play_animation();
+	await battle_anim.animation_finished;
+	remove_child(battle_anim);
 	return

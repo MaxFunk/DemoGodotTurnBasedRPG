@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bi2equxpsbw3p"]
+[gd_scene load_steps=11 format=3 uid="uid://bi2equxpsbw3p"]
 
 [ext_resource type="Script" uid="uid://kkugbwbobcam" path="res://UserInterfaces/Battle/battle_ui.gd" id="1_85mwi"]
 [ext_resource type="PackedScene" uid="uid://cmhugtyy2cxdu" path="res://UserInterfaces/Battle/Displays/battle_hero_display.tscn" id="2_6i4db"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://owxgeqb1y1nt" path="res://UserInterfaces/Battle/ActionMenu/battle_action_items.tscn" id="6_60kbq"]
 [ext_resource type="PackedScene" uid="uid://bsv17ju0ux6a" path="res://UserInterfaces/Battle/ActionMenu/battle_action_tactics.tscn" id="6_ld7hv"]
 [ext_resource type="PackedScene" uid="uid://bcudu8px10xng" path="res://UserInterfaces/Battle/ActionMenu/battle_character_inspect.tscn" id="7_0gbsk"]
+[ext_resource type="PackedScene" uid="uid://c2t2iyxwr455r" path="res://UserInterfaces/Battle/Inspect/battle_inspect_ui.tscn" id="9_w5rio"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0gbsk"]
 content_margin_left = 5.0
@@ -176,3 +177,7 @@ theme_override_font_sizes/font_size = 44
 theme_override_styles/normal = SubResource("StyleBoxFlat_0gbsk")
 text = "HERO ADVANTAGE"
 horizontal_alignment = 1
+
+[node name="BattleInspectUI" parent="." instance=ExtResource("9_w5rio")]
+visible = false
+layout_mode = 1

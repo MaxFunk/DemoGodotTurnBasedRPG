@@ -117,9 +117,10 @@ static func get_defense_val(chd: BattleData, art: BattleArt) -> float:
 static func get_accuracy_val(user: BattleData, target: BattleData, art: BattleArt) -> float:
 	var accuracy: float = art.accuracy / 100.0;
 	accuracy *= get_modifier(user.modifier[2]) / get_modifier(target.modifier[2]);
+	accuracy = clamp(accuracy, 0.0, 1.0);
 	if user.ailment == Ailments.BLINDED:
-		accuracy *= 0.8;
-	return clampf(accuracy, 0.0, 1.0);
+		accuracy *= 0.7;
+	return accuracy;
 
 
 static func get_modifier(modifier: int) -> float:

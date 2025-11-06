@@ -37,8 +37,11 @@ func set_text_data(action_result: ActionResult, screen_pos: Vector2, art: Battle
 		text = "BLOCK"
 		return
 	
-	if art.category == art.CATEGORY.HEAL and action_result.healing > 0:
-		text = str(action_result.healing);
+	if art.category == art.CATEGORY.HEAL:
+		if action_result.healing > 0:
+			text = str(action_result.healing);
+		else:
+			text = "CLEARED";
 		return
 	elif art.category == art.CATEGORY.AILMENT:
 		text = Ailments.get_ailment_text(action_result.ailment);

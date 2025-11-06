@@ -4,7 +4,6 @@ extends Control
 signal close_analyze();
 
 const BattleActionMain = preload("uid://bmwt4jiw4oreg")
-
 const HeroDisplay := preload("res://UserInterfaces/Battle/Displays/battle_hero_display.gd");
 const OppoDisplay := preload("res://UserInterfaces/Battle/Displays/battle_opponent_display.gd");
 const ArtsMenu := preload("res://UserInterfaces/Battle/ActionMenu/battle_action_arts.gd");
@@ -12,6 +11,7 @@ const ItemsMenu := preload("res://UserInterfaces/Battle/ActionMenu/battle_action
 const TacticsMenu := preload("res://UserInterfaces/Battle/ActionMenu/battle_action_tactics.gd");
 const InspectMenu := preload("res://UserInterfaces/Battle/ActionMenu/battle_character_inspect.gd");
 const DmgNumber := preload("res://UserInterfaces/Battle/Displays/damage_number_label.gd");
+const InspectUI = preload("uid://d3esjpq3ldk6k");
 
 const tactic_decriptions: Array[StringName] = [
 	"Inspect characters on the field",
@@ -19,7 +19,7 @@ const tactic_decriptions: Array[StringName] = [
 	"Switch an active Partymember with a Backup",
 	"Run from Battle"];
 
-enum MENUSTATE {OFF, MAIN, ARTS, ITEMS, TACTICS, TARGETING, INSPECT}
+enum MENUSTATE {OFF, MAIN, ARTS, ITEMS, TACTICS, TARGETING, OVERVIEW, INSPECT}
 
 @onready var hero_displays: Array[HeroDisplay] = [
 	$DataDisplays/BattleHeroDisplay1 as HeroDisplay,
@@ -40,6 +40,7 @@ enum MENUSTATE {OFF, MAIN, ARTS, ITEMS, TACTICS, TARGETING, INSPECT}
 @onready var lbl_action_name := $LabelActionName as Label;
 @onready var dmg_numbers := $DamageNumbers as Control;
 @onready var lbl_advantage := $LabelAdvantage as Label;
+@onready var inspect_overview := $BattleInspectUI as InspectUI;
 
 var battle_scene: BattleScene;
 var cur_action: ActionData = null;
@@ -65,20 +66,13 @@ func _input(event: InputEvent) -> void:
 		return
 	
 	match menu_state:
-		MENUSTATE.MAIN:
-			input_main(event);
-		MENUSTATE.ARTS:
-			input_arts(event);
-		MENUSTATE.ITEMS:
-			input_items(event);
-		MENUSTATE.TACTICS:
-			input_tactics(event);
-		MENUSTATE.TARGETING:
-			input_targeting(event);
-		MENUSTATE.INSPECT:
-			input_inspect(event);
-		_:
-			input_targeting(event); # TEMP
+		MENUSTATE.MAIN: input_main(event);
+		MENUSTATE.ARTS: input_arts(event);
+		MENUSTATE.ITEMS: input_items(event);
+		MENUSTATE.TACTICS: input_tactics(event);
+		MENUSTATE.TARGETING: input_targeting(event);
+		MENUSTATE.OVERVIEW: input_overview(event);
+		MENUSTATE.INSPECT: input_inspect(event);
 	return
 
 
@@ -132,13 +126,13 @@ func input_targeting(event: InputEvent) -> void:
 		change_menu_state(prev_menu_state);
 		return
 	
-	if event.is_action_pressed("D_Pad_Left") or event.is_action_pressed("D_Pad_Up"):
+	if event.is_action_pressed("D_Pad_Right") or event.is_action_pressed("D_Pad_Up"):
 		cur_action.next_target_index(-1);
 		set_display_selection();
 		battle_scene.update_camera_targeting(cur_action);
 		return
 	
-	if event.is_action_pressed("D_Pad_Right") or event.is_action_pressed("D_Pad_Down"):
+	if event.is_action_pressed("D_Pad_Left") or event.is_action_pressed("D_Pad_Down"):
 		cur_action.next_target_index(1);
 		set_display_selection();
 		battle_scene.update_camera_targeting(cur_action);
@@ -224,9 +218,8 @@ func input_tactics(event: InputEvent) -> void:
 	if event.is_action_pressed("Btn_Y"):
 		match index_tactics:
 			0:
-				cur_action = ActionData.new(ActionData.ACTIONTYPE.INSPECT, battle_scene);
-				cur_action.set_targettype(ActionData.TARGETTYPE.SINGLE_EVERYONE);
-				change_menu_state(MENUSTATE.TARGETING);
+				inspect_overview.reset_selection(battle_scene.cur_actor.position);
+				change_menu_state(MENUSTATE.OVERVIEW);
 			1:
 				cur_action = ActionData.new(ActionData.ACTIONTYPE.ANALYZE, battle_scene);
 				cur_action.set_targettype(ActionData.TARGETTYPE.SINGLE_OPPONENT);
@@ -253,6 +246,33 @@ func input_tactics(event: InputEvent) -> void:
 	return
 
 
+func input_overview(event: InputEvent) -> void:
+	if event.is_action_pressed("Btn_B"):
+		change_menu_state(MENUSTATE.TACTICS);
+		return
+	
+	if event.is_action_pressed("Btn_Y") or event.is_action_pressed("Btn_A"):
+		var index := inspect_overview.return_selection();
+		var b_data: BattleData = null;
+		if inspect_overview.hero_row:
+			b_data = battle_scene.active_heros[index];
+		else:
+			b_data = battle_scene.opponents[index];
+		if b_data:
+			battle_menu_inspect.load_character_data(b_data);
+			change_menu_state(MENUSTATE.INSPECT);
+		return
+	
+	if event.is_action_pressed("D_Pad_Up") or event.is_action_pressed("D_Pad_Down"):
+		inspect_overview.change_row();
+	
+	if event.is_action_pressed("D_Pad_Left"):
+		inspect_overview.change_selection(-1);
+	if event.is_action_pressed("D_Pad_Right"):
+		inspect_overview.change_selection(1);
+	return
+
+
 func input_inspect(event: InputEvent) -> void:
 	if event.is_action_pressed("Btn_B"):
 		if inspect_as_analyze:
@@ -260,9 +280,8 @@ func input_inspect(event: InputEvent) -> void:
 			change_menu_state(MENUSTATE.OFF);
 			close_analyze.emit();
 			return
-		
-		if cur_action.is_inspect_action():
-			change_menu_state(MENUSTATE.MAIN);
+		else:
+			change_menu_state(MENUSTATE.OVERVIEW);
 		return
 	
 	if event.is_action_pressed("Btn_Y"):
@@ -307,6 +326,7 @@ func change_menu_state(new_state: MENUSTATE) -> void:
 	battle_menu_tactics.visible = menu_state == MENUSTATE.TACTICS;
 	battle_menu_inspect.visible = menu_state == MENUSTATE.INSPECT;
 	lbl_description.visible = menu_state != MENUSTATE.OFF;
+	inspect_overview.visible = menu_state == MENUSTATE.OVERVIEW;
 	accept_inputs = menu_state != MENUSTATE.OFF;
 	
 	if menu_state != MENUSTATE.OFF:
@@ -317,7 +337,6 @@ func change_menu_state(new_state: MENUSTATE) -> void:
 			reset_display_selection();
 		MENUSTATE.MAIN:
 			cur_action = null;
-			#battle_scene.update_camera_targeting(null);
 			update_description(battle_menu_main.get_description_text(index_main));
 		MENUSTATE.ARTS:
 			battle_menu_arts.update_ui(battle_scene.cur_actor);
@@ -332,11 +351,11 @@ func change_menu_state(new_state: MENUSTATE) -> void:
 		MENUSTATE.TARGETING:
 			set_display_selection();
 			battle_scene.update_camera_targeting(cur_action);
+		MENUSTATE.OVERVIEW:
+			inspect_overview.update_view(battle_scene);
 		MENUSTATE.INSPECT:
 			if inspect_as_analyze:
 				battle_menu_inspect.load_character_data(cur_action.targets[0]);
-			else:
-				battle_menu_inspect.load_character_data(get_battledata_from_idx(cur_action.index_target));
 	return
 
 
@@ -401,12 +420,6 @@ func reset_display_selection() -> void:
 	for i in range(oppo_displays.size()):
 		oppo_displays[i].set_selection(false);
 	return
-
-
-func get_battledata_from_idx(index) -> BattleData:
-	if index < 3:
-		return battle_scene.active_heros[index]
-	return battle_scene.opponents[index - 3];
  
 
 func prepare_after_analyze() -> void:
@@ -426,6 +439,14 @@ func create_damage_number(action_result: ActionResult, target: BattleData, art: 
 	get_viewport().get_camera_3d()
 	dmg_numbers.add_child(number_node);
 	number_node.set_text_data(action_result, screen_pos, art);
+	return
+
+
+func create_damage_number_from_int(value: int, target: BattleData) -> void:
+	var action_res := ActionResult.new();
+	action_res.damage = value;
+	var art := BattleArt.new(-1);
+	create_damage_number(action_res, target, art);
 	return
 
 

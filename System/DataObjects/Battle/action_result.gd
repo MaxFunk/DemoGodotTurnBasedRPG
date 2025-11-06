@@ -8,4 +8,4 @@ var ailment: int = 0;
 var is_crit: bool = false;
 var is_missed: bool = false;
 
-var attribute_multiplier: float = 4.0;
+var attribute_multiplier: float = 1.0;

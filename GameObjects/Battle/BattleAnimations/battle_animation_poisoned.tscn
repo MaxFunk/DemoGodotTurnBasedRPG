@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://clgcihtekddfc"]
+
+[ext_resource type="Script" uid="uid://mapcfvwwfxjo" path="res://GameObjects/Battle/BattleAnimations/battle_anim.gd" id="1_40xlg"]
+
+[sub_resource type="Animation" id="Animation_40xlg"]
+resource_name = "AnimationPoisoned"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_sy4p3"]
+_data = {
+&"AnimationPoisoned": SubResource("Animation_40xlg")
+}
+
+[node name="BattleAnimationPoisoned" type="Node3D" node_paths=PackedStringArray("animation_player", "marker_camera")]
+script = ExtResource("1_40xlg")
+animation_player = NodePath("AnimationPlayer")
+animation_name = &"AnimationPoisoned"
+marker_camera = NodePath("MarkerCamera")
+metadata/_custom_type_script = "uid://mapcfvwwfxjo"
+
+[node name="MarkerCamera" type="Marker3D" parent="."]
+transform = Transform3D(-1, -2.2626676e-08, 8.444391e-08, 0, 0.9659257, 0.258819, -8.742278e-08, 0.258819, -0.9659257, 0, 2, -1.5)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../MarkerCamera")
+libraries = {
+&"": SubResource("AnimationLibrary_sy4p3")
+}

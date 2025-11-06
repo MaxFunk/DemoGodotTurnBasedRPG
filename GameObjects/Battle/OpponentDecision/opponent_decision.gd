@@ -21,7 +21,7 @@ static func decide_action_standard(opponent: BattleData, scene: BattleScene) -> 
 	if indices.size() > 0:
 		selected_index = indices[randi_range(0, indices.size() - 1)];
 	
-	if selected_index < 0: #randf() < 0.05:
+	if selected_index < 0 or opponent.ailment == Ailments.SHACKLED: #randf() < 0.05:
 		var random_target := select_random_target(opponent.default_attack, opponent, scene);
 		action.action_type = ActionData.ACTIONTYPE.ATTACK;
 		action.set_targettype_from_art(opponent.default_attack);

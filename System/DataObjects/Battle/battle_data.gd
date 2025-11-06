@@ -121,7 +121,7 @@ func write_back_character_data() -> void:
 	return
 
 
-func on_turn_begin() -> void:
+func on_turn_begin(battle_scene: BattleScene) -> void:
 	actions_done = 0;
 	
 	if is_blocking:
@@ -137,19 +137,21 @@ func on_turn_begin() -> void:
 		if randf() <= Ailments.get_clear_chance(ailment_turns):
 			ailment = Ailments.NONE;
 			ailment_turns = 0;
-			print(name, " cleared self of ailment");
+			await battle_scene.battle_anim_ailemt_clear();
 		else:
 			ailment_turns += 1;
-	
-	if ailment == Ailments.POISONED:
-		hp_cur = maxi(hp_cur - floori(hp_max * 0.05), 1);
 	
 	update_display.emit();
 	return
 
 
-func on_turn_end() -> void:
+func on_turn_end(battle_scene: BattleScene) -> void:
+	if ailment == Ailments.POISONED:
+		var poison_dmg := floori(hp_max * 0.08);
+		hp_cur = maxi(hp_cur - poison_dmg, 1);
+		await battle_scene.battle_anim_poisoned(poison_dmg);
 	
+	update_display.emit();
 	return
 
 

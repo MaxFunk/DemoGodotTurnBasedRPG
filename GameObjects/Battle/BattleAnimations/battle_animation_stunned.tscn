@@ -1,0 +1,123 @@
+[gd_scene load_steps=6 format=3 uid="uid://qb7vsfm044cj"]
+
+[ext_resource type="Script" uid="uid://mapcfvwwfxjo" path="res://GameObjects/Battle/BattleAnimations/battle_anim.gd" id="1_xhqei"]
+
+[sub_resource type="Animation" id="Animation_xhqei"]
+resource_name = "AnimationStunned"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MarkerCamera:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 2, -1.5)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MarkerCamera:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.2617994, -3.1415927, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("LabelStunned:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ep3gq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MarkerCamera:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 2, -1.5)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MarkerCamera:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.2617994, -3.1415927, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("LabelStunned:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ep3gq"]
+_data = {
+&"AnimationStunned": SubResource("Animation_xhqei"),
+&"RESET": SubResource("Animation_ep3gq")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xhqei"]
+bg_color = Color(0.12549, 0.12549, 0.12549, 0.752941)
+
+[node name="BattleAnimationStunned" type="Node3D" node_paths=PackedStringArray("animation_player", "marker_camera")]
+script = ExtResource("1_xhqei")
+animation_player = NodePath("AnimationPlayer")
+animation_name = &"AnimationStunned"
+marker_camera = NodePath("MarkerCamera")
+metadata/_custom_type_script = "uid://mapcfvwwfxjo"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_ep3gq")
+}
+
+[node name="MarkerCamera" type="Marker3D" parent="."]
+transform = Transform3D(-1, -2.2626676e-08, 8.444391e-08, 0, 0.9659257, 0.258819, -8.742278e-08, 0.258819, -0.9659257, 0, 2, -1.5)
+
+[node name="LabelStunned" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -37.5
+offset_right = 150.0
+offset_bottom = 37.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxFlat_xhqei")
+text = "Stunned ..."
+horizontal_alignment = 1
+vertical_alignment = 1
