@@ -43,7 +43,7 @@ func load_character_data(bd: BattleData) -> void:
 		st_disp.update_inspect(bd, show_data);
 	
 	for i in bd.arts.size():
-		art_disps[i].fill_data(bd.arts[i] if show_data else null);
+		art_disps[i].fill_data(bd.arts[i] if show_data else null, !bd.is_hero);
 	
 	load_attribute_icons(bd, show_data);
 	return

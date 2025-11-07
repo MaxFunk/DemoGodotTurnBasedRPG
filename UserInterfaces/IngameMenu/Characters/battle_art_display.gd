@@ -10,7 +10,7 @@ extends Control
 var valid_art: bool = true;
 
 
-func fill_data(art: BattleArt) -> void:
+func fill_data(art: BattleArt, is_opponent: bool = false) -> void:
 	if art == null:
 		icon_art.texture = ResourceManager.get_art_category_icon(-1);
 		icon_attr_1.texture = null;
@@ -29,8 +29,8 @@ func fill_data(art: BattleArt) -> void:
 	lbl_cost_val.text = str(art.cost);
 	lbl_cost.text = "CP" if art.is_ult else "SP";
 	
-	lbl_cost_val.visible = !art.is_passive_art();
-	lbl_cost.visible = !art.is_passive_art();
+	lbl_cost_val.visible = !(art.is_passive_art() or (is_opponent and not art.is_ult));
+	lbl_cost.visible = !(art.is_passive_art() or (is_opponent and not art.is_ult));
 	modulate.a = 1.0;
 	valid_art = true;
 	return

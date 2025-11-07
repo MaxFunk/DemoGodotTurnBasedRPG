@@ -146,6 +146,36 @@ script = ExtResource("2_84ga2")
 hovered_color = Color(0.863, 0.078, 0.235, 1)
 metadata/_custom_type_script = "uid://do4k2b0sjshwf"
 
+[node name="LabelMoney" type="Label" parent="MainView"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -220.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 65.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 32
+text = "999999.99€"
+horizontal_alignment = 2
+clip_text = true
+
+[node name="LabelHQPoints" type="Label" parent="MainView"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -220.0
+offset_top = 70.0
+offset_right = -20.0
+offset_bottom = 115.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 32
+text = "999999 P"
+horizontal_alignment = 2
+clip_text = true
+
 [node name="IngameMenuPartyUI" parent="." instance=ExtResource("3_01gib")]
 process_mode = 4
 visible = false

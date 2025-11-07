@@ -323,13 +323,18 @@ func on_character_defeated(chd: BattleData) -> void:
 	return
 
 
-func get_random_opponent() -> BattleData:
+func choose_random_opponent() -> BattleData:
 	var valid_indices: PackedInt32Array = [];
-	for i in opponents.size():
-		if opponents[i] != null: valid_indices.append(i);
+	if cur_actor.is_hero:
+		for i in opponents.size():
+			if opponents[i] != null: valid_indices.append(i);
+	else:
+		for i in active_heros.size():
+			if active_heros[i] != null: valid_indices.append(i);
 	
-	var random_index: int = valid_indices[randi_range(0, valid_indices.size() - 1)];
-	return opponents[random_index];
+	var rnd_index: int = valid_indices[randi_range(0, valid_indices.size() - 1)];
+	var b_data := opponents[rnd_index] if cur_actor.is_hero else active_heros[rnd_index];
+	return b_data;
 
 
 func create_field(art: BattleArt, caster: BattleData) -> void:

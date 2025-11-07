@@ -6,6 +6,7 @@ var game_running: bool = false;
 
 var world_scene_id: int = -1;
 var money: int = 0;
+var hq_points: int = 0;
 var date_id: int = 0;
 var playtime: float = 0.0;
 
@@ -50,6 +51,7 @@ func game_instance_reset() -> void:
 	cur_savefile_slot = -1;
 	
 	money = 0;
+	hq_points = 0;
 	date_id = 0;
 	playtime = 0.0;
 	
@@ -81,6 +83,7 @@ func save_game_data() -> Dictionary[String, Variant]:
 		"playtime": int(min(playtime, 3599999.0)),
 		"date": date_id,
 		"money": money,
+		"hq_points": hq_points,
 		"player": {
 			"player_valid": player_valid,
 			"player_pos": main_scene.player_char.global_position if player_valid else Vector3.ZERO,
@@ -108,9 +111,10 @@ func save_game_data() -> Dictionary[String, Variant]:
 
 func load_existing_game_data(data: Dictionary, save_slot: int) -> void:
 	# General stuff
-	playtime = float(data["playtime"]);
-	date_id = data["date"];
-	money = data["money"];
+	playtime = float(str(data.get("playtime", 0)));
+	date_id = int(str(data.get("date", 0)));
+	money = int(str(data.get("money", 0)));
+	hq_points = int(str(data.get("hq_points", 0)));
 	
 	# Party
 	var party_data := data["party"] as Dictionary;

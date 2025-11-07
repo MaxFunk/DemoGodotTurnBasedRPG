@@ -18,6 +18,9 @@ enum MENUSTATE {MAIN, PARTY, CHARACTERS, ITEMS, MAP, QUESTS, SAVES, SETTINGS, TI
 	$MainView/LabelButton6,
 	$MainView/LabelButton7,
 	$MainView/LabelButton8];
+@onready var lbl_money := $MainView/LabelMoney as Label;
+@onready var lbl_hqpoints := $MainView/LabelHQPoints as Label;
+
 @onready var character_ui := $IngameMenuCharacterUI as CharacterUI;
 @onready var party_ui := $IngameMenuPartyUI as PartyUI;
 @onready var items_ui := $IngameMenuItemsUI as ItemsUI;
@@ -126,6 +129,10 @@ func update_view_state(new_state: MENUSTATE) -> void:
 	
 	match new_state:
 		MENUSTATE.MAIN:
+			var left_part := floori(GameData.money / 100.0);
+			var right_part := GameData.money - left_part * 100;
+			lbl_money.text = str(left_part, ".", right_part, " €");
+			lbl_hqpoints.text = str(GameData.hq_points, " P");
 			main_view_btns[main_view_index].set_hovered();
 		MENUSTATE.PARTY:
 			party_ui.prepare_view();

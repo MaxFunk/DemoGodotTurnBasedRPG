@@ -9,7 +9,7 @@ const OppoDisplay := preload("res://UserInterfaces/Battle/Displays/battle_oppone
 const ArtsMenu := preload("res://UserInterfaces/Battle/ActionMenu/battle_action_arts.gd");
 const ItemsMenu := preload("res://UserInterfaces/Battle/ActionMenu/battle_action_items.gd");
 const TacticsMenu := preload("res://UserInterfaces/Battle/ActionMenu/battle_action_tactics.gd");
-const InspectMenu := preload("res://UserInterfaces/Battle/ActionMenu/battle_character_inspect.gd");
+const CharacterInspect := preload("uid://vjweyu6qq2g1");
 const DmgNumber := preload("res://UserInterfaces/Battle/Displays/damage_number_label.gd");
 const InspectUI = preload("uid://d3esjpq3ldk6k");
 
@@ -35,7 +35,7 @@ enum MENUSTATE {OFF, MAIN, ARTS, ITEMS, TACTICS, TARGETING, OVERVIEW, INSPECT}
 @onready var battle_menu_arts := $BattleActionArts as ArtsMenu;
 @onready var battle_menu_items := $BattleActionItems as ItemsMenu;
 @onready var battle_menu_tactics := $BattleActionTactics as TacticsMenu;
-@onready var battle_menu_inspect := $BattleCharacterInspect as InspectMenu;
+@onready var battle_menu_inspect := $BattleCharacterInspect as CharacterInspect;
 @onready var lbl_description := $LabelDescription as Label;
 @onready var lbl_action_name := $LabelActionName as Label;
 @onready var dmg_numbers := $DamageNumbers as Control;

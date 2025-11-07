@@ -116,7 +116,7 @@ func load_existing_chardata(char_data: CharacterData) -> void:
 func write_back_character_data() -> void:
 	if origin_data == null: return
 	
-	origin_data.cur_health = hp_cur;
+	origin_data.cur_health = maxi(hp_cur, 1);
 	origin_data.cur_stamina = sp_cur;
 	return
 
@@ -156,12 +156,12 @@ func on_turn_end(battle_scene: BattleScene) -> void:
 
 
 func on_defeat() -> void:
-	# Reset for revive?
 	modifier = [0, 0, 0];
 	modifier_timer = [0, 0, 0];
 	ailment = 0;
 	ailment_turns = 0;
 	ult_points = 0;
+	sp_cur = 0;
 	is_blocking = false;
 	is_charged = false;
 	

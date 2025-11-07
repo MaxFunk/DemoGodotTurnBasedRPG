@@ -93,7 +93,7 @@ func check_user_can_cast() -> bool:
 		action_type = ACTIONTYPE.ATTACK;
 		target_type = TARGETTYPE.SINGLE_OPPONENT;
 		targets.clear();
-		targets = [battle_scene.get_random_opponent()];
+		targets = [battle_scene.choose_random_opponent()];
 		affected_by_ailment = true;
 	return true
 
