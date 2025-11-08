@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://bfdsld42hnagc"]
+
+[ext_resource type="Script" uid="uid://nm38e1rdbdju" path="res://GameObjects/Interactables/Shops/shop_items.gd" id="1_ceyqn"]
+[ext_resource type="PackedScene" uid="uid://ckxw05aoy0304" path="res://GameObjects/Interactables/interaction_component.tscn" id="2_310mb"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ceyqn"]
+size = Vector3(1, 2, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ceyqn"]
+albedo_color = Color(0.71, 0.3479, 0.3479, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_310mb"]
+material = SubResource("StandardMaterial3D_ceyqn")
+size = Vector3(0.2, 0.2, 0.2)
+
+[node name="ShopItems" type="Node3D"]
+script = ExtResource("1_ceyqn")
+
+[node name="InteractionComponent" parent="." instance=ExtResource("2_310mb")]
+interaction_text = "Items Shop"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionComponent"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_ceyqn")
+debug_color = Color(0.30727524, 0.62246317, 0.23185936, 0.41960785)
+debug_fill = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("BoxMesh_310mb")
+
+[connection signal="interaction" from="InteractionComponent" to="." method="_on_interaction_component_interaction"]

@@ -1,8 +1,8 @@
-id,name,type,description
-0,"Apple",0,"Just a good, old apple"
-1,"Carot",1,"A classic carot"
-2,"Rice",2,"Bag of rice"
-3,"Pepper",3,"Black pepper"
-4,"Choclate",4,"A choclate bar"
-5,"Milk",5,"Milk from a cow"
-6,"Red Vine",6,"Red Vine from Italy"
+id,name,type,buy,sell,description
+0,"Apple",0,100,100,"Just a good, old apple"
+1,"Carot",1,100,100,"A classic carot"
+2,"Rice",2,100,100,"Bag of rice"
+3,"Pepper",3,100,100,"Black pepper"
+4,"Choclate",4,100,100,"A choclate bar"
+5,"Milk",5,100,100,"Milk from a cow"
+6,"Red Vine",6,100,100,"Red Vine from Italy"

@@ -1,0 +1,46 @@
+[gd_scene load_steps=2 format=3 uid="uid://ccxdk1tdbw1qk"]
+
+[ext_resource type="Script" uid="uid://dsw4yuoeijkf8" path="res://UserInterfaces/Shops/Subscenes/item_shop_list_item.gd" id="1_wlnfa"]
+
+[node name="ItemShopListItem" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 900.0
+offset_bottom = 80.0
+script = ExtResource("1_wlnfa")
+
+[node name="IconItem" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 65.0
+offset_bottom = 65.0
+
+[node name="LabelName" type="Label" parent="."]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 15.0
+offset_right = 530.0
+offset_bottom = 65.0
+theme_override_font_sizes/font_size = 36
+text = "Item Name"
+
+[node name="LabelAmount" type="Label" parent="."]
+layout_mode = 0
+offset_left = 550.0
+offset_top = 15.0
+offset_right = 650.0
+offset_bottom = 65.0
+theme_override_font_sizes/font_size = 36
+text = "999x"
+horizontal_alignment = 2
+
+[node name="LabelCost" type="Label" parent="."]
+layout_mode = 0
+offset_left = 670.0
+offset_top = 15.0
+offset_right = 880.0
+offset_bottom = 65.0
+theme_override_font_sizes/font_size = 36
+text = "999999.99 €"
+horizontal_alignment = 2

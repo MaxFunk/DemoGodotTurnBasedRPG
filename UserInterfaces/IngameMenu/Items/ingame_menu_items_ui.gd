@@ -135,6 +135,8 @@ func prepare_view() -> void:
 
 
 func update_scroll_view(index_change: int) -> void:
+	if scroll_ctrl.elements.size() <= 0:
+		return
 	(scroll_ctrl.get_current_element() as ItemLI).set_selected(false);
 	scroll_ctrl.change_index(index_change);
 	load_detail_ui();

@@ -1,5 +1,5 @@
-id,name,type,description
-0,"Angel Staff",0,"The weapon of an Angel"
-1,"Dark Tooth",0,"Tooth of a Shadowbeast"
-2,"Sentinel Piece",0,"Piece of a Sentinel"
-3,"Green Shard",0,"A shard that glows greenly"
+id,name,type,buy,sell,description
+0,"Angel Staff",0,100,100,"The weapon of an Angel"
+1,"Dark Tooth",0,100,100,"Tooth of a Shadowbeast"
+2,"Sentinel Piece",0,100,100,"Piece of a Sentinel"
+3,"Green Shard",0,100,100,"A shard that glows greenly"

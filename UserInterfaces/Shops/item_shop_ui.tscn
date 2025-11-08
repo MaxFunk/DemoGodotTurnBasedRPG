@@ -1,0 +1,266 @@
+[gd_scene load_steps=4 format=3 uid="uid://te6rbf81tcw1"]
+
+[ext_resource type="Script" uid="uid://cl7blwld10ns0" path="res://UserInterfaces/Shops/item_shop_ui.gd" id="1_llqc8"]
+[ext_resource type="Script" uid="uid://do4k2b0sjshwf" path="res://UserInterfaces/Custom/label_button.gd" id="2_3sbhw"]
+[ext_resource type="Script" uid="uid://bwpsbotk7yxbp" path="res://UserInterfaces/Custom/scroll_controll.gd" id="3_b6o60"]
+
+[node name="ItemShopUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_llqc8")
+metadata/_custom_type_script = "uid://boijtqh6adxoq"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.12549, 0.12549, 0.12549, 1)
+
+[node name="FrontView" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LabelItemShop" type="Label" parent="FrontView"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -175.0
+offset_top = 300.0
+offset_right = 175.0
+offset_bottom = 388.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 64
+text = "Item Shop"
+horizontal_alignment = 1
+
+[node name="LabelButtonBuy" type="Label" parent="FrontView"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -225.0
+offset_top = -10.0
+offset_right = 225.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Buy Items"
+horizontal_alignment = 1
+script = ExtResource("2_3sbhw")
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="LabelButtonSell" type="Label" parent="FrontView"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -225.0
+offset_top = 65.0
+offset_right = 225.0
+offset_bottom = 135.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Sell Items"
+horizontal_alignment = 1
+script = ExtResource("2_3sbhw")
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="LabelButtonClose" type="Label" parent="FrontView"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -225.0
+offset_top = 140.0
+offset_right = 225.0
+offset_bottom = 210.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Close"
+horizontal_alignment = 1
+script = ExtResource("2_3sbhw")
+metadata/_custom_type_script = "uid://do4k2b0sjshwf"
+
+[node name="BuyView" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LabelItemShop" type="Label" parent="BuyView"]
+layout_mode = 1
+offset_left = 50.0
+offset_top = 50.0
+offset_right = 550.0
+offset_bottom = 138.0
+theme_override_font_sizes/font_size = 64
+text = "Buy Items"
+horizontal_alignment = 1
+
+[node name="SellView" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MoneyView" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -250.0
+offset_top = 50.0
+offset_right = -50.0
+offset_bottom = 95.0
+grow_horizontal = 0
+
+[node name="LabelMoney" type="Label" parent="MoneyView"]
+layout_mode = 1
+offset_right = 200.0
+offset_bottom = 45.0
+theme_override_font_sizes/font_size = 32
+text = "999999.99€"
+horizontal_alignment = 2
+clip_text = true
+
+[node name="DetailView" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 1050.0
+offset_top = 200.0
+offset_right = 1850.0
+offset_bottom = 700.0
+
+[node name="IconRect" type="ColorRect" parent="DetailView"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 25.0
+offset_right = 175.0
+offset_bottom = 175.0
+
+[node name="LabelItemName" type="Label" parent="DetailView"]
+layout_mode = 0
+offset_left = 200.0
+offset_top = 35.0
+offset_right = 700.0
+offset_bottom = 110.0
+theme_override_font_sizes/font_size = 48
+text = "Item Name"
+vertical_alignment = 1
+clip_text = true
+
+[node name="LabelSubcategory" type="Label" parent="DetailView"]
+self_modulate = Color(0.8, 0.8, 0.8, 1)
+layout_mode = 0
+offset_left = 200.0
+offset_top = 110.0
+offset_right = 700.0
+offset_bottom = 165.0
+theme_override_font_sizes/font_size = 40
+text = "Subcatergory"
+clip_text = true
+
+[node name="LabelDescription" type="Label" parent="DetailView"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 200.0
+offset_right = 770.0
+offset_bottom = 490.0
+theme_override_font_sizes/font_size = 36
+text = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum."
+autowrap_mode = 3
+clip_text = true
+max_lines_visible = 5
+
+[node name="ScrollControl" type="Control" parent="." node_paths=PackedStringArray("scrollbar")]
+anchors_preset = 0
+offset_left = 100.0
+offset_top = 200.0
+offset_right = 1010.0
+offset_bottom = 1000.0
+script = ExtResource("3_b6o60")
+max_displayed_elements = 10
+element_size = Vector2(900, 80)
+scrollbar = NodePath("VScrollBar")
+metadata/_custom_type_script = "uid://bwpsbotk7yxbp"
+
+[node name="VScrollBar" type="VScrollBar" parent="ScrollControl"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -10.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="PopupView" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 1050.0
+offset_top = 750.0
+offset_right = 1850.0
+offset_bottom = 1000.0
+
+[node name="LabelHeader" type="Label" parent="PopupView"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 25.0
+offset_right = 225.0
+offset_bottom = 75.0
+theme_override_font_sizes/font_size = 36
+text = "Buy:"
+
+[node name="LabelItemName" type="Label" parent="PopupView"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 80.0
+offset_right = 575.0
+offset_bottom = 155.0
+theme_override_font_sizes/font_size = 48
+text = "Item Name"
+
+[node name="LabelAmount" type="Label" parent="PopupView"]
+layout_mode = 0
+offset_left = 650.0
+offset_top = 80.0
+offset_right = 800.0
+offset_bottom = 155.0
+theme_override_font_sizes/font_size = 48
+text = "000"
+horizontal_alignment = 2
+
+[node name="LabelCost" type="Label" parent="PopupView"]
+layout_mode = 0
+offset_left = 500.0
+offset_top = 160.0
+offset_right = 800.0
+offset_bottom = 235.0
+theme_override_font_sizes/font_size = 48
+text = "999999.99 €"
+horizontal_alignment = 2

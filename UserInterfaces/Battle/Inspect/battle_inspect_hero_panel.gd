@@ -23,8 +23,13 @@ func update_view(char_data: BattleData) -> void:
 	bar_sp.max_value = char_data.sp_max;
 	bar_sp.value = char_data.sp_cur;
 	bar_cp.value = char_data.ult_points;
-	
 	icon_ailment.texture = Ailments.get_ailment_icon(char_data.ailment);
+	
+	if char_data.is_defeated:
+		icon_ailment.texture = null;
+		modulate = Color.DIM_GRAY;
+		bar_hp.value = 0;
+		bar_sp.value = 0;
 	return
 
 

@@ -13,9 +13,11 @@ func _init(lookup_id: int, amount_value: int) -> void:
 	amount = amount_value;
 	
 	var data := data_table.records[id];
-	name = data["name"];
-	type = (data["type"] as int) as TYPE;
-	description = data["description"];
+	name = str(data["name"]);
+	type = int(str(data["type"])) as TYPE;
+	description = str(data["description"]);
+	buy_value = int(str(data["buy"]));
+	sell_value = int(str(data["sell"]));
 	
 	category_str = get_category_name();
 	return
@@ -42,6 +44,13 @@ func delete_items(delete_amount: int) -> bool:
 	amount -= delete_amount;
 	if amount < 0: amount = 0; # failsafe
 	GameData.item_ingredients[id] = amount;
+	return amount <= 0
+
+
+func recieve_items(recieve_amount: int) -> bool:
+	amount -= recieve_amount;
+	if amount < 0: amount = 0; # failsafe
+	GameData.item_ingredients[id] += recieve_amount;
 	return amount <= 0
 
 

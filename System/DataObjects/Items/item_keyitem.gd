@@ -14,10 +14,10 @@ func _init(lookup_id: int, amount_value: int) -> void:
 	amount = amount_value;
 	
 	var data := data_table.records[id];
-	name = data["name"];
-	type = (data["type"] as int) as TYPE;
-	description = data["description"];
-	is_visible = (data["is_visible"] as int) as bool;
+	name = str(data["name"]);
+	type = int(str(data["type"])) as TYPE;
+	description = str(data["description"]);
+	is_visible = bool(int(str(data["is_visible"])));
 	
 	category_str = get_category_name();
 	return
@@ -25,7 +25,7 @@ func _init(lookup_id: int, amount_value: int) -> void:
 
 func get_category_name() -> StringName:
 	match type:
-		0: return "Keyitem"
+		0: return "Key Item"
 		1: return "Special Shard"
 		2: return "Special"
 		_: return "Unknown"
@@ -40,6 +40,13 @@ func delete_items(delete_amount: int) -> bool:
 	amount -= delete_amount;
 	if amount < 0: amount = 0; # failsafe
 	GameData.item_keyitems[id] = amount;
+	return amount <= 0
+
+
+func recieve_items(recieve_amount: int) -> bool:
+	amount -= recieve_amount;
+	if amount < 0: amount = 0; # failsafe
+	GameData.item_keyitems[id] += recieve_amount;
 	return amount <= 0
 
 

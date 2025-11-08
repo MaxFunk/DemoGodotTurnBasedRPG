@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bybqbqlp28b4k"]
+[gd_scene load_steps=11 format=3 uid="uid://bybqbqlp28b4k"]
 
 [ext_resource type="Script" uid="uid://c7ts8ujxoerht" path="res://Worlds/world_scene.gd" id="1_eoefi"]
 [ext_resource type="Environment" uid="uid://0jdwxffgebho" path="res://Resources/GodotSettings/Environments/environment_clear_sky.tres" id="2_4nr38"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://c7c07mkhv8qk8" path="res://GameObjects/Interactables/Debug/debug_block.tscn" id="7_tfpf6"]
 [ext_resource type="PackedScene" uid="uid://bqhnemswuq7yv" path="res://GameObjects/Interactables/Unique/minigame_videogame.tscn" id="8_iyt2h"]
 [ext_resource type="PackedScene" uid="uid://c8cnnsy35sqlf" path="res://GameObjects/Interactables/Debug/debug_battle_armor_toggler.tscn" id="9_mnwy6"]
+[ext_resource type="PackedScene" uid="uid://bfdsld42hnagc" path="res://GameObjects/Interactables/Shops/shop_items.tscn" id="10_d15v8"]
 
 [node name="WorldSceneHeadQuarter" type="Node3D"]
 script = ExtResource("1_eoefi")
@@ -43,3 +44,6 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 17, 
 
 [node name="DebugBattleArmorToggler" parent="." instance=ExtResource("9_mnwy6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0.5, -10)
+
+[node name="ShopItems" parent="." instance=ExtResource("10_d15v8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 0, -3)

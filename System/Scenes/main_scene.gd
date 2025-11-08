@@ -16,6 +16,7 @@ var player_char: PlayerCharacter;
 
 var ingame_menu_node: IngameMenu;
 var talking_ui: TalkingUI;
+var user_interface: Control = null;
 
 var is_world_loading: bool = false;
 var enable_world_processing: bool = false;
@@ -110,6 +111,29 @@ func close_ingame_menu() -> void:
 		ingame_menu_node.queue_free();
 		world_scene.set_exploration_ui_visibility(true);
 		player_char.load_hero_model();
+		enable_world_processing = true;
+		AudioManager.resume_area_music();
+	return
+
+
+func instantiate_user_interface(shop_ui_scene: PackedScene) -> void:
+	if user_interface:
+		close_user_interface();
+	
+	user_interface = shop_ui_scene.instantiate() as ShopUI;
+	if user_interface:
+		add_child(user_interface);
+		world_scene.set_exploration_ui_visibility(false);
+		world_scene.process_mode = Node.PROCESS_MODE_DISABLED;
+		AudioManager.weaken_area_music();
+	return
+
+
+func close_user_interface() -> void:
+	if user_interface:
+		remove_child(user_interface);
+		user_interface.queue_free();
+		world_scene.set_exploration_ui_visibility(true);
 		enable_world_processing = true;
 		AudioManager.resume_area_music();
 	return

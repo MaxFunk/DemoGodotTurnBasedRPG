@@ -2,7 +2,7 @@ class_name LabelButton
 extends Label
 
 @export var base_color := Color(1, 1, 1);
-@export var hovered_color := Color(0.98, 0.486, 0.514);
+@export var hovered_color := Color(0.863, 0.078, 0.235);
 
 signal btn_pressed();
 

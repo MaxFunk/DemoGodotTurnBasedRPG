@@ -11,6 +11,7 @@ var idx_selected: int = 0;
 
 
 func _ready() -> void:
+	clip_contents = true;
 	elem_container = Control.new();
 	elem_container.name = "ElemContainer";
 	add_child(elem_container);
@@ -76,9 +77,13 @@ func change_index(amount: int) -> void:
 			elem_container.position.y = -element_size.y * scrollbar.value;
 	return
 
-
+# TODO: SOMEHOW ALSO GET RIGHT SCROLL
 func set_index(value) -> void:
 	idx_selected = clampi(value, 0, elements.size() - 1);
+	if elements.size() <= max_displayed_elements:
+		scrollbar.value = 0.0;
+		return
+	
 	scrollbar.value = idx_selected - scrollbar.page;
 	elem_container.position.y = -element_size.y * scrollbar.value;
 	return

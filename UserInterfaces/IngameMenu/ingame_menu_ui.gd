@@ -130,7 +130,7 @@ func update_view_state(new_state: MENUSTATE) -> void:
 	match new_state:
 		MENUSTATE.MAIN:
 			var left_part := floori(GameData.money / 100.0);
-			var right_part := GameData.money - left_part * 100;
+			var right_part := str(GameData.money - left_part * 100).lpad(2, "0");
 			lbl_money.text = str(left_part, ".", right_part, " €");
 			lbl_hqpoints.text = str(GameData.hq_points, " P");
 			main_view_btns[main_view_index].set_hovered();

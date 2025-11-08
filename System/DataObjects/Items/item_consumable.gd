@@ -32,18 +32,20 @@ func _init(lookup_id: int, amount_value: int) -> void:
 	amount = amount_value;
 	
 	var data := data_table.records[id];
-	name = data["name"];
-	type = (data["type"] as int) as TYPE;
-	battle_only = (data["battle_only"] as int) as bool;
-	used_on_all = (data["on_all"] as int) as bool;
-	description = data["description"];
-	cast_targeting = int(data["cast_targeting"]);
-	cast_path = data["cast_path"];
+	name = str(data["name"]);
+	type = int(str(data["type"])) as TYPE;
+	battle_only = bool(int(str(data["battle_only"])));
+	used_on_all = bool(int(str(data["on_all"])));
+	description = str(data["description"]);
+	cast_targeting = int(str(data["cast_targeting"]));
+	cast_path = str(data["cast_path"]);
+	buy_value = int(str(data["buy"]));
+	sell_value = int(str(data["sell"]));
 	
 	category_str = get_category_name();
 	
-	var effect_ids := (data["effect_ids"] as String).split(",");
-	var effect_values_str := (data["effect_values"] as String).split(",");
+	var effect_ids := str(data["effect_ids"]).split(",");
+	var effect_values_str := str(data["effect_values"]).split(",");
 	for i in range(effect_ids.size()):
 		effects.append(int(effect_ids[i]));
 		effect_values.append(int(effect_values_str[i]));
@@ -76,6 +78,13 @@ func delete_items(delete_amount: int) -> bool:
 	amount -= delete_amount;
 	if amount < 0: amount = 0; # failsafe
 	GameData.item_consumables[id] = amount;
+	return amount <= 0
+
+
+func recieve_items(recieve_amount: int) -> bool:
+	amount -= recieve_amount;
+	if amount < 0: amount = 0; # failsafe
+	GameData.item_consumables[id] += recieve_amount;
 	return amount <= 0
 
 

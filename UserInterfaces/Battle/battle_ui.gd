@@ -21,6 +21,7 @@ const tactic_decriptions: Array[StringName] = [
 
 enum MENUSTATE {OFF, MAIN, ARTS, ITEMS, TACTICS, TARGETING, OVERVIEW, INSPECT}
 
+@onready var data_display_ctrl := $DataDisplays as Control;
 @onready var hero_displays: Array[HeroDisplay] = [
 	$DataDisplays/BattleHeroDisplay1 as HeroDisplay,
 	$DataDisplays/BattleHeroDisplay2 as HeroDisplay,
@@ -320,12 +321,13 @@ func change_menu_state(new_state: MENUSTATE) -> void:
 			battle_scene.update_camera_targeting(null);
 	
 	menu_state = new_state;
+	data_display_ctrl.visible = menu_state != MENUSTATE.OVERVIEW;
 	battle_menu_main.visible = menu_state == MENUSTATE.MAIN;
 	battle_menu_arts.visible = menu_state == MENUSTATE.ARTS;
 	battle_menu_items.visible = menu_state == MENUSTATE.ITEMS;
 	battle_menu_tactics.visible = menu_state == MENUSTATE.TACTICS;
 	battle_menu_inspect.visible = menu_state == MENUSTATE.INSPECT;
-	lbl_description.visible = menu_state != MENUSTATE.OFF;
+	lbl_description.visible = menu_state != MENUSTATE.OFF and menu_state != MENUSTATE.OVERVIEW;
 	inspect_overview.visible = menu_state == MENUSTATE.OVERVIEW;
 	accept_inputs = menu_state != MENUSTATE.OFF;
 	
