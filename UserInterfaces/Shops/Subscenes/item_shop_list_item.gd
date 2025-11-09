@@ -16,7 +16,9 @@ func write_data(item: Item, buy_mode: bool) -> void:
 	var left_part := floori(cost / 100.0);
 	var right_part := str(cost - left_part * 100).lpad(2, "0");
 	lbl_cost.text = str(left_part, ".", right_part, " €");
-	modulate.a = 1.0 if item.amount > 0 else 0.5;
+	
+	var condition: bool = buy_mode and GameData.money >= item.buy_value or not buy_mode;
+	modulate.a = 1.0 if item.amount > 0 and condition else 0.5;
 	return
 
 

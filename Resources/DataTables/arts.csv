@@ -30,7 +30,7 @@ id,name,category,targeting,base_power,accuracy,cost,hit_amount,is_ult,attr_1,att
 28,"Critical Saber",0,0,40,98,6,1,0,0,-1,"50","0","Weak physical attack with increased crit chance","","",0
 29,"Ailment Recovery",2,1,0,100,6,1,0,-1,-1,"9","0","Heals Ailments","","",0
 30,"Melting Blast",1,0,60,98,12,1,0,4,-1,"23","50","Medium fire attack, which does additional damage on frozen targets","","",0
-31,"Dummy",8,7,0,0,0,0,0,-1,-1,"","","Dummy","","",0
+31,"Revival",2,1,0,0,15,1,0,-1,-1,"55","0","Revives a defeated ally to 50% Health and 20% Stamina","General/action_cast_heal_weak.tscn","",0
 32,"Soul:Strike",6,0,120,100,50,1,1,1,13,"","","Very powerful attack onto one opponent","","",0
 33,"Soul:Blast",6,3,80,100,50,1,1,12,2,"","","Powerful attack onto all opponent","","",0
 34,"Freeze Shock",1,0,95,100,50,1,1,6,-1,"13","40","Powerful ether attack onto one opponent with chance to Freeze","","",0

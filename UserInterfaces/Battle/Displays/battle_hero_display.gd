@@ -28,13 +28,14 @@ func update_init(data: BattleData) -> void:
 		visible = false;
 		return
 	
+	if hero_data:
+		remove_battle_data();
+	
 	visible = true;
 	lbl_name.text = data.name;
 	lbl_level.text = str(data.level);
-	
 	data.update_display.connect(update);
 	hero_data = data;
-	
 	update();
 	return
 
@@ -65,6 +66,12 @@ func update() -> void:
 	
 	status_rect.visible = status_visible;
 	modulate = Color.WHITE;
+	return
+
+
+func remove_battle_data() -> void:
+	hero_data.update_display.disconnect(update);
+	hero_data = null;
 	return
 
 

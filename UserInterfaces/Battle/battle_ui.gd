@@ -1,5 +1,4 @@
-class_name BattleUI
-extends Control
+class_name BattleUI extends Control
 
 signal close_analyze();
 
@@ -11,7 +10,8 @@ const ItemsMenu := preload("res://UserInterfaces/Battle/ActionMenu/battle_action
 const TacticsMenu := preload("res://UserInterfaces/Battle/ActionMenu/battle_action_tactics.gd");
 const CharacterInspect := preload("uid://vjweyu6qq2g1");
 const DmgNumber := preload("res://UserInterfaces/Battle/Displays/damage_number_label.gd");
-const InspectUI = preload("uid://d3esjpq3ldk6k");
+const InspectUI := preload("uid://d3esjpq3ldk6k");
+const TeamView := preload("uid://deor8mtye071r");
 
 const tactic_decriptions: Array[StringName] = [
 	"Inspect characters on the field",
@@ -19,7 +19,7 @@ const tactic_decriptions: Array[StringName] = [
 	"Switch an active Partymember with a Backup",
 	"Run from Battle"];
 
-enum MENUSTATE {OFF, MAIN, ARTS, ITEMS, TACTICS, TARGETING, OVERVIEW, INSPECT}
+enum MENUSTATE {OFF, MAIN, ARTS, ITEMS, TACTICS, TARGETING, OVERVIEW, INSPECT, TEAMVIEW}
 
 @onready var data_display_ctrl := $DataDisplays as Control;
 @onready var hero_displays: Array[HeroDisplay] = [
@@ -42,6 +42,7 @@ enum MENUSTATE {OFF, MAIN, ARTS, ITEMS, TACTICS, TARGETING, OVERVIEW, INSPECT}
 @onready var dmg_numbers := $DamageNumbers as Control;
 @onready var lbl_advantage := $LabelAdvantage as Label;
 @onready var inspect_overview := $BattleInspectUI as InspectUI;
+@onready var team_view := $BattleTeamView as TeamView;
 
 var battle_scene: BattleScene;
 var cur_action: ActionData = null;
@@ -74,6 +75,7 @@ func _input(event: InputEvent) -> void:
 		MENUSTATE.TARGETING: input_targeting(event);
 		MENUSTATE.OVERVIEW: input_overview(event);
 		MENUSTATE.INSPECT: input_inspect(event);
+		MENUSTATE.TEAMVIEW: team_view.input_event(event, self);
 	return
 
 
@@ -115,9 +117,6 @@ func input_main(event: InputEvent) -> void:
 
 func input_targeting(event: InputEvent) -> void:
 	if event.is_action_pressed("Btn_Y"):
-		if cur_action.is_inspect_action():
-			change_menu_state(MENUSTATE.INSPECT);
-			return
 		change_menu_state(MENUSTATE.OFF);
 		battle_scene.commit_action(cur_action);
 		return
@@ -162,6 +161,10 @@ func input_arts(event: InputEvent) -> void:
 			if sp_cost > cur_actor.sp_cur:
 				print("Not enough SP to use Art!");
 				return
+		
+		if art.is_revival_art and not battle_scene.check_revive_art_usable():
+			print("No ally can be revived");
+			return
 		
 		cur_action = ActionData.new(ActionData.ACTIONTYPE.ART, battle_scene);
 		cur_action.set_targettype_from_art(art);
@@ -225,13 +228,13 @@ func input_tactics(event: InputEvent) -> void:
 				cur_action = ActionData.new(ActionData.ACTIONTYPE.ANALYZE, battle_scene);
 				cur_action.set_targettype(ActionData.TARGETTYPE.SINGLE_OPPONENT);
 				change_menu_state(MENUSTATE.TARGETING);
+			2:
+				change_menu_state(MENUSTATE.TEAMVIEW);
 			3:
 				for hero in battle_scene.active_heros:
 					if hero:
 						hero.write_back_character_data();
 				GameData.main_scene.end_battle_scene();
-			_:
-				print("TODO")
 		return
 	
 	if event.is_action_pressed("D_Pad_Up"):
@@ -321,14 +324,15 @@ func change_menu_state(new_state: MENUSTATE) -> void:
 			battle_scene.update_camera_targeting(null);
 	
 	menu_state = new_state;
-	data_display_ctrl.visible = menu_state != MENUSTATE.OVERVIEW;
+	data_display_ctrl.visible = menu_state != MENUSTATE.OVERVIEW and menu_state != MENUSTATE.TEAMVIEW;
+	lbl_description.visible = menu_state != MENUSTATE.OFF and menu_state != MENUSTATE.OVERVIEW and menu_state != MENUSTATE.TEAMVIEW;
 	battle_menu_main.visible = menu_state == MENUSTATE.MAIN;
 	battle_menu_arts.visible = menu_state == MENUSTATE.ARTS;
 	battle_menu_items.visible = menu_state == MENUSTATE.ITEMS;
 	battle_menu_tactics.visible = menu_state == MENUSTATE.TACTICS;
 	battle_menu_inspect.visible = menu_state == MENUSTATE.INSPECT;
-	lbl_description.visible = menu_state != MENUSTATE.OFF and menu_state != MENUSTATE.OVERVIEW;
 	inspect_overview.visible = menu_state == MENUSTATE.OVERVIEW;
+	team_view.visible = menu_state == MENUSTATE.TEAMVIEW;
 	accept_inputs = menu_state != MENUSTATE.OFF;
 	
 	if menu_state != MENUSTATE.OFF:
@@ -358,6 +362,8 @@ func change_menu_state(new_state: MENUSTATE) -> void:
 		MENUSTATE.INSPECT:
 			if inspect_as_analyze:
 				battle_menu_inspect.load_character_data(cur_action.targets[0]);
+		MENUSTATE.TEAMVIEW:
+			team_view.update_view(battle_scene);
 	return
 
 
@@ -459,4 +465,13 @@ func write_advantage(value: int) -> void:
 	else:
 		lbl_advantage.text = "HERO ADVANTAGE" if value > 0 else "ENEMY ADVANTAGE";
 		lbl_advantage.visible = true;
+	return
+
+
+func write_switch_action(active_id: int, backup_id: int) -> void:
+	cur_action = ActionData.new(ActionData.ACTIONTYPE.PARTYSWITCH, battle_scene);
+	cur_action.custom_data_1 = active_id;
+	cur_action.custom_data_2 = backup_id;
+	change_menu_state(MENUSTATE.OFF);
+	battle_scene.commit_action(cur_action);
 	return

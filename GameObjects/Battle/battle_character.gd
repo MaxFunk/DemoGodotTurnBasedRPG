@@ -48,10 +48,17 @@ func play_idle_anim(prev_anim_name: String) -> void:
 	
 	if prev_anim_name == "BattleDefeat":
 		defeated_anim_finished.emit();
+		return
 	
 	if model_3d.play_animation("BattleIdle") == false:
 		model_3d.play_animation("IdleBattle");
 	
 	if weapon_3d:
 		weapon_3d.play_animation("BattleIdle");
+	return
+
+
+func play_revival_anim() -> void:
+	model_3d.play_animation("BattleDefeat", false, -1.0, true);
+	model_3d.play_animation("BattleDefeat", false, -1.0, true);
 	return

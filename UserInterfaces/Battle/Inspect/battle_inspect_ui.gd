@@ -1,7 +1,7 @@
 extends Control
 
-const HeroPanel = preload("uid://bwycxo8x0hguv")
-const EnemyPanel = preload("uid://bepj5ks3emqh6")
+const HeroPanel = preload("uid://bwycxo8x0hguv");
+const EnemyPanel = preload("uid://bepj5ks3emqh6");
 
 @onready var hero_panels: Array[HeroPanel] = [
 	$BattleInspectHeroPanel1 as HeroPanel,

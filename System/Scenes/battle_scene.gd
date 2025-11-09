@@ -30,9 +30,8 @@ const PostBattleUI := preload("res://UserInterfaces/Battle/PostBattle/post_battl
 	$CameraMarker/CamMarkerAllOppos as Marker3D];
 
 var active_heros: Array[BattleData] = [];
+var backup_heros: Array[BattleData] = [];
 var opponents: Array[BattleData] = [];
-
-var battle_chars: Array[BattleCharacter] = [];
 var battle_fields: Array[BattleField] = [null, null, null]; # global, hero, oppo
 
 var turn_order: Array[BattleData] = [];
@@ -110,28 +109,42 @@ func initiate_battle_data_objects(oppo_ids: PackedInt32Array) -> void:
 			active_heros.append(new_hero);
 		else:
 			active_heros.append(null);
+	
+	for i in range(8):
+		var id := GameData.backup_party[i] if i < GameData.backup_party.size() else -1;
+		if id >= 0:
+			var new_hero := BattleData.new();
+			new_hero.load_existing_chardata(GameData.characters[id]);
+			new_hero.position = -1;
+			backup_heros.append(new_hero);
+		else:
+			backup_heros.append(null);
 	return
 
 
 func spawn_battle_chars() -> void:
-	for i in range(3):
-		if active_heros[i] != null:
+	for i in active_heros.size():
+		if active_heros[i]:
 			var new_battle_char := preload("res://GameObjects/Battle/battle_character.tscn").instantiate() as BattleCharacter;
 			new_battle_char.load_model(active_heros[i].id, true);
 			active_heros[i].battle_char = new_battle_char;
 			add_child(new_battle_char);
 			new_battle_char.global_transform = hero_spawnpoints[i].global_transform;
-			battle_chars.append(new_battle_char);
 	
-	for i in range(5):
-		if opponents[i] != null:
+	for i in opponents.size():
+		if opponents[i]:
 			var new_battle_char := preload("res://GameObjects/Battle/battle_character.tscn").instantiate() as BattleCharacter;
 			new_battle_char.load_model(opponents[i].id, false);
 			opponents[i].battle_char = new_battle_char;
 			add_child(new_battle_char);
 			new_battle_char.global_transform = enemy_spawnpoints[i].global_transform;
 			new_battle_char.rotate_y(PI);
-			battle_chars.append(new_battle_char);
+	
+	for i in backup_heros.size():
+		if backup_heros[i]:
+			var new_battle_char := preload("res://GameObjects/Battle/battle_character.tscn").instantiate() as BattleCharacter;
+			new_battle_char.load_model(backup_heros[i].id, true);
+			backup_heros[i].battle_char = new_battle_char;
 	return
 
 
@@ -191,6 +204,11 @@ func commit_action(action: ActionData) -> void:
 	if cur_actor.is_hero: # maybe not needed anymore -> MENUSTATE.OFF does the same
 		battle_ui.accept_inputs = false;
 	
+	if action.is_partyswitch():
+		await switch_heros(action.custom_data_1, action.custom_data_2);
+		end_of_action();
+		return
+	
 	cur_action = action;
 	cur_action.commit_targets();
 	
@@ -198,11 +216,18 @@ func commit_action(action: ActionData) -> void:
 		cur_action.apply_action_cost();
 		cur_action.cast_action();
 		await cur_action.finished_casting;
-		cur_action.clean_up_casts();
 	else: # currently just stunned
 		await battle_anim_stunned();
 	
-	cur_action = null;
+	end_of_action();
+	return
+
+
+func end_of_action() -> void:
+	if cur_action:
+		cur_action.clean_up_casts();
+		cur_action = null;
+	
 	if !battle_ending:
 		on_end_turn();
 	return
@@ -219,8 +244,9 @@ func on_end_turn() -> void:
 	await cur_actor.on_turn_end(self);
 	check_fields(cur_actor);
 	
-	next_round.append(cur_actor);
-	next_round.sort_custom(sort_agility);
+	if cur_actor.position >= 0:
+		next_round.append(cur_actor);
+		next_round.sort_custom(sort_agility);
 	cur_actor = null;
 	on_begin_turn();
 	return
@@ -248,6 +274,7 @@ func update_camera_targeting(action: ActionData) -> void:
 			pivot_targeting.transform = camera_markers[2].transform;
 		action.TARGETTYPE.ALL_ALLIES:
 			pivot_targeting.transform = camera_markers[1].transform;
+			pivot_targeting.rotate_y(PI);
 		action.TARGETTYPE.ALL:
 			pivot_targeting.transform = camera_markers[0].transform;
 		action.TARGETTYPE.SINGLE_EVERYONE:
@@ -287,7 +314,7 @@ func sort_agility(a: BattleData, b: BattleData) -> bool:
 func on_character_defeated(chd: BattleData) -> void:
 	await chd.on_defeat();
 	
-	remove_child(chd.battle_char); # queue_free? (careful with 'battle_chars' !)
+	chd.battle_char.visible = chd.is_hero;
 	turn_order.erase(chd);
 	next_round.erase(chd);
 	
@@ -318,6 +345,9 @@ func on_character_defeated(chd: BattleData) -> void:
 		for hero in active_heros:
 			if hero:
 				hero.write_back_character_data();
+		for hero in backup_heros:
+			if hero:
+				hero.write_back_character_data();
 		process_mode = Node.PROCESS_MODE_DISABLED;
 		post_battle_ui.init_ui(false, exp_cashout);
 	return
@@ -335,6 +365,14 @@ func choose_random_opponent() -> BattleData:
 	var rnd_index: int = valid_indices[randi_range(0, valid_indices.size() - 1)];
 	var b_data := opponents[rnd_index] if cur_actor.is_hero else active_heros[rnd_index];
 	return b_data;
+
+
+func check_revive_art_usable() -> bool:
+	var usable = false;
+	for hero in active_heros:
+		if hero.is_defeated and hero != cur_actor:
+			usable = true;
+	return usable
 
 
 func create_field(art: BattleArt, caster: BattleData) -> void:
@@ -388,6 +426,59 @@ func check_fields(actor: BattleData) -> void:
 		if field and field.caster == actor:
 			if field.increas_turn_timer():
 				remove_field(field);
+	return
+
+
+func switch_heros(active_index: int, backup_index: int) -> void:
+	var switch_out_hero := active_heros[active_index];
+	var switch_in_hero := backup_heros[backup_index];
+	
+	pivot_targeting.transform = switch_out_hero.battle_char.transform;
+	pivot_targeting.rotate_y(PI);
+	update_camera_marker(marker_targeting, false);
+	switch_out_hero.battle_char.play_anim("Jump");
+	await switch_out_hero.battle_char.model_3d.animation_finished;
+	
+	add_child(switch_in_hero.battle_char);
+	switch_in_hero.battle_char.global_transform = switch_out_hero.battle_char.global_transform;
+	switch_in_hero.battle_char.visible = true;
+	remove_child(switch_out_hero.battle_char);
+	
+	active_heros[active_index] = switch_in_hero;
+	backup_heros[backup_index] = switch_out_hero;
+	switch_in_hero.position = switch_out_hero.position;
+	switch_out_hero.position = -1;
+	switch_out_hero.ult_points = 0;
+	switch_in_hero.ult_points = 0;
+	
+	turn_order.erase(switch_out_hero);
+	next_round.erase(switch_out_hero);
+	next_round.append(switch_in_hero);
+	next_round.sort_custom(sort_agility);
+	
+	for field in battle_fields:
+		if field and field.caster == switch_out_hero:
+			field.caster = switch_in_hero;
+	
+	battle_ui.hero_displays[active_index].update_init(switch_in_hero);
+	switch_in_hero.battle_char.play_anim("Jump");
+	await switch_in_hero.battle_char.model_3d.animation_finished;
+	return
+
+
+func revive_hero(art: BattleArt, index: int) -> void:
+	var hero_to_revive := active_heros[index];
+	if art.effects.has(EffectIDs.REVIVAL_HALF):
+		hero_to_revive.revive(50, 20);
+	else:
+		hero_to_revive.revive(100, 100);
+	next_round.append(hero_to_revive);
+	next_round.sort_custom(sort_agility);
+	battle_ui.hero_displays[index].update_init(hero_to_revive);
+	
+	hero_to_revive.battle_char.play_revival_anim();
+	await hero_to_revive.battle_char.model_3d.animation_finished;
+	hero_to_revive.battle_char.play_idle_anim("");
 	return
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://d3dvejja37pd5"]
+[gd_scene load_steps=9 format=3 uid="uid://d3dvejja37pd5"]
 
 [ext_resource type="Script" uid="uid://bepj5ks3emqh6" path="res://UserInterfaces/Battle/Inspect/battle_inspect_enemy_panel.gd" id="1_7klu8"]
 [ext_resource type="Texture2D" uid="uid://b5hk7pnb7j3wq" path="res://Resources/Images/AilmentIcons/ailment_icon_0_none.png" id="1_txtjd"]
@@ -19,6 +19,9 @@ expand_margin_top = 4.0
 expand_margin_right = 4.0
 expand_margin_bottom = 4.0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7klu8"]
+bg_color = Color(0.12549, 0.12549, 0.12549, 0.752941)
+
 [node name="BattleInspectEnemyPanel" type="Control"]
 layout_mode = 3
 anchors_preset = 0
@@ -35,6 +38,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_txtjd")
+
+[node name="PanelBG" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7klu8")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 1

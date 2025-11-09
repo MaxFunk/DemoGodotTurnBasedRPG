@@ -2,7 +2,7 @@ class_name ActionData extends RefCounted
 
 signal finished_casting();
 
-enum ACTIONTYPE {ATTACK = 0, ART = 1, BLOCK = 2, ITEM = 3, INSPECT = 4, ANALYZE = 5}
+enum ACTIONTYPE {ATTACK = 0, ART = 1, BLOCK = 2, ITEM = 3, PARTYSWITCH = 4, ANALYZE = 5}
 enum TARGETTYPE {SINGLE_OPPONENT = 0, SINGLE_ALLY = 1, SELF_ONLY = 2, ALL_OPPONENTS = 3, 
 	ALL_ALLIES = 4, ALL = 5, SINGLE_EVERYONE = 6, NONE = 7} # See BattleArt
 
@@ -17,6 +17,8 @@ var item: ItemConsumable;
 # Data filled after action was commited -> will not be modified afterwards
 var user: BattleData;
 var targets: Array[BattleData];
+var custom_data_1: int = -1;
+var custom_data_2: int = -1;
 
 var action_casts: Array[ActionCast] = [];
 
@@ -195,6 +197,10 @@ func apply_art(u: BattleData, t: BattleData, a: BattleArt) -> void:
 					return
 		
 		a.CATEGORY.HEAL:
+			if a.is_revival_art:
+				await battle_scene.revive_hero(a, t.position);
+				u.change_ult_points(10);
+				return
 			var action_res := Calculations.calc_healing(u, a);
 			battle_scene.battle_ui.create_damage_number(action_res, t, a);
 			t.recieve_healing(action_res.healing);
@@ -296,9 +302,14 @@ func init_target_index() -> void:
 			for oppo in battle_scene.opponents:
 				if oppo != null and !oppo.is_defeated:
 					index_target = oppo.position - 3;
-					return
 		TARGETTYPE.SINGLE_ALLY, TARGETTYPE.SELF_ONLY:
-			index_target = user.position if user.is_hero else user.position - 3;
+			if art and art.is_revival_art:
+				index_target = 0;
+				for hero in battle_scene.active_heros:
+					if hero != null and hero.is_defeated:
+						index_target = hero.position;
+			else:
+				index_target = user.position if user.is_hero else user.position - 3;
 		TARGETTYPE.ALL_OPPONENTS:
 			index_target = -1;
 		TARGETTYPE.ALL_ALLIES:
@@ -310,7 +321,6 @@ func init_target_index() -> void:
 			for oppo in battle_scene.opponents:
 				if oppo != null and !oppo.is_defeated:
 					index_target = oppo.position - 3;
-					return
 		_:
 			index_target = 0;
 	return
@@ -337,7 +347,11 @@ func next_target_index(dir: int) -> void:
 				if index_target >= 3:
 					index_target = 0;
 				var hero := battle_scene.active_heros[index_target];
-				if hero != null and !hero.is_defeated:
+				if art == null and hero and !hero.is_defeated:
+					break;
+				if hero and !hero.is_defeated and !art.is_revival_art:
+					break;
+				if hero and hero.is_defeated and art.is_revival_art:
 					break;
 		
 		TARGETTYPE.SINGLE_EVERYONE:
@@ -373,10 +387,6 @@ func set_target_index(index: int, is_hero: bool) -> void:
 		_:
 			index_target = 0;
 	return
-
-
-func is_inspect_action() -> bool:
-	return action_type == ACTIONTYPE.INSPECT
 
 
 func get_action_cast_path() -> String:
@@ -440,3 +450,7 @@ func get_action_name() -> String:
 		ACTIONTYPE.ITEM: return item.name;
 		ACTIONTYPE.ANALYZE: return "Analyze";
 		_: return ""
+
+
+func is_partyswitch() -> bool:
+	return action_type == ACTIONTYPE.PARTYSWITCH;

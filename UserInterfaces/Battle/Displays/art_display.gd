@@ -29,7 +29,8 @@ func update(art: BattleArt, actor: BattleData) -> void:
 	
 	var check_1: bool = art.is_ult and art.cost > actor.ult_points;
 	var check_2: bool = art.is_ult == false and art.cost > actor.sp_cur;
-	var unusable: bool = check_1 or check_2;
+	var check_3: bool = art.is_revival_art and not GameData.main_scene.battle_scene.check_revive_art_usable();
+	var unusable: bool = check_1 or check_2 or check_3;
 	if unusable:
 		lbl_name.modulate = color_unusable;
 		lbl_cost_val.modulate = color_unusable;

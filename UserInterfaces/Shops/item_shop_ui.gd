@@ -109,7 +109,8 @@ func input_accept() -> void:
 				1: change_viewstate(VIEWSTATE.SELL);
 				_: GameData.main_scene.close_user_interface();
 		VIEWSTATE.BUY:
-			if buy_items[scroll_ctrl.idx_selected].amount > 0:
+			var item := buy_items[scroll_ctrl.idx_selected];
+			if item.amount > 0 and GameData.money >= item.buy_value:
 				change_viewstate(VIEWSTATE.POPUP);
 		VIEWSTATE.SELL:
 			if sell_items[scroll_ctrl.idx_selected].amount > 0:
@@ -225,7 +226,7 @@ func update_popup(amount_change: int) -> void:
 	elif popup_value == max_value and amount_change > 0:
 		popup_value = 1;
 	else:
-		popup_value = clampi(popup_value + amount_change, 0, max_value);
+		popup_value = clampi(popup_value + amount_change, 1, max_value);
 	
 	var total_cost: int = (item.buy_value if buy_mode else item.sell_value) * popup_value;
 	var total_cost_str: String = "-" if buy_mode else "+";
@@ -253,6 +254,6 @@ func confirm_buy() -> void:
 
 func confirm_sell() -> void:
 	var item := sell_items[scroll_ctrl.idx_selected];
-	GameData.money += popup_value * item.buy_value;
+	GameData.money += popup_value * item.sell_value;
 	var _delete_obj := item.delete_items(popup_value);
 	return

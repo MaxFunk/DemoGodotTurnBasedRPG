@@ -25,6 +25,7 @@ var effects: PackedInt32Array = [];
 var effect_values: PackedInt32Array = [];
 
 var disable_multcast: bool = false;
+var is_revival_art: bool = false;
 
 
 func _init(call_id: int) -> void:
@@ -58,6 +59,8 @@ func _init(call_id: int) -> void:
 	
 	if data_row["disable_multcast"] != "0":
 		disable_multcast = true;
+	
+	is_revival_art = effects.has(EffectIDs.REVIVAL_HALF) or effects.has(EffectIDs.REVIVAL_FULL);
 	return
 
 
@@ -94,7 +97,8 @@ func is_passive_art() -> bool:
 
 func has_no_basepower() -> bool:
 	match category:
-		CATEGORY.PHYSICAL, CATEGORY.ETHER, CATEGORY.HEAL, CATEGORY.SOULPOWER: return false
+		CATEGORY.PHYSICAL, CATEGORY.ETHER, CATEGORY.SOULPOWER: return false
+		CATEGORY.HEAL: return base_power == 0
 		_: return true
 
 

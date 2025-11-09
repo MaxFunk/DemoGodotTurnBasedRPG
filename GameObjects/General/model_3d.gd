@@ -21,7 +21,7 @@ func _ready() -> void:
 	return
 
 
-func play_animation(anim_name: String, with_capture: bool = false, speed_scale: float = 1.0) -> bool:
+func play_animation(anim_name: String, with_capture: bool = false, speed_scale: float = 1.0, from_end: bool = false) -> bool:
 	if anim_player == null:
 		return false
 	
@@ -29,7 +29,7 @@ func play_animation(anim_name: String, with_capture: bool = false, speed_scale: 
 		if is_equal_approx(current_speed, speed_scale):
 			return true
 		else:
-			anim_player.play(anim_name, -1.0, speed_scale);
+			anim_player.play(anim_name, -1.0, speed_scale, from_end);
 			return true
 	#current_animation_position
 	
@@ -38,9 +38,9 @@ func play_animation(anim_name: String, with_capture: bool = false, speed_scale: 
 		current_speed = speed_scale;
 		
 		if with_capture:
-			anim_player.play_with_capture(anim_name, -1.0, -1.0, speed_scale);
+			anim_player.play_with_capture(anim_name, -1.0, -1.0, speed_scale, from_end);
 		else:
-			anim_player.play(anim_name, -1.0, speed_scale);
+			anim_player.play(anim_name, -1.0, speed_scale, from_end);
 		return true
 	return false
 

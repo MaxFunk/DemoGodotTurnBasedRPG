@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://d23hn3evvuxx2"]
+[gd_scene load_steps=10 format=3 uid="uid://d23hn3evvuxx2"]
 
 [ext_resource type="Script" uid="uid://bwycxo8x0hguv" path="res://UserInterfaces/Battle/Inspect/battle_inspect_hero_panel.gd" id="1_ry7fb"]
 [ext_resource type="Texture2D" uid="uid://b5hk7pnb7j3wq" path="res://Resources/Images/AilmentIcons/ailment_icon_0_none.png" id="2_0aiaq"]
@@ -20,6 +20,9 @@ expand_margin_top = 4.0
 expand_margin_right = 4.0
 expand_margin_bottom = 4.0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_khig6"]
+bg_color = Color(0.12549, 0.12549, 0.12549, 0.752941)
+
 [node name="BattleInspectHeroPanel" type="Control"]
 layout_mode = 3
 anchors_preset = 0
@@ -36,6 +39,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5akkc")
+
+[node name="PanelBG" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_khig6")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 1

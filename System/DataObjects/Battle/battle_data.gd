@@ -220,3 +220,11 @@ func get_max_arts() -> int:
 
 func get_modifier_total() -> int:
 	return modifier[0] + modifier[1] + modifier[2]
+
+
+func revive(percent_health: int, percent_stamina: int) -> void:
+	is_defeated = false;
+	hp_cur = mini(ceili(hp_max * percent_health / 100.0), hp_max);
+	sp_cur = mini(ceili(sp_max * percent_stamina / 100.0), sp_max);
+	ult_points = 0;
+	return
