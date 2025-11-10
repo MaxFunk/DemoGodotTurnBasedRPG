@@ -7,3 +7,6 @@ id,is_question,next_id_1,next_id_2,speaker,text,answer_1,answer_2,icon
 5,0,"","","Dummy Asker","Interesting. Perhaps the colors black or blue might fit better to you.","","",""
 6,0,"","","Hero E","So this the plateau where the monster should be.","","",""
 7,0,"","","Hero E","Let's search for it.","","",""
+8,0,"","","E","Defeat the Sentinel Boss in the Tower.","","",""
+9,0,"10","","E","You defeated the Sentinel Boss?","","",""
+10,0,"","","E","Super! Now we have one problem less to worry about.","","",""

@@ -44,6 +44,7 @@ var cam_interpolate: bool = false;
 var cam_interp_value: float = 0.0;
 
 var exp_cashout: int = 0;
+var defeated_ids: PackedInt32Array = [];
 var battle_ending: bool = false;
 
 
@@ -201,9 +202,6 @@ func on_begin_turn() -> void:
 
 
 func commit_action(action: ActionData) -> void:
-	if cur_actor.is_hero: # maybe not needed anymore -> MENUSTATE.OFF does the same
-		battle_ui.accept_inputs = false;
-	
 	if action.is_partyswitch():
 		await switch_heros(action.custom_data_1, action.custom_data_2);
 		end_of_action();
@@ -231,7 +229,6 @@ func end_of_action() -> void:
 	if !battle_ending:
 		on_end_turn();
 	return
-
 
 ## Does everything that happen when current turn ends
 func on_end_turn() -> void:
@@ -322,7 +319,7 @@ func on_character_defeated(chd: BattleData) -> void:
 		battle_ui.hero_displays[chd.position].set_to_defeated_state();
 		
 		for hero in active_heros:
-			if hero.is_defeated == false: return
+			if hero and hero.is_defeated == false: return
 		
 		battle_ending = true;
 		process_mode = Node.PROCESS_MODE_DISABLED;
@@ -330,6 +327,7 @@ func on_character_defeated(chd: BattleData) -> void:
 	else:
 		var chd_index := chd.position - 3;
 		exp_cashout += chd.exp_on_defeat;
+		defeated_ids.append(chd.id);
 		opponents[chd_index] = null;
 		battle_ui.oppo_displays[chd_index].visible = false;
 		battle_ui.oppo_displays[chd_index].oppo_data = null;
@@ -350,6 +348,8 @@ func on_character_defeated(chd: BattleData) -> void:
 				hero.write_back_character_data();
 		process_mode = Node.PROCESS_MODE_DISABLED;
 		post_battle_ui.init_ui(false, exp_cashout);
+		for id in defeated_ids:
+			GameData.quest_manager.event_check(QuestManager.EVENTTYPE.DEFEAT, id, 1);
 	return
 
 
@@ -479,6 +479,32 @@ func revive_hero(art: BattleArt, index: int) -> void:
 	hero_to_revive.battle_char.play_revival_anim();
 	await hero_to_revive.battle_char.model_3d.animation_finished;
 	hero_to_revive.battle_char.play_idle_anim("");
+	return
+
+
+func enemies_have_boss() -> bool:
+	for oppo in opponents:
+		if oppo and oppo.is_boss == true:
+			return true
+	return false
+
+
+func attempt_run_from_battle() -> void:
+	if randf() > 0.35:
+		battle_ending = true;
+		for hero in active_heros:
+			if hero:
+				hero.write_back_character_data();
+		for hero in backup_heros:
+			if hero:
+				hero.write_back_character_data();
+		process_mode = Node.PROCESS_MODE_DISABLED;
+		post_battle_ui.init_ui(false, exp_cashout);
+		for id in defeated_ids:
+			GameData.quest_manager.event_check(QuestManager.EVENTTYPE.DEFEAT, id, 1);
+	else:
+		print("FAILED TO RUN FROM BATTLE");
+		end_of_action();
 	return
 
 

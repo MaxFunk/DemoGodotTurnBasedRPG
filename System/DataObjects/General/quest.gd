@@ -8,6 +8,7 @@ var id: int = -1;
 var valid: bool = true;
 var completed: bool = false;
 var marked: bool = false;
+var main_quest_copy: bool = false;
 var quest_step: int = 0;
 var quest_value: int = 0;
 
@@ -103,12 +104,13 @@ func load_description(descr_id: int) -> void:
 	return
 
 
-func event_check(event_type: STEPTYPE, event_id: int, event_amount: int) -> bool:
+func event_check(event_type: STEPTYPE, event_id: int, event_amount: int) -> int:
 	if event_type == step_type and event_id == step_id:
 		quest_value += event_amount;
 		if quest_value >= step_value:
-			return load_next_step();
-	return false
+			var res := load_next_step();
+			return 1 if res else 0
+	return -1
 
 
 func on_quest_finished(give_rewards: bool) -> void:

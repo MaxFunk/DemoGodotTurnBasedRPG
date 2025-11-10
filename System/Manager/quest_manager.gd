@@ -2,7 +2,7 @@ class_name QuestManager extends RefCounted
 
 enum EVENTTYPE {INTERACT = 0, COLLECT = 1, DEFEAT = 2, TALK = 3, REACHZONE = 4}
 
-var story_step: int = 0;
+var main_quest: MainQuest = null;
 var active_quests: Array[Quest] = [];
 var active_tasks: Array[int] = [];
 var completed_quests: PackedInt32Array = [];
@@ -11,7 +11,7 @@ var marked_quests: PackedInt32Array = [];
 
 
 func clear_data() -> void:
-	story_step = -1;
+	main_quest = null;
 	active_quests.clear();
 	active_tasks.clear();
 	completed_quests.clear();
@@ -23,7 +23,10 @@ func clear_data() -> void:
 func load_data(data: Dictionary) -> void:
 	clear_data();
 	
-	story_step = int(str(data["story_step"]));
+	var story_step: int = int(str(data["story_step"]));
+	var main_quest_value: int = int(str(data.get("main_quest_value", 0)));
+	main_quest = MainQuest.new(story_step, main_quest_value);
+	
 	var active_quests_str: String = str(data["active_quests"]);
 	var completed_quests_str: String = str(data["completed_quests"]);
 	var marked_quests_str: String = str(data["marked_quests"]);
@@ -56,7 +59,8 @@ func save_data() -> Dictionary:
 		marked_quests_str += str(id, ",");
 	
 	var save_dict: Dictionary[String, Variant] = {
-		"story_step": story_step,
+		"story_step": main_quest.step,
+		"main_quest_value": main_quest.quest_value,
 		"active_quests": active_quests_str.trim_suffix(","),
 		"completed_quests": completed_quests_str.trim_suffix(","),
 		"marked_quests": marked_quests_str.trim_suffix(",")
@@ -84,11 +88,18 @@ func event_check(event_type: EVENTTYPE, event_id: int, event_amount: int) -> voi
 	var finished_quests: Array[Quest] = [];
 	var exploration_ui := GameData.main_scene.world_scene.exploration_ui;
 	
+	if main_quest.event_check(int(event_type), event_id, event_amount):
+		if exploration_ui:
+			exploration_ui.add_quest_to_queue(main_quest.create_quest_copy());
+	
 	for quest in active_quests:
 		var step_type := int(event_type);
 		if step_type in Quest.STEPTYPE.values():
-			var quest_is_finished := quest.event_check(step_type, event_id, event_amount);
-			if quest_is_finished:
+			var quest_res := quest.event_check(step_type, event_id, event_amount);
+			if quest_res == 0: # Step update
+				if exploration_ui:
+					exploration_ui.add_quest_to_queue(quest);
+			if quest_res == 1: # Finished update
 				print("FINISHED QUEST: ", quest.quest_name);
 				finished_quests.append(quest);
 	

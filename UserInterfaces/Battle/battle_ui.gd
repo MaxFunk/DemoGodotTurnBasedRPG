@@ -231,10 +231,11 @@ func input_tactics(event: InputEvent) -> void:
 			2:
 				change_menu_state(MENUSTATE.TEAMVIEW);
 			3:
-				for hero in battle_scene.active_heros:
-					if hero:
-						hero.write_back_character_data();
-				GameData.main_scene.end_battle_scene();
+				if battle_scene.enemies_have_boss():
+					print("CANNOT RUN FROM BOSS");
+					return
+				change_menu_state(MENUSTATE.OFF);
+				battle_scene.attempt_run_from_battle();
 		return
 	
 	if event.is_action_pressed("D_Pad_Up"):

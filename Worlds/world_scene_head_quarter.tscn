@@ -27,11 +27,23 @@ environment = ExtResource("2_4nr38")
 [node name="PlayerCharacter" parent="." instance=ExtResource("4_2dqj0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, 0)
 
-[node name="NPCGeneric" parent="." instance=ExtResource("5_2dqj0")]
+[node name="NPCStoryE1" parent="." instance=ExtResource("5_2dqj0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-first_text_id = 0
+first_text_id = 8
 model_packed_scene = ExtResource("6_mplpf")
 interaction_text = "Talk to E"
+event_id = 1001
+conditional_spawn = true
+main_quest_steps = Array[int]([1, 2])
+
+[node name="NPCStoryE2" parent="." instance=ExtResource("5_2dqj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+first_text_id = 9
+model_packed_scene = ExtResource("6_mplpf")
+interaction_text = "Talk to E"
+event_id = 1003
+conditional_spawn = true
+main_quest_steps = Array[int]([3])
 
 [node name="DebugBlock" parent="." instance=ExtResource("7_tfpf6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0, -6)

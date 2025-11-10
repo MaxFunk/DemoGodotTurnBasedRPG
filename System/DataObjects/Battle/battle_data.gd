@@ -7,6 +7,7 @@ var origin_data: CharacterData;
 var battle_char: BattleCharacter;
 
 var is_hero: bool = false;
+var is_boss: bool = false;
 var id: int = -1;
 var name: String = "???";
 var level: int = 99;
@@ -52,12 +53,13 @@ func load_opponent_data(load_id: int) -> void:
 	var data := ResourceManager.get_opponent_data(load_id);
 	id = load_id;
 	
-	# actions +++ str(..) to make it "SAFE"
 	name = str(data.get("name"));
 	level = int(str(data.get("level")));
 	max_actions = int(str(data.get("actions")));
 	hp_max = int(str(data.get("health")));
 	hp_cur = hp_max;
+	exp_on_defeat = int(str(data.get("exp_on_defeat")));
+	is_boss = bool(int(str(data.get("is_boss", false))));
 	
 	var stat_data := str(data.get("stats")).split(",");
 	for i in range(6):
@@ -83,8 +85,6 @@ func load_opponent_data(load_id: int) -> void:
 	var art_data := str(data.get("art_ids")).split(",");
 	for i in range(min(8, art_data.size())):
 		arts[i] = BattleArt.new(int(art_data[i]));
-	
-	exp_on_defeat = int(str(data.get("exp_on_defeat")));
 	return
 
 

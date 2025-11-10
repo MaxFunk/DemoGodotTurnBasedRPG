@@ -12,6 +12,10 @@ enum VIEWSTATE {STORY, QUESTS, TASKS}
 @onready var lbl_quests := $TabControl/LabelQuests as Label;
 @onready var lbl_tasks := $TabControl/LabelTasks as Label;
 
+@onready var story_ctrl := $StoryControl as Control;
+@onready var lbl_story_quest_name := $StoryControl/LabelQuestName as Label;
+@onready var lbl_story_quest_descr := $StoryControl/LabelStepDescription as Label;
+
 @onready var quest_ctrl := $QuestsControl as Control;
 @onready var quest_scroll_ctrl := $QuestsControl/ScrollControl as ScrollControl;
 @onready var quest_detail_ctrl := $QuestsControl/DetailControl as Control;
@@ -114,14 +118,21 @@ func update_view() -> void:
 	lbl_tasks.modulate = color_active if view_state == VIEWSTATE.TASKS else color_inactive;
 	
 	quest_ctrl.visible = view_state == VIEWSTATE.QUESTS;
+	story_ctrl.visible = view_state == VIEWSTATE.STORY;
 	
 	match view_state:
 		VIEWSTATE.STORY:
-			pass
+			update_story_view();
 		VIEWSTATE.QUESTS:
 			update_quest_view();
 		VIEWSTATE.TASKS:
 			pass
+	return
+
+
+func update_story_view() -> void:
+	lbl_story_quest_name.text = GameData.quest_manager.main_quest.step_short_description;
+	lbl_story_quest_descr.text = GameData.quest_manager.main_quest.step_description;
 	return
 
 

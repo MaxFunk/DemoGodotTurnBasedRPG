@@ -69,6 +69,7 @@ func update_quest_view() -> void:
 	quest_view_1.write_data(GameData.quest_manager.get_marked_quest(0));
 	quest_view_2.write_data(GameData.quest_manager.get_marked_quest(1));
 	quest_view_3.write_data(GameData.quest_manager.get_marked_quest(2));
+	label_story.text = GameData.quest_manager.main_quest.step_short_description;
 	return
 
 
@@ -145,11 +146,17 @@ func fetch_quest_update() -> void:
 		
 		var fetched_quest := quest_queue[0];
 		quest_queue.remove_at(0);
-		if fetched_quest:
+		if !fetched_quest:
+			return
+		if fetched_quest.completed or fetched_quest.quest_step == 0:
 			quest_update_header.text = "Quest Completed!" if fetched_quest.completed else "New Quest!";
-			quest_update_name.text = fetched_quest.quest_name;
-			quest_update_ctrl.visible = true;
-			quest_update_timer.start();
+		elif fetched_quest.main_quest_copy:
+			quest_update_header.text = "Main Quest Update";
+		else:
+			quest_update_header.text = "Quest Update!";
+		quest_update_name.text = fetched_quest.quest_name;
+		quest_update_ctrl.visible = true;
+		quest_update_timer.start();
 	return
 
 

@@ -1,0 +1,5 @@
+step,step_type,step_id,step_value,short_description,description
+0,0,1000,1,"Interact with Debug Cube","Interact with Debug Cube in Debug World (One of the many near the Rock Tower)"
+1,3,1001,1,"Talk with E in HQ","Talk with E in the Headquarters"
+2,2,5,1,"Defeat the Sentinel Boss","Defeat the Sentinel Boss inside the Sentinel Tower."
+3,3,1003,1,"Return to E in HQ","Return and talk with E in the Headquarters about the Sentinel Tower."

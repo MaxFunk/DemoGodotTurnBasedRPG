@@ -169,6 +169,7 @@ func load_new_game_data(save_slot: int) -> void:
 	
 	# Data to be loaded in when starting a new game
 	add_new_chardata(0);
+	quest_manager.main_quest = MainQuest.new(0, 0);
 	
 	game_running = true;
 	cur_savefile_slot = save_slot;

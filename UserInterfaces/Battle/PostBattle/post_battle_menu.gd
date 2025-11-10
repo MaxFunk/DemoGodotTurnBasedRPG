@@ -139,6 +139,7 @@ func _process(delta: float) -> void:
 
 
 func init_ui(battle_lost: bool, exp_cashout: int) -> void:
+	AudioManager.play_battle_music(-1);
 	process_mode = Node.PROCESS_MODE_ALWAYS;
 	visible = true;
 	allow_inputs = true;

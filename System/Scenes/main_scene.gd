@@ -170,7 +170,11 @@ func instantiate_battle_scene(scene_transform: Transform3D, enemy_group: EnemyGr
 		world_scene.set_exploration_ui_visibility(false);
 		world_scene.change_all_actors_visibility(false);
 		
-		battle_scene.global_transform = scene_transform;
+		var battle_marker := world_scene.get_closest_battle_marker(enemy_group.global_position);
+		if battle_marker:
+			battle_scene.global_transform = battle_marker.global_transform;
+		else:
+			battle_scene.global_transform = scene_transform;
 		battle_scene.initiate_battle(enemy_group.enemy_ids, advantage);
 		
 		AudioManager.play_battle_music(enemy_group.music_id);

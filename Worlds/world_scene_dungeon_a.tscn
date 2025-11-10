@@ -92,8 +92,9 @@ polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(4, 3, 5), PackedInt32Arr
 [sub_resource type="BoxShape3D" id="BoxShape3D_2qk58"]
 size = Vector3(10, 4, 4)
 
-[node name="WorldSceneDungeonA" type="Node3D"]
+[node name="WorldSceneDungeonA" type="Node3D" node_paths=PackedStringArray("battle_markers_parent")]
 script = ExtResource("1_ds268")
+battle_markers_parent = NodePath("BattleSceneMarkers")
 metadata/_custom_type_script = "uid://c7ts8ujxoerht"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -266,7 +267,7 @@ debug_fill = false
 [node name="EnemyGroup1" parent="EnemyGroups" node_paths=PackedStringArray("spawn_markers") instance=ExtResource("12_63g24")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 9)
 group_task = 2
-enemy_ids = [2, 2]
+enemy_ids = Array[int]([2, 2])
 spawn_markers = [NodePath("SpawnMarker1"), NodePath("SpawnMarker2")]
 
 [node name="SpawnMarker1" type="Marker3D" parent="EnemyGroups/EnemyGroup1"]
@@ -278,17 +279,17 @@ transform = Transform3D(-0.7071067, 0, 0.7071068, 0, 1, 0, -0.7071068, 0, -0.707
 [node name="EnemyGroup2" parent="EnemyGroups" instance=ExtResource("12_63g24")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 0)
 group_task = 1
-enemy_ids = [2, 3]
+enemy_ids = Array[int]([2, 3])
 
 [node name="EnemyGroup3" parent="EnemyGroups" instance=ExtResource("12_63g24")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, 0)
 group_task = 1
-enemy_ids = [4]
+enemy_ids = Array[int]([4])
 
 [node name="EnemyGroup4" parent="EnemyGroups" node_paths=PackedStringArray("spawn_markers") instance=ExtResource("12_63g24")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 10, 0)
 group_task = 2
-enemy_ids = [3, 4]
+enemy_ids = Array[int]([3, 4])
 spawn_markers = [NodePath("SpawnMarker1"), NodePath("SpawnMarker2")]
 
 [node name="SpawnMarker1" type="Marker3D" parent="EnemyGroups/EnemyGroup4"]
@@ -300,7 +301,7 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 5, 0
 [node name="EnemyGroup5" parent="EnemyGroups" instance=ExtResource("12_63g24")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 10, 0)
 group_task = 1
-enemy_ids = [2, 3, 4]
+enemy_ids = Array[int]([2, 3, 4])
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_63g24")
@@ -347,3 +348,32 @@ shape = SubResource("BoxShape3D_2qk58")
 
 [node name="BattleCenterMarker" type="Marker3D" parent="SpecialBattleBoss"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
+[node name="BattleSceneMarkers" type="Node" parent="."]
+
+[node name="BattleMarker1" type="Marker3D" parent="BattleSceneMarkers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 0)
+
+[node name="BattleMarker2" type="Marker3D" parent="BattleSceneMarkers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 0)
+
+[node name="BattleMarker3" type="Marker3D" parent="BattleSceneMarkers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 15)
+
+[node name="BattleMarker4" type="Marker3D" parent="BattleSceneMarkers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -15)
+
+[node name="BattleMarker5" type="Marker3D" parent="BattleSceneMarkers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 10, 0)
+
+[node name="BattleMarker6" type="Marker3D" parent="BattleSceneMarkers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 10, 0)
+
+[node name="BattleMarker7" type="Marker3D" parent="BattleSceneMarkers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 15)
+
+[node name="BattleMarker8" type="Marker3D" parent="BattleSceneMarkers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, -15)
+
+[node name="BattleMarker9" type="Marker3D" parent="BattleSceneMarkers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, -29)

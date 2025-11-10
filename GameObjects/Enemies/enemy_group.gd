@@ -3,14 +3,18 @@ class_name EnemyGroup extends Node3D
 enum TASK {IDLE, WANDERING, GUARDING}
 
 @export var group_task := TASK.IDLE;
-@export var enemy_ids: PackedInt32Array = [];
+@export var enemy_ids: Array[int] = [];
 @export var spawn_markers: Array[Marker3D] = [];
 @export var music_id: int = 10;
 
 var enemy_chars: Array[EnemyCharacter] = [];
+var surpress_spwans: bool = false;
 
 
 func _ready() -> void:
+	if surpress_spwans:
+		return
+	
 	for i in enemy_ids.size():
 		var new_enemy_char := preload("res://GameObjects/Enemies/enemy_character.tscn").instantiate() as EnemyCharacter;
 		var spawn_marker: Marker3D = spawn_markers[i] if i < spawn_markers.size() else null;
