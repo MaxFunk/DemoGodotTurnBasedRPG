@@ -10,6 +10,7 @@ enum MOVEMODE {WALKING = 0, SWIMMING = 1, BATTLEARMOR = 2, CAM_ONLY = 3, NONE = 
 @onready var water_checker := $WaterChecker as Area3D;
 @onready var timer_coyote := $TimerCoyote as Timer;
 @onready var timer_stillstanding := $TimerStillStanding as Timer;
+@onready var timer_attackcheckdelay := $TimerAttackCheckDelay as Timer;
 @onready var audio_listener := $AudioListener3D as AudioListener3D;
 @onready var hitshape_attack := $HitshapeAttack as Area3D;
 
@@ -25,6 +26,7 @@ var is_standing_still: bool = true;
 var is_jumping: bool = false;
 var is_running: bool = false;
 var is_falling: bool = false;
+var is_attacking: bool = false;
 var is_coyote_time: bool = false;
 
 var current_water: Water3D = null;
@@ -48,7 +50,16 @@ func _input(event: InputEvent) -> void:
 
 
 func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed("Btn_Y"):
+	if is_jumping or is_falling:
+		return
+	
+	if Input.is_action_just_pressed("Btn_Y") and !is_attacking:
+		model_3d.play_animation("BattleAttack", true);
+		is_attacking = true;
+		timer_attackcheckdelay.start();
+		return
+	
+	if is_attacking and timer_attackcheckdelay.is_stopped():
 		check_attack();
 		return
 	
@@ -77,11 +88,12 @@ func _physics_process(delta: float) -> void:
 			spring_arm.rotate_x(-camera_input.y * delta);
 			spring_arm.rotation.x = clampf(spring_arm.rotation.x, -1.0472, 0.523599);
 		
-		match move_mode:
-			MOVEMODE.WALKING: process_walking(delta);
-			MOVEMODE.SWIMMING: process_swimming(delta);
-			MOVEMODE.BATTLEARMOR: process_battlearmor(delta);
-			_: velocity.y = 0; model_3d.play_animation("Idle", true);
+		if !is_attacking:
+			match move_mode:
+				MOVEMODE.WALKING: process_walking(delta);
+				MOVEMODE.SWIMMING: process_swimming(delta);
+				MOVEMODE.BATTLEARMOR: process_battlearmor(delta);
+				_: velocity.y = 0; model_3d.play_animation("Idle", true);
 	
 	camera_pivot.global_position = global_position + Vector3.UP;
 	check_walking_into_enemy();
@@ -277,6 +289,9 @@ func on_model3d_animation_finished(anim_name: String) -> void:
 		is_jumping = false;
 		is_falling = true;
 		model_3d.play_animation("Fall", true);
+	
+	if anim_name == "BattleAttack":
+		is_attacking = false;
 	return
 
 
