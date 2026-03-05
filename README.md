@@ -41,4 +41,3 @@ To access the combat testing area:
 1. Walk to the **brown cube** in the starting scene.
 2. **Interact with it**.
 3. This will transport the player to the **Debug World**, where the combat system can be tested.
-```
